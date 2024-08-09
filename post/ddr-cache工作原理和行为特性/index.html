@@ -5,24 +5,84 @@
 <span class=icon-bar></span>
 <span class=icon-bar></span>
 </button>
-<a class=navbar-brand href=/icer>ICJJ Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/icer>Posts</a></li><li><a href=/icer/categories/bus/>bus</a></li><li><a href=/icer/categories/tech/>tech</a></li><li><a href=/icer/categories/tips/>tips</a></li><li><a href=/icer/archive/>ARCHIVE</a></li><li><a href=/icer/about/>ABOUT</a></li><li><a href=/icer/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/icer/img/site/%e5%b0%8f%e7%b1%b3%e6%b1%bd%e8%bd%a6/%e5%8e%9f%e5%9e%8b%e8%bd%a6%e5%a3%81%e7%ba%b8/2880x1280/2880x1280-06.png)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/cache title=cache>cache
+<a class=navbar-brand href=/icer>ICJJ Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/icer>Posts</a></li><li><a href=/icer/categories/bus/>bus</a></li><li><a href=/icer/categories/tech/>tech</a></li><li><a href=/icer/categories/tips/>tips</a></li><li><a href=/icer/archive/>ARCHIVE</a></li><li><a href=/icer/about/>ABOUT</a></li><li><a href=/icer/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/icer/img/site/%e5%b0%8f%e7%b1%b3%e6%b1%bd%e8%bd%a6/%e5%8e%9f%e5%9e%8b%e8%bd%a6%e5%a3%81%e7%ba%b8/2880x1280/2880x1280-06.png)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/cache title=Cache>Cache
 </a><a class=tag href=/tags/ddr title=DDR>DDR</a></div><h1>DDR Cache 工作原理和行为特性</h1><h2 class=subheading></h2><span class=meta>Posted by
 程建军
 on
 Tuesday, April 23, 2024</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
 col-md-10 col-md-offset-1
 post-container"><h1 id=a-idddr-cache-工作原理和行为特性ddr-cache-工作原理和行为特性a><a id="DDR Cache 工作原理和行为特性">DDR Cache 工作原理和行为特性</a></h1><h2 id=a-idddr-cache-工作原理和行为特性ddr-cache-工作原理和行为特性a-1><a id="DDR Cache 工作原理和行为特性">DDR Cache 工作原理和行为特性</a></h2><h3 id=a-id第1章-ddr行为介绍第1章-ddr行为介绍a><a id="第1章 ddr行为介绍">第1章 ddr行为介绍</a></h3><p>DDR的全称为Double Data Rate SDRAM（双倍速率的SDRAM），就是我们平时说的内存颗粒，也就是内存芯片。
-时钟的上升沿和下降沿都可以传输数据。</p><h4 id=a-id11-ddr的内部结构11-ddr的内部结构a><a id="1.1 ddr的内部结构">1.1 ddr的内部结构</a></h4><p>一个典型的ddr内部结构如图 <em><a href="#图 1.1">图 1.1</a></em> 所示。</p><p><a id="图 1.1">图 1.1
-<img src=https://icjj.github.io/icer/img/post/ddr%e5%92%8ccache%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86%e5%92%8c%e8%a1%8c%e4%b8%ba%e7%89%b9%e6%80%a7/ddr%e5%86%85%e9%83%a8%e7%bb%93%e6%9e%84.png alt></a></p><p>ddr内部包含多个bank，每个bank通过解析row和column确定存储单元格。
+时钟的上升沿和下降沿都可以传输数据。</p><h4 id=a-id11-ddr的内部结构11-ddr的内部结构a><a id="1.1 ddr的内部结构">1.1 ddr的内部结构</a></h4><p>一个典型的ddr内部结构如图 <em><a href="#图 1.1">图 1.1</a></em> 所示。</p><p><a id="图 1.1">图 1.1</br><img src=https://icjj.github.io/icer/img/post/ddr%e5%92%8ccache%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86%e5%92%8c%e8%a1%8c%e4%b8%ba%e7%89%b9%e6%80%a7/ddr%e5%86%85%e9%83%a8%e7%bb%93%e6%9e%84.png alt></a></p><p>ddr内部包含多个bank，每个bank通过解析row和column确定存储单元格。
 ddr地址中可以解析出以上信息。</p><p>一个bank中一次只允许激活一个row。激活新的row，需要使用<strong>PRECHARGE</strong>命令关闭旧的row，
-再使用<strong>ACTIVE</strong>命令选中bank，激活新的row。</p><p>bank和bank之间是互相独立的，允许多个bank被打开。</p><h4 id=a-id12-ddr的基本命令12-ddr的基本命令a><a id="1.2 ddr的基本命令">1.2 ddr的基本命令</a></h4><p><em><a href="#图 1.2">图 1.2</a></em> 包含了ddr的基本命令。</p><p><a id="图 1.2">图 1.2
-<img src=https://icjj.github.io/icer/img/post/ddr%e5%92%8ccache%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86%e5%92%8c%e8%a1%8c%e4%b8%ba%e7%89%b9%e6%80%a7/ddr%e7%9a%84%e5%9f%ba%e6%9c%ac%e5%91%bd%e4%bb%a4.png alt></a></p><p>ddr refresh的原因：ddr的存储器件是电容，由于漏电流的存在，长时间不操作，电容里的电荷会逐渐流失。
-所以需要每隔一段时间进行刷新，也就是充电。</p><h4 id=a-id13-ddr的突发13-ddr的突发a><a id="1.3 ddr的突发">1.3 ddr的突发</a></h4><p>ddr存在突发行为，<em><a href="#图 1.3">图 1.3</a></em> 展示了ddr的突发长度。</p><p><a id="图 1.3">图 1.3
-<img src=https://icjj.github.io/icer/img/post/ddr%e5%92%8ccache%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86%e5%92%8c%e8%a1%8c%e4%b8%ba%e7%89%b9%e6%80%a7/ddr%e7%9a%84%e7%aa%81%e5%8f%91%e9%95%bf%e5%ba%a6.png alt></a></p><p>ddr的读写操作通常都是burst操作，长度一般为4或者8。</p><p>突发长度为4时，存在两种模式：</p><ul><li>sequential顺序模式：</br>以0、1、2、3为起点，顺序递增，4为wrap边界。</li><li>interleave交错模式：</br>以0、1、2、3为起点，顺序递减，4为wrap边界。</li></ul><p>突发长度为8时，存在两种模式：</p><ul><li>sequential顺序模式：</br>以0、1、2、3、4、5、6、7为起点，顺序递增，每4个地址为一组突发，4为wrap边界。</li><li>interleave交错模式：</br>以0、1、2、3、4、5、6、7为起点，顺序递增和递减交替进行，每4个地址为一组突发，4为wrap边界。</li></ul><blockquote><p>Note：
+再使用<strong>ACTIVE</strong>命令选中bank，激活新的row。</p><p>bank和bank之间是互相独立的，允许多个bank被打开。</p><h4 id=a-id12-ddr的基本命令12-ddr的基本命令a><a id="1.2 ddr的基本命令">1.2 ddr的基本命令</a></h4><p><em><a href="#图 1.2">图 1.2</a></em> 包含了ddr的基本命令。</p><p><a id="图 1.2">图 1.2</br><img src=https://icjj.github.io/icer/img/post/ddr%e5%92%8ccache%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86%e5%92%8c%e8%a1%8c%e4%b8%ba%e7%89%b9%e6%80%a7/ddr%e7%9a%84%e5%9f%ba%e6%9c%ac%e5%91%bd%e4%bb%a4.png alt></a></p><p>ddr refresh的原因：ddr的存储器件是电容，由于漏电流的存在，长时间不操作，电容里的电荷会逐渐流失。
+所以需要每隔一段时间进行刷新，也就是充电。</p><h4 id=a-id13-ddr的突发13-ddr的突发a><a id="1.3 ddr的突发">1.3 ddr的突发</a></h4><p>ddr存在突发行为，<em><a href="#图 1.3">图 1.3</a></em> 展示了ddr的突发长度。</p><p><a id="图 1.3">图 1.3</br><img src=https://icjj.github.io/icer/img/post/ddr%e5%92%8ccache%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86%e5%92%8c%e8%a1%8c%e4%b8%ba%e7%89%b9%e6%80%a7/ddr%e7%9a%84%e7%aa%81%e5%8f%91%e9%95%bf%e5%ba%a6.png alt></a></p><p>ddr的读写操作通常都是burst操作，长度一般为4或者8。</p><p>突发长度为4时，存在两种模式：</p><ul><li>sequential顺序模式：</br>以0、1、2、3为起点，顺序递增，4为wrap边界。</li><li>interleave交错模式：</br>以0、1、2、3为起点，顺序递减，4为wrap边界。</li></ul><p>突发长度为8时，存在两种模式：</p><ul><li>sequential顺序模式：</br>以0、1、2、3、4、5、6、7为起点，顺序递增，每4个地址为一组突发，4为wrap边界。</li><li>interleave交错模式：</br>以0、1、2、3、4、5、6、7为起点，顺序递增和递减交替进行，每4个地址为一组突发，4为wrap边界。</li></ul><blockquote><p>Note：
 每4个地址的初始地址为4，则不进行wrap处理。
-后一部分地址的初始地址可以按前一部分未wrap的地址确定，且总是递增的。</p></blockquote><p>burst不可以跨row和bank。</p><h4 id=a-id14-ddr读14-ddr读a><a id="1.4 ddr读">1.4 ddr读</a></h4><p><em><a href="#图 1.4">图 1.4</a></em> 展示了ddr的一个读事务。</p><p><a id="图 1.4">图 1.4
-<img src=https://icjj.github.io/icer/img/post/ddr%e5%92%8ccache%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86%e5%92%8c%e8%a1%8c%e4%b8%ba%e7%89%b9%e6%80%a7/ddr%e8%af%bb.png alt></a></p><h3 id=a-id第2章-cache行为介绍第2章-cache行为介绍a><a id="第2章 cache行为介绍">第2章 cache行为介绍</a></h3><p>Cache是一种位于CPU和主存之间的小容量、高速度的存储器。
-其主要作用是弥补CPU与主存之间的速度差异，从而提高系统整体性能。</p><hr><ul class=pager><li class=previous><a href=/icer/post/git%E5%B0%8F%E7%9F%A5%E8%AF%86/ data-toggle=tooltip data-placement=top title="Git 小知识">&larr;
+后一部分地址的初始地址可以按前一部分未wrap的地址确定，且总是递增的。</p></blockquote><p>burst不可以跨row和bank。</p><h4 id=a-id14-ddr读写14-ddr读a><a id="1.4 ddr读写">1.4 ddr读</a></h4><p><strong>ddr单bank读事务</strong></p><p><em><a href="#图 1.4">图 1.4</a></em> 展示了ddr的一个读事务。</p><p><a id="图 1.4">图 1.4</br><img src=https://icjj.github.io/icer/img/post/ddr%e5%92%8ccache%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86%e5%92%8c%e8%a1%8c%e4%b8%ba%e7%89%b9%e6%80%a7/ddr%e5%8d%95bank%e8%af%bb.png alt></a></p><p>ddr读事务描述：</p><ul><li>先发送一个act指令；</li><li>过几个周期之后，发送一个read指令；</li><li>再过一个周期之后，会输出一些数据，<ul><li>如果突发长度为4，则2个周期中dq输出4个数据。</li><li>如果突发长度为8，则4个周期中dq输出8个数据。</li></ul></li><li>如果需要更换row，需要先发送precharge指令关掉先前的row。</li></ul><blockquote><p>Note：</br>指令之间的空闲周期可以从ddr的datasheet中得知。</p></blockquote><p>随着时钟频率的上升，read latency是增加的。</p><p><strong>ddr单bank事务</strong></p><p><em><a href="#图 1.5">图 1.5</a></em> 展示了ddr的一个写事务。</p><p><a id="图 1.5">图 1.5</br><img src=https://icjj.github.io/icer/img/post/ddr%e5%92%8ccache%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86%e5%92%8c%e8%a1%8c%e4%b8%ba%e7%89%b9%e6%80%a7/ddr%e5%8d%95bank%e5%86%99.png alt></a></p><p>ddr写事务流程和ddr读事务流程类似。</p><p><strong>ddr多bank交错访问</strong></p><p>Bank Interleave</p><p>ddr单个bank row读写效率是很低的，可以通过同时多bank交错读写提升访问效率。如图 <em><a href="#图 1.5">图 1.5</a></em> 所示。</p><p><a id="图 1.5">图 1.5</br><img src=https://icjj.github.io/icer/img/post/ddr%e5%92%8ccache%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86%e5%92%8c%e8%a1%8c%e4%b8%ba%e7%89%b9%e6%80%a7/ddr%e5%a4%9abank%e8%af%bb%e5%86%99.png alt></a></p><h3 id=a-id第2章-cache行为介绍第2章-cache行为介绍a><a id="第2章 cache行为介绍">第2章 cache行为介绍</a></h3><p>Cache是一种位于CPU和主存之间的小容量、高速度的存储器。
+其主要作用是弥补CPU与主存之间的速度差异，从而提高系统整体性能。</p><p><em><a href="#图 2.1">图 2.1</a></em> 给出了一个使用cache的设计框图。
+在CPU和总线之间使用了一个cache缓存经常访问的数据，可以有效的提高数据存取的效率，减少bus的带宽消耗。</p><p><a id="图 2.1">图 2.1</br><img src=https://icjj.github.io/icer/img/post/ddr%e5%92%8ccache%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86%e5%92%8c%e8%a1%8c%e4%b8%ba%e7%89%b9%e6%80%a7/%e4%bd%bf%e7%94%a8cache%e7%9a%84%e8%ae%be%e8%ae%a1%e6%a1%86%e5%9b%bepng alt></a></p><h4 id=a-id21-cache读事务21-cache的读行为a><a id="2.1 cache读事务">2.1 cache的读行为</a></h4><p>存在两种读行为：</p><ul><li>hit：</br>CPU想要读取的数据在cache中，可以直接从cache中读取。</li><li>miss：</br>CPU想要读取的数据不在cache中，需要从内存中读取，读取之后的行为有两种：<ul><li>Read Through：</br>从内存中读取的数据，不缓存到cache。</li><li>Read allocate：</br>从内存中读取的数据，同时缓存到cache。</li></ul></li></ul><h4 id=a-id22-cache写事务22-cache写事务a><a id="2.2 cache写事务">2.2 cache写事务</a></h4><p>存在两种写行为：</p><ul><li>hit：</br><ul><li>Write Through：</br>将数据同时写到内存和cache中 <sup><em><a href=#[2-1]>[2-1]</a></em></sup>。</li><li>Write back：
+先将数据写到cache中，再flush到内存中。</li></ul></li><li>miss：</br><ul><li>Write allocate：</br>先将数据载入到cache中，再write through或write back。</li><li>No write allocate：</br>直接将数据写到内存。</li></ul></li></ul><p><a id=[2-1]>[2-1]</a> ：出于一致性的原因，写的数据可能是其他主机需要使用的数据，因此需要卸载缓存中。</p><pre tabindex=0><code class=language-plantuml data-lang=plantuml>@startuml
+group 读 
+    group hit
+        CPU &lt;- Cache:Read
+    end
+
+    group miss 
+        group Read Through
+            CPU &lt;- mem: Read
+        end
+        group Read Allocate
+            CPU &lt;- mem: Read
+            Cache &lt;- mem: Read
+        end
+    end
+end
+
+
+group 写
+    group hit 
+        group Write through
+            CPU -&gt; Cache:Write
+            CPU -&gt; mem:Write
+        end
+        group Write Allocate
+            CPU -&gt; Cache :Write
+            Cache -&gt; mem : Flush
+        end
+    end
+
+    group miss 
+        group Write back
+            CPU -&gt; Cache: load
+            Cache --&gt; mem : Write Through
+            Cache --&gt; mem : Write Back
+        end
+        group Write no Allocate
+            CPU -&gt; mem: Write
+        end
+    end
+end
+@enduml
+</code></pre><h4 id=a-id23-cache的flush和invalidate23-cache的flush和invalidatea><a id="2.3 cache的flush和invalidate">2.3 cache的flush和invalidate</a></h4><p><strong>Flush</strong></p><p>通过flush指令，强制把cache中的部分或全部数据写到内存中，数据在cache依然保留。</p><p>应用场景：</p><ul><li>大量数据全部使用。</li></ul><p><strong>Invalidate</strong></p><p>通过Invalidate命令强制把cache中的部分或全部数据标记为无效，并写到内存中。</p><p>应用场景：</p><ul><li>旧的数据不需要了，为新的数据腾出空间。</li></ul><h4 id=a-id24-cache硬件原理24-cache硬件原理a><a id="2.4 cache硬件原理">2.4 cache硬件原理</a></h4><p><strong>Cache line</strong>：Cache的最小操作单元。</p><p><em><a href="#图 2.2">图 2.2</a></em> 展示了一条bank的cache line位置示意图。</p><p><a id="图 2.2">图 2.2</br><img src=https://icjj.github.io/icer/img/post/ddr%e5%92%8ccache%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86%e5%92%8c%e8%a1%8c%e4%b8%ba%e7%89%b9%e6%80%a7/ddr_one_way_cache_back.png alt></a></p><p>在 <em><a href="#图 2.2">图 2.2</a></em> 中：
+cache line的大小是0x10</br>cache bank的大小是0x100</br></p><p>对于地址0x000的cache line位置是：</p><pre tabindex=0><code>map_addr = (ph_addr % cb_size) * cl_size
+         = (0x000 % 0x100) / 0x10
+         = 0
+</code></pre><p>对于地址0x010的cache line位置是：</p><pre tabindex=0><code>map_addr = (ph_addr % cb_size) * cl_size
+         = (0x10 % 0x100) * 0x10
+         = 1
+</code></pre><p>对于地址0xn0的cache_line位置是：</p><pre tabindex=0><code>map_addr = (ph_addr % cb_size) * cl_size
+         = (0xn0 % 0x100) / 0x10
+         = n
+</code></pre><p>对于物理地址超出一个bank大小的cache，使用两个bank。<em><a href="#图 2.3">图 2.3</a></em> 给出了两个bank的例子。</p><p><a id="图 2.3">图 2.3</br><img src=https://icjj.github.io/icer/img/post/ddr%e5%92%8ccache%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86%e5%92%8c%e8%a1%8c%e4%b8%ba%e7%89%b9%e6%80%a7/ddr_two_way_cache_back.png alt></a></p><p>在 <em><a href="#图 2.3">图 2.3</a></em> 中：
+cache line的大小是0x10</br>cache bank的大小是0x200</br></p><p>对于地址0x000的cache line位置是：</p><pre tabindex=0><code>map_addr = (ph_addr % cb_size) * cl_size
+         = (0x000 % 0x200) * 0x10
+         = 0
+</code></pre><p>对于地址0x010的cache line位置是：</p><pre tabindex=0><code>map_addr = (ph_addr % cb_size) * cl_size
+         = (0x10 % 0x200) * 0x10
+         = 1
+</code></pre><p>对于地址0xn0的cache_line位置是：</p><pre tabindex=0><code>map_addr = (ph_addr % cb_size) * cl_size
+         = (0xn0 % 0x200) * 0x10
+         = n
+</code></pre><hr><ul class=pager><li class=previous><a href=/icer/post/git%E5%B0%8F%E7%9F%A5%E8%AF%86/ data-toggle=tooltip data-placement=top title="Git 小知识">&larr;
 Previous Post</a></li><li class=next><a href=/icer/post/amba5-axi-%E7%9F%A5%E8%AF%86%E6%8F%90%E7%BA%B2/ data-toggle=tooltip data-placement=top title="AMBA5 AXI 知识提纲">Next
 Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=ICJJ/icer data-repo-id=R_kgDOMWEQRg data-category=General data-category-id=DIC_kwDOMWEQRs4CgyrH data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=en crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
 visible-lg-block
