@@ -86,7 +86,11 @@ post-container"><h1 id=amba5-ahb-知识提纲>AMBA5-AHB-知识提纲</h1><h2 id=
 1. 单层：
 需要mux将某个主机的控制信号和写数据给到对应从机，从机的读数据和响应mux到对应主机。
 2. 多层：
-可以选用不同的策略，多个主机位一层，或多个从机为一层，或主机和从机都存在的完整子系统为一层。
+可以选用不同的策略，
+- 局部从机（几个从机只接受某个主机的访问）
+- 多主机同层（几个主机带宽相似，具有同意特性的主机）
+- 多从机同层（几个从机带宽相似，且仅由某个主机访问）
+- 主机和从机都存在的完整子系统。（某个主从系统用于固定的事务访问）
     </code></pre></details><h3 id=a-id2-ahb基本时序图2-ahb基本时序图a><a id="2 ahb基本时序图">2 AHB基本时序图</a></h3><details><summary><strong>2.1 没有等待的读传输[点击展开]</strong></summary><pre><code>
 <img src=https://icjj.github.io/icer/img/post/ahb/Figure_3-1_Read_transfer.png alt>
     </code></pre></details><details><summary><strong>2.2 没有等待的写传输[点击展开]</strong></summary><pre><code>
