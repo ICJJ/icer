@@ -33,7 +33,7 @@ post-container"><h1 id=a-id半导体失存储器介绍半导体存储器介绍a>
 数据缓冲区可以在控制器与存储单元之间进行数据传输，提升存取速度及优化性能。</p></li><li><p>接口（Interface）：</br>闪存与主机系统之间的通信接口，如SATA、PCIe、USB等。
 接口负责数据的传输和协议的实现，确保与其他系统的兼容性。</p></li></ul><h5 id=a-id353-nand闪存和nor闪存的比较353-nand闪存和nor闪存的比较a><a id="3.5.3 nand闪存和nor闪存的比较">3.5.3 nand闪存和nor闪存的比较</a></h5><p>flash的擦除是将某一段数据都变为1，写入是将某一bit的1变为0。</p><ul><li>写入数据：</br>写入flash之前必须先擦除，再写入。</li><li>读取数据：</br>直接读取</li></ul><p>闪存主要分为两种类型：NAND闪存和NOR闪存，它们在工作原理和架构上的一些重要差别如下：</p><p>NAND的存储单元是串联的，每一组单元串联形成一个存储块。
 NOR的存储单元是并联的，每个单元直接连接到数据总线上。</p><p>NAND Flash根据存储单元存储的bit数不同分为：</p><ul><li>SLC（Single-Level Cell）：存储1个bit</li><li>MLC（Multi-Level Cell）：存储2个bit</li><li>TCL（Triple-Level Cell）：存储3个bit</li></ul><table><thead><tr><th>特性</th><th>NAND闪存</th><th>NOR闪存</th></tr></thead><tbody><tr><td>访问方式</td><td>页级访问（Page-level Access）</td><td>字节级访问（Byte-level Access）</td></tr><tr><td>写入速度</td><td>快</td><td>慢</td></tr><tr><td>擦除速度与次数</td><td>快</td><td>慢</td></tr><tr><td>读取速度</td><td>相近</td><td>相近</td></tr><tr><td>存储密度</td><td>较高（适合大容量存储）</td><td>较低（不适合大容量存储）</td></tr><tr><td>成本</td><td>较低（非常适合市场大规模应用）</td><td>较高</td></tr><tr><td>应用场景</td><td>SSD、USB闪存、移动设备等</td><td>BIOS、固件和小型嵌入式系统等</td></tr></tbody></table><hr><ul class=pager><li class=previous><a href=/icer/post/%E5%AD%97%E8%8A%82%E5%BA%8F%E6%B5%85%E8%B0%88/ data-toggle=tooltip data-placement=top title=字节序浅谈>&larr;
-Previous Post</a></li><li class=next><a href=/icer/post/uart-%E5%8D%8F%E8%AE%AE%E4%BB%8B%E7%BB%8D/ data-toggle=tooltip data-placement=top title="UART 介绍">Next
+Previous Post</a></li><li class=next><a href=/icer/post/uvm%E5%AE%9E%E6%88%98%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/ data-toggle=tooltip data-placement=top title=UVM实战读书笔记>Next
 Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=ICJJ/icer data-repo-id=R_kgDOMWEQRg data-category=General data-category-id=DIC_kwDOMWEQRs4CgyrH data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=en crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
 visible-lg-block
 sidebar-container
@@ -58,11 +58,14 @@ sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>F
 </a><a href=/icer/tags/ram title=ram>ram
 </a><a href=/icer/tags/spi title=spi>spi
 </a><a href=/icer/tags/uart title=uart>uart
+</a><a href=/icer/tags/uvm title=uvm>uvm
+</a><a href=/icer/tags/uvm%E5%AE%9E%E6%88%98 title=uvm实战>uvm实战
 </a><a href=/icer/tags/%E4%B8%B2%E5%8F%A3 title=串口>串口
 </a><a href=/icer/tags/%E5%8D%8F%E8%AE%AE%E7%BF%BB%E8%AF%91 title=协议翻译>协议翻译
 </a><a href=/icer/tags/%E5%A4%A7%E5%B0%8F%E7%AB%AF title=大小端>大小端
 </a><a href=/icer/tags/%E5%AD%97%E8%8A%82%E5%BA%8F title=字节序>字节序
-</a><a href=/icer/tags/%E7%9F%A5%E8%AF%86%E6%8F%90%E7%BA%B2 title=知识提纲>知识提纲</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://zhaozhihan.com>Linda的博客</a></li></ul></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:chengjj9527@gmail.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+</a><a href=/icer/tags/%E7%9F%A5%E8%AF%86%E6%8F%90%E7%BA%B2 title=知识提纲>知识提纲
+</a><a href=/icer/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0 title=读书笔记>读书笔记</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://zhaozhihan.com>Linda的博客</a></li></ul></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:chengjj9527@gmail.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
 <i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/icjj><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
 <i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/ICJJ><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
 <i class="fab fa-gitlab fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://stackoverflow.com/users/26381389><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
