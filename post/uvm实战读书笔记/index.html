@@ -253,7 +253,17 @@ uvm_config_db#(uvm_object_wrapper)::set(this,
 &#34;default_sequence&#34;,
 caseq);
 </code></pre><p>启动：
-设置好了之后，会自动调用pre_body、body、post_body</p><h4 id=a-id62-sequence的仲裁机制62-sequence的仲裁机制a><a id="6.2 sequence的仲裁机制">6.2 sequence的仲裁机制</a></h4><h5 id=a-id621-在同一个sequence上启动多个sequence621-在同一个sequence上启动多个sequencea><a id="6.2.1 在同一个sequence上启动多个sequence">6.2.1 在同一个sequence上启动多个sequence</a></h5><hr><ul class=pager><li class=previous><a href=/icer/post/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8/ data-toggle=tooltip data-placement=top title=半导体存储器介绍>&larr;
+设置好了之后，会自动调用pre_body、body、post_body</p><h4 id=a-id62-sequence的仲裁机制62-sequence的仲裁机制a><a id="6.2 sequence的仲裁机制">6.2 sequence的仲裁机制</a></h4><h5 id=a-id621-在同一个sequence上启动多个sequence621-在同一个sequence上启动多个sequencea><a id="6.2.1 在同一个sequence上启动多个sequence">6.2.1 在同一个sequence上启动多个sequence</a></h5><p>在my_sequencer上同时启动了两个sequence： sequence1和sequence2：</p><pre tabindex=0><code>fork
+seq0.start(env.i_agt.sqr);
+seq1.start(env.i_agt.sqr);
+join
+</code></pre><p>sequencer根据什么选择使用哪个sequence的transaction呢？ 这是UVM的sequence机制中的仲裁问题。
+可以通过uvm_do_pri及uvm_do_pri_with改变所产生的transaction的优先级。</p><p>为sequencer设置仲裁算法：<code>env.i_agt.sqr.set_arbitration(UVM_SEQ_ARB_STRICT_FIFO);</code>，
+sequencer的仲裁算法：</p><ul><li><code>UVM_SEQ_ARB_FIFO</code>：默认，遵循先入先出的顺序， 而不会考虑优先级。</li><li><code>UVM_SEQ_ARB_WEIGHTED</code>：加权的仲裁。</li><li><code>UVM_SEQ_ARB_RANDOM</code>：完全随机。</li><li><code>UVM_SEQ_ARB_STRICT_FIFO</code>：严格按照优先级，存在同一优先级，按照fifo先进先出。</li><li><code>UVM_SEQ_ARB_STRICT_RANDOM</code>：严格按照优先级，存在同一优先级，随机。</li><li><code>UVM_SEQ_ARB_USER</code>：用户自定义算法，需要重载</li></ul><h5 id=a-id322-sequence的lock操作322-sequence的lock操作a><a id="3.2.2 sequence的lock操作">3.2.2 sequence的lock操作</a></h5><p>当多个sequence在一个sequencer上同时启动时， 每个sequence产生出的transaction都需要参与sequencer的仲裁。
+那么考虑这样一种情况， 某个sequence比较奇特， 一旦它要执行， 那么它所有的transaction必须连续地交给driver，
+如果中间夹杂着其他sequence的transaction， 就会发生错误。 可以使用lock操作锁定sequence。</p><p>直接在sequence的body中使用<code>lock()</code>锁定当前sequencer，直到<code>unlock()</code>。</p><h5 id=a-id623-sequencer的grab操作623-sequencer的grab操作a><a id="6.2.3 sequencer的grab操作">6.2.3 sequencer的grab操作</a></h5><p>grab操作和lock类似，也是仲裁的独占。</p><ul><li>lock操作是先仲裁，再锁定。</li><li>grab操作是先锁定。</li></ul><h5 id=a-id624-sequence的有效性624-sequence的有效性a><a id="6.2.4 sequence的有效性">6.2.4 sequence的有效性</a></h5><p>通过lock任务和grab任务， sequence可以独占sequencer， 强行使sequencer发送自己产生的transaction。 同样的， UVM也提供措
+施使sequence可以在一定时间内不参与仲裁， 即令此sequence失效。</p><p>每次仲裁之前，都会查看被仲裁sequence的<code>is_relevant()</code>是否有效。
+如果有效，则参与仲裁；如果无效，则放弃仲裁，并且调用<code>wait_for_relevant()</code>等待有效。</p><p>需要重载的函数：</p><ul><li>重载<code>is_relevant()</code>。</li><li>重载<code>wait_for_relevant()</code>，否则会报错。</li></ul><h4 id=a-id63-sequence相关宏及其实现63-sequence相关宏及其实现a><a id="6.3 sequence相关宏及其实现">6.3 sequence相关宏及其实现</a></h4><hr><ul class=pager><li class=previous><a href=/icer/post/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8/ data-toggle=tooltip data-placement=top title=半导体存储器介绍>&larr;
 Previous Post</a></li><li class=next><a href=/icer/post/uart-%E5%8D%8F%E8%AE%AE%E4%BB%8B%E7%BB%8D/ data-toggle=tooltip data-placement=top title="UART 介绍">Next
 Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=ICJJ/icer data-repo-id=R_kgDOMWEQRg data-category=General data-category-id=DIC_kwDOMWEQRs4CgyrH data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=en crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
 visible-lg-block
