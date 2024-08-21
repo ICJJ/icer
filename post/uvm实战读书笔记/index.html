@@ -375,7 +375,43 @@ endclass
 那么在更新寄存器模型之前是否给出错误提示。 其可选的值为UVM_CHECK和UVM_NO_CHECK。</p><p>它有两种应用场景：</p><ul><li>一是在仿真中不断地调用它， 使得到整个寄存器模型的值与DUT中寄存器的值保持一致， 此时check选项是关闭的。</li><li>二是在仿真即将结束时， 检查DUT中寄存器的值与寄存器模型中寄存器的镜像值是否一致， 这种情况下， check选项是打开的。</li></ul><p><strong>predict</strong></p><p>使用<code>predict()</code>人为地更新镜像值， 但是同时又不要对DUT进行任何操作。</p><ul><li>其中第一个参数表示要预测的值，</li><li>第二个参数是byte_en， 默认-1的意思是全部有效，</li><li>第三个参数是预测的类型，<ul><li><code>UVM_PREDICT_DIRECT</code></li><li><code>UVM_PREDICT_READ</code></li><li><code>UVM_PREDICT_WRITE</code></li></ul></li><li>第四个参数是后门访问或者是前门访问。 第三个参数预测类型有如下几种可以选择：</li></ul><p>read/peek和write/poke操作在对DUT完成读写后， 也会调用此函数， 只是它们给出的参数是UVM_PREDICT_READ和UVM_PREDICT_WRITE。
 要实现在参考模型中更新寄存器模型而又不影响DUT的值， 需要使用UVM_PREDICT_DIRECT， 即默认值。</p><h6 id=a-id773-寄存器模型的随机化和update773-寄存器模型的随机化和updatea><a id="7.7.3 寄存器模型的随机化和update">7.7.3 寄存器模型的随机化和update</a></h6><p>随机化可以在以下三个层次调用：</p><ul><li>uvm_reg_field</li><li>uvm_reg</li><li>uvm_reg_block</li></ul><p>随机化会更新寄存器的期望值，然后使用update更新寄存器的镜像值。</p><h5 id=a-id774-扩展位宽774-扩展位宽a><a id="7.7.4 扩展位宽">7.7.4 扩展位宽</a></h5><p>寄存器模型的最大位宽为64，通过宏<code>UVM_REG_DATA_WIDTH</code>和<code>UVM_REG_ADDR_WIDTH</code>控制。</p><h4 id=a-id78-寄存器模型的其他常用函数78-寄存器模型的其他常用函数a><a id="7.8 寄存器模型的其他常用函数">7.8 寄存器模型的其他常用函数</a></h4><h5 id=a-id781-get_root_blocks函数781-get_root_blocks函数a><a id="7.8.1 get_root_blocks函数">7.8.1 get_root_blocks函数</a></h5><p><code>get_root_blocks(blks)</code>函数得到验证平台上所有的根块（ root block） 。 根块指最顶层的reg_block。</p><p>在使用get_root_blocks函数得到reg_block的指针后， 要使用cast将其转化为目标reg_block形式（ 示例中为reg_model） 。 以后就
 可以直接使用p_rm来进行寄存器操作， 而不必使用p_sequencer.p_rm。</p><h5 id=a-id782-get_reg_by_offset函数782-get_reg_by_offset函数a><a id="7.8.2 get_reg_by_offset函数">7.8.2 get_reg_by_offset函数</a></h5><p>使用`get_reg_by_offset()函数通过寄存器的地址得到一个uvm_reg的指针，
-再调用此uvm_reg的read或者write就可以进行读写操作。</p><hr><ul class=pager><li class=previous><a href=/icer/post/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8/ data-toggle=tooltip data-placement=top title=半导体存储器介绍>&larr;
+再调用此uvm_reg的read或者write就可以进行读写操作。</p><h3 id=a-id第8章-uvm中的factory机制第8章-uvm中的factory机制a><a id="第8章 uvm中的factory机制">第8章 uvm中的factory机制</a></h3><h4 id=a-id81-systemverilog对重载的支持81-systemverilog对重载的支持a><a id="8.1 systemverilog对重载的支持">8.1 systemverilog对重载的支持</a></h4><h5 id=a-id82-任务与函数的重载82-任务与函数的重载a><a id="8.2 任务与函数的重载">8.2 任务与函数的重载</a></h5><p>面向对象语言都有一大特征： 重载。 当在父类中定义一个函数/任务时， 如果将其设置
+为virtual类型， 那么就可以在子类中重载这个函数/任务。</p><p>重载的最大优势是使得一个子类的指针以父类的类型传递时， 其表现出的行为依然是子类的行为。</p><h5 id=a-id812-约束的重载812-约束的重载a><a id="8.1.2 约束的重载">8.1.2 约束的重载</a></h5><p>对约束的重载可以不要添加virtual关键字。</p><h4 id=a-id82-使用factory机制进行重载82-使用factory机制进行重载a><a id="8.2 使用factory机制进行重载">8.2 使用factory机制进行重载</a></h4><h5 id=a-id821-factory机制的重载821-factory机制的重载a><a id="8.2.1 factory机制的重载">8.2.1 factory机制的重载</a></h5><p>实现重载的要求：</p><ul><li>都要在定义时注册到factory机制中。</li><li>被重载的类（bird） 在实例化时， 要使用factory机制式的实例化方式。</li><li>重载的类必须派生自被重载的类。</li><li>component与object之间互相不能重载.</li></ul><h5 id=a-id822-重载的方式及种类822-重载的方式及种类a><a id="8.2.2 重载的方式及种类">8.2.2 重载的方式及种类</a></h5><p>位于uvm_component中：
+<code>set_type_override_by_type</code>、<code>set_type_override</code>：</p><ul><li>第一个参数是被重载的类型或名字。</li><li>第二个参数是重载的类型或名字。</li><li>第三个参数是replace，表示是否可以被后面的重载覆盖。</li></ul><p><code>set_inst_override_by_type</code>、<code>set_inst_override</code>：</p><ul><li>第一个参数是相对路径。</li><li>第二个参数是被重载的类型或名字。</li><li>第三个参数是要重载的类型或名字。</li></ul><p>位于uvm_factory中：</p><ul><li><code>set_type_override_by_type</code>、<code>set_type_override_by_name</code>：</li><li>第一个参数是被重载的类型或名字。</li><li>第二个参数是重载的类型或名字。</li><li>第三个参数是replace，表示是否可以被后面的重载覆盖。</li><li><code>set_inst_override_by_type</code>、<code>set_inst_override_by_name</code>：</li><li>第一个参数是被重载的类型或名字。</li><li>第二个参数是要重载的类型或名字。</li><li>第三个参数是相对路径。</li></ul><p>也可以使用命令行的方式重载：
+<code>+uvm_set_inst_override=&lt;req_type>,&lt;override_type>,&lt;full_inst_path></code></br><code>+uvm_set_type_override=&lt;req_type>,&lt;override_type>[,&lt;replace>]</code></p><h5 id=a-id823-复杂的重载823-复杂的重载a><a id="8.2.3 复杂的重载">8.2.3 复杂的重载</a></h5><p>连续重载：</br></p><pre tabindex=0><code>set_type_override_by_type(bird::get_type(), parrot::get_type());
+set_type_override_by_type(parrot::get_type(), big_parrot::get_type());
+</code></pre><p>替换重载：</br></p><pre tabindex=0><code>set_type_override_by_type(bird::get_type(), parrot::get_type());
+set_type_override_by_type(bird::get_type(), sparrow::get_type());
+</code></pre><h5 id=a-id824-factory机制的调试824-factory机制的调试a><a id="8.2.4 factory机制的调试">8.2.4 factory机制的调试</a></h5><p>component中可以打印组件的重载信息的函数：
+<code>env.o_agt.mon.print_override_info("my_monitor");</code></p><p>factory中可以打印组件重载信息的函数：
+<code>uvm_factory.print(&lt;0,1,2>)</code></p><ul><li>当为0时， 仅仅打印被重载的实例和类型。</li><li>当为1时， 打印参数为0时的信息， 以及所有用户创建的、 注册到factory的类的名称。</li><li>当为2时， 打印参数为1时的信息， 以及系统创建的、 所有注册到factory的类的名称（ 如uvm_reg_item）。</li></ul><p>top中打印拓扑结构的函数：
+<code>uvm_top.print_topology();</code></p><h4 id=a-id83-常用的重载83-常用的重载a><a id="8.3 常用的重载">8.3 常用的重载</a></h4><h5 id=a-id831-重载transaction831-重载transactiona><a id="8.3.1 重载transaction">8.3.1 重载transaction</a></h5><h5 id=a-id832-重载sequence832-重载sequencea><a id="8.3.2 重载sequence">8.3.2 重载sequence</a></h5><h5 id=a-id833-重载component833-重载componenta><a id="8.3.3 重载component">8.3.3 重载component</a></h5><h5 id=a-id834-重载driver以实现所有的测试用例834-重载driver以实现所有的测试用例a><a id="8.3.4 重载driver以实现所有的测试用例">8.3.4 重载driver以实现所有的测试用例</a></h5><h4 id=a-id84-factory机制的实现84-factory机制的实现a><a id="8.4 factory机制的实现">8.4 factory机制的实现</a></h4><h5 id=a-id841-创建一个类实例的方法841-创建一个类实例的方法a><a id="8.4.1 创建一个类实例的方法">8.4.1 创建一个类实例的方法</a></h5><p>直接创建：</p><pre tabindex=0><code>class A
+… e
+ndclass
+class B;
+A a;
+function new();
+a = new();
+endfunction
+endclass
+</code></pre><p>参数化创建：</p><pre tabindex=0><code>class parameterized_class # (type T)
+T t;
+function new();
+t = new();
+endfunction
+endclass
+class A;
+… e
+ndclass
+class B;
+parameterized_classs#(A) pa;
+function new();
+pa = new();
+endfunction
+endclass
+</code></pre><h5 id=a-id842-根据字符串创建类842-根据字符串创建类a><a id="8.4.2 根据字符串创建类">8.4.2 根据字符串创建类</a></h5><h5 id=a-id843-用factory机制创建实例的接口843-用factory机制创建实例的接口a><a id="8.4.3 用factory机制创建实例的接口">8.4.3 用factory机制创建实例的接口</a></h5><p><code>create_object_by_name()</code>和<code>create_object_by_type()</code>:</p><ul><li>一般只使用第一个参数</li></ul><p><code>create_component_by_name()</code>和<code>create_component_by_type</code>：</p><ul><li>第一个参数是字符串类型的类名/类型。</li><li>第二个参数是父结点的全名。</li><li>第三个参数是为这个新的component起的名字。</li><li>第四个参数是父结点的指针。</li></ul><h5 id=a-id844-factory机制的本质844-factory机制的本质a><a id="8.4.4. factory机制的本质">8.4.4. factory机制的本质</a></h5><p>从本质上来看， factory机制其实是对SystemVerilog中new函数的重载。
+因为这个原始的new函数实在是太简单了， 功能太少了。
+经过factory机制的改良之后， 进行实例化的方法多了很多。</p><hr><ul class=pager><li class=previous><a href=/icer/post/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8/ data-toggle=tooltip data-placement=top title=半导体存储器介绍>&larr;
 Previous Post</a></li><li class=next><a href=/icer/post/uart-%E5%8D%8F%E8%AE%AE%E4%BB%8B%E7%BB%8D/ data-toggle=tooltip data-placement=top title="UART 介绍">Next
 Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=ICJJ/icer data-repo-id=R_kgDOMWEQRg data-category=General data-category-id=DIC_kwDOMWEQRs4CgyrH data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=en crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
 visible-lg-block
