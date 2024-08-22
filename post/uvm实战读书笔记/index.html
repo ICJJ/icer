@@ -461,7 +461,111 @@ bus_agent bus_agt;
 ...
 bus_agt = bus_agent#(16, 16)::type_id::create(&#34;bus_agt&#34;, this);
 </code></pre><h4 id=a-id94-模块级到芯片级的代码重用94-模块级到芯片级的代码重用a><a id="9.4 模块级到芯片级的代码重用">9.4 模块级到芯片级的代码重用</a></h4><h5 id=a-id941-基于env的重用941-基于env的重用a><a id="9.4.1 基于env的重用">9.4.1 基于env的重用</a></h5><p>当在芯片级别验证时， 如果采用env级别的重用， 那么B和C中的driver分别取消， 这可以通过设置各自i_agt的is_active来控制。</p><p>在验证平台中， 每个模块验证环境需要在其env中添加一个analysis_port用于数据输出； 添加一个analysis_export用于数据输
-入； 在env中设置in_chip用于辨别不同的数据来源：</p><ul><li>如果该env是输入env，则将来自外部用于数据输入的analysis_export连接agt_mdl_fifo的export。</li><li>如果该env是输出env，则将来自内部用于数据输入的i_agt.ap连接到agt_mdl_fifo的export。</li></ul><h5 id=a-id942-寄存器模型的重用942-寄存器模型的重用a><a id="9.4.2 寄存器模型的重用">9.4.2 寄存器模型的重用</a></h5><hr><ul class=pager><li class=previous><a href=/icer/post/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8/ data-toggle=tooltip data-placement=top title=半导体存储器介绍>&larr;
+入； 在env中设置in_chip用于辨别不同的数据来源：</p><ul><li>如果该env是输入env，则将来自外部用于数据输入的analysis_export连接agt_mdl_fifo的export。</li><li>如果该env是输出env，则将来自内部用于数据输入的i_agt.ap连接到agt_mdl_fifo的export。</li></ul><h5 id=a-id942-寄存器模型的重用942-寄存器模型的重用a><a id="9.4.2 寄存器模型的重用">9.4.2 寄存器模型的重用</a></h5><p>为了在芯片级别使用寄存器模型， 需要建立一个新的寄存器模型。
+这个新的寄存器模型中只需要加入各个不同模块的寄存器模型并设置偏移地址和后门访问路径：</p><pre tabindex=0><code class=language-systmverilog data-lang=systmverilog>class chip_reg_model extends uvm_reg_block;
+  rand reg_model A_rm;
+  rand reg_model B_rm;
+  rand reg_model C_rm;
+
+  virtual function void build();
+    default_map = create_map(&#34;default_map&#34;, 0, 2, UVM_BIG_ENDIAN, 0);
+    default_map.add_submap(A_rm.default_map, 16&#39;h0);
+    ...
+    default_map.add_submap(B_rm.default_map, 16&#39;h4000);
+    ...
+    default_map.add_submap(C_rm.default_map, 16&#39;h8000);
+    ...
+  endfunction
+endclass
+</code></pre><p>在env层例化寄存器模型并且将各个模块的指针赋值给env的寄存器模型。</p><h5 id=a-id943-virtual-sequence和virtual-sequencer943-virtual-sequence和virtual-sequencera><a id="9.4.3 virtual sequence和virtual sequencer">9.4.3 virtual sequence和virtual sequencer</a></h5><p>无论是内部模块还是边界模块， 统一推荐其virtual sequencer在base_test中实例化。
+在芯片级别建立自己的virtual sequencer。</p><p>有两种模块级别的sequence可以直接用于芯片级别的验证。</p><ul><li>一种如A、 D和F这样的边界输入端的普通的sequence（ 不是virtual sequence）。</li><li>另外一种是寄存器配置的sequence。</li></ul><h3 id=a-id第10章-uvm高级应用第10章-uvm高级应用a><a id="第10章 uvm高级应用">第10章 uvm高级应用</a></h3><h4 id=a-id101-interface101-interfacea><a id="10.1 interface">10.1 interface</a></h4><h4 id=a-id1011-interface实现driver的部分功能1011-interface实现driver的部分功能a><a id="10.1.1 interface实现driver的部分功能">10.1.1 interface实现driver的部分功能</a></h4><p>在interface中可以定义任务与函数。
+除此之外， 还可以在interface中使用always语句和initial语句。</p><p>使用interface代替driver的第一个好处是可以让driver从底层繁杂的数据处理中解脱出来， 更加专注于处理高层数据。
+第二个好处是有更多的数据出现在interface中， 这会对调试起到很大的帮助。</p><h5 id=a-id1011-可变时钟1011-可变时钟a><a id="10.1.1 可变时钟">10.1.1 可变时钟</a></h5><p>可变时钟有三种：</p><ul><li>第一种是在不同测试用例之间时钟频率不同， 但是在同一测试用例中保持不变。</br><br>在一些应用中， 如HDMI协议中， 其图像的时钟信号就根据发送（ 接收） 图像的分辨率的变化而变化。
+当不同的测试用例测试不同分辨率的图像时， 就需要在不同测试用例中设置不同的时钟频率。</li><li>第二种是在同一个测试用例中存在时钟频率变换的情况。
+芯片上的时钟是由PLL产生的。 但是PLL并不是一开始就会产生稳定的时钟， 而是会有一段过渡期，
+在这段过渡期内， 其时钟频率是一直变化的。 有时候不关心这段过渡期时， 而只关心过渡期前和过渡期后的时钟频率。</li><li>第三种可变时钟和第二种很像， 但是它既关心过渡期前后的时钟， 也关心PLL在过渡期的行为。</li></ul><p>对于第一种可变时钟，有两种方式可以实现可变时钟：</p><ul><li>将时钟生成单独作为一个模块。<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>module</span> top_tb();
+</span></span><span style=display:flex><span>…
+</span></span><span style=display:flex><span>`include <span style=color:#f1fa8c>&#34;test_clk.sv&#34;</span>
+</span></span><span style=display:flex><span>…
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endmodule</span>
+</span></span></code></pre></div></li><li>在test层set，在top层get，参数化生成可变时钟。<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>class</span> test1 <span style=color:#ff79c6>extends</span> uvm_test;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>function</span> <span style=color:#ff79c6>void</span> my_case0<span style=color:#ff79c6>::</span>build_phase(uvm_phase phase);
+</span></span><span style=display:flex><span>  …
+</span></span><span style=display:flex><span>    uvm_config_db#(<span style=color:#ff79c6>real</span>)<span style=color:#ff79c6>::</span>set(<span style=color:#ff79c6>this</span>, <span style=color:#f1fa8c>&#34;&#34;</span>, <span style=color:#f1fa8c>&#34;clk_half_period&#34;</span>, <span style=color:#bd93f9>200.0</span>);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>endfunction</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endclass</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>module</span> top;
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>   #<span style=color:#bd93f9>1</span>;<span style=color:#6272a4>//set，get都是在0时刻开始的。
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>   <span style=color:#ff79c6>if</span>(uvm_config_db#(<span style=color:#ff79c6>real</span>)<span style=color:#ff79c6>::</span>get(uvm_root<span style=color:#ff79c6>::</span>get(), <span style=color:#f1fa8c>&#34;uvm_test_top&#34;</span>, <span style=color:#f1fa8c>&#34;clk_half_period&#34;</span>, clk_half_period)
+</span></span><span style=display:flex><span>  `uvm_info(<span style=color:#f1fa8c>&#34;top_tb&#34;</span>, <span style=color:#8be9fd;font-style:italic>$sformatf</span>(<span style=color:#f1fa8c>&#34;clk_half_period is %0f&#34;</span>, clk_half_per iod), UVM_MEDIUM)
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endmodule</span> 
+</span></span></code></pre></div></li></ul><p>对于第二种可变时钟可以使用下面的方法：</p><ul><li>在top层：</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>module</span> top;
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span><span style=color:#ff79c6>initial</span> <span style=color:#ff79c6>begin</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>static</span> <span style=color:#ff79c6>real</span> clk_half_period <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>100.0</span>;
+</span></span><span style=display:flex><span>  clk <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>fork</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>forever</span> <span style=color:#ff79c6>begin</span>
+</span></span><span style=display:flex><span>      uvm_config_db#(<span style=color:#ff79c6>real</span>)<span style=color:#ff79c6>::</span>wait_modified(uvm_root<span style=color:#ff79c6>::</span>get(), <span style=color:#f1fa8c>&#34;uvm_test_to p&#34;</span>, <span style=color:#f1fa8c>&#34;clk_half_period&#34;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>void</span>&#39;(uvm_config_db#(<span style=color:#ff79c6>real</span>)<span style=color:#ff79c6>::</span>get(uvm_root<span style=color:#ff79c6>::</span>get(), <span style=color:#f1fa8c>&#34;uvm_test_top&#34;</span>, <span style=color:#f1fa8c>&#34; clk_half_period&#34;</span>, clk_h
+</span></span><span style=display:flex><span>    `uvm_info(<span style=color:#f1fa8c>&#34;top_tb&#34;</span>, <span style=color:#8be9fd;font-style:italic>$sformatf</span>(<span style=color:#f1fa8c>&#34;clk_half_period is %0f&#34;</span>, clk_half_p eriod), UVM_MEDIUM)
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>end</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>forever</span> <span style=color:#ff79c6>begin</span>
+</span></span><span style=display:flex><span>      #(clk_half_period<span style=color:#ff79c6>*</span><span style=color:#bd93f9>1.0</span>ns) clk <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>~</span>clk;
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>end</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>join</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>end</span>
+</span></span></code></pre></div><ul><li>在testcase层：</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>task</span> my_case0<span style=color:#ff79c6>::</span>main_phase(uvm_phase phase);
+</span></span><span style=display:flex><span>  #<span style=color:#bd93f9>100000</span>;
+</span></span><span style=display:flex><span>  uvm_config_db#(<span style=color:#ff79c6>real</span>)<span style=color:#ff79c6>::</span>set(<span style=color:#ff79c6>this</span>, <span style=color:#f1fa8c>&#34;&#34;</span>, <span style=color:#f1fa8c>&#34;clk_half_period&#34;</span>, <span style=color:#bd93f9>200.0</span>);
+</span></span><span style=display:flex><span>  #<span style=color:#bd93f9>100000</span>;
+</span></span><span style=display:flex><span>  uvm_config_db#(<span style=color:#ff79c6>real</span>)<span style=color:#ff79c6>::</span>set(<span style=color:#ff79c6>this</span>, <span style=color:#f1fa8c>&#34;&#34;</span>, <span style=color:#f1fa8c>&#34;clk_half_period&#34;</span>, <span style=color:#bd93f9>150.0</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endtask</span>
+</span></span></code></pre></div><p>对于第三种时钟生成方式：</p><ul><li>可以根据组件的并行运行特性，专门创建一个时钟接口和时钟组件，并在env例化，独自运行。</li></ul><pre tabindex=0><code>class clk_model extends uvm_component;
+  `uvm_component_utils(clk_model)
+
+  virtual clk_if vif;
+  real half_period = 100.0;
+  …
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    if(!uvm_config_db#(virtual clk_if)::get(this, &#34;&#34;, &#34;vif&#34;, vif))
+      `uvm_fatal(&#34;clk_model&#34;, &#34;must set interface for vif&#34;)
+    void&#39;(uvm_config_db#(real)::get(this, &#34;&#34;, &#34;half_period&#34;, half_perio d));
+    `uvm_info(&#34;clk_model&#34;, $sformatf(&#34;clk_half_period is %0f&#34;, half_peri od), UVM_MEDIUM)
+  endfunction
+
+  virtual task run_phase(uvm_phase phase);
+    vif.clk = 0;
+    forever begin
+    #(half_period*1.0ns) vif.clk = ~vif.clk;
+    end
+  endtask
+endclass
+
+class my_env extends uvm_env;
+  …
+  clk_model clk_sys;
+  …
+  virtual function void build_phase(uvm_phase phase);
+  …
+  clk_sys = clk_model::type_id::create(&#34;clk_sys&#34;, this);
+  …
+  endfunction
+  …
+  endclass
+</code></pre><p>在需要新的时钟模型时， 只需要从clk_model派生一个新的类，然后在新的类中实现时钟模型。
+使用factory机制的重载功能将clk_model用新的类重载掉。 通过这种方式， 可以将时钟设置为任意想要的行为。</p><h4 id=a-id102-layer-sequence102-layer-sequencea><a id="10.2 layer sequence">10.2 layer sequence</a></h4><h5 id=a-id1021-复杂sequence的简单化1021-复杂sequence的简单化a><a id="10.2.1 复杂sequence的简单化">10.2.1 复杂sequence的简单化</a></h5><p>多个sequence负责一个包的部分。</p><h5 id=a-id1022-layer-sequence的实例1022-layer-sequence的实例a><a id="10.2.2 layer sequence的实例">10.2.2 layer sequence的实例</a></h5><p>在seqr2中使用uvm_seq_item_pull_port获取其他seqr1产生的seq1：</p><ul><li>在sequencer中创建port，参数是目标事务：
+<code>uvm_seq_item_pull_port #(ip_transaction) ip_tr_port;</code></li><li>在agent中将两个sequencer进行连接：
+<code>sqr.ip_tr_port.connect(ip_sqr.seq_item_export)</code></li></ul><p>第二个seq2使用while循环不断地通过seqr2的pull_port获取seqr1产生的seq1进行加工，
+加工之后交给driver进行驱动。</p><h5 id=a-id1023-layer-sequence和try_next_item1023-layer-sequence和try_next_itema><a id="10.2.3 layer sequence和try_next_item">10.2.3 layer sequence和try_next_item</a></h5><p>try_next_item使用于下面情况：</p><ul><li>在正式传送之前，需要发送一些空闲数据。</li><li>在正式传送完成item_done的drain_time，也需要发送一些空闲数据。</li></ul><p>需要调用<code>uvm_wait_for_nba_region()</code>来避免driver的try_next_item调用过早，第1层的seq1还没准备好driver就<code>try_next_item()</code>。</p><h5 id=a-id1024-错峰技术的使用1024-错峰技术的使用a><a id="10.2.4 错峰技术的使用">10.2.4 错峰技术的使用</a></h5><p>假如上述layer sequence又多了一层， 达到3层，只增加一个<code>uvm_wait_for_nba_region()</code>是没有用处的。
+多次调用也不太合理。</p><p>归根结底，问题的关键在于item_done和try_next_item是在同一时刻被调用， 这导致了时间槽的竞争，
+可以在item_done被调用后， 并不是立即调用try_next_item， 而是等待下一个时钟的上升沿到来后再调用。</p><h4 id=a-id103-sequence的其他问题103-sequence的其他问题a><a id="10.3 sequence的其他问题">10.3 sequence的其他问题</a></h4><h5 id=a-id1031-心跳功能的实现1031-心跳功能的实现a><a id="10.3.1 心跳功能的实现">10.3.1 心跳功能的实现</a></h5><p>在某些协议中， 需要driver每隔一段时间向DUT发送一些类似心跳的信号。
+这些心跳信号的包与其他的普通的包并没有本质上的区别， 其使用的transaction也都是普通的transaction。</p><p>有两种方法：</p><ul><li>在driver中与get_item的进程并行另开一个进行去发送心跳包。</li><li>使用sequence的方式：<ul><li>单独为心跳包创建一个sequence，其中使用while(1)加grab-ungrab的方式独占sequencer，这里也要raise和drop。</li><li>test中将心跳sequence与正常sequence同时启动。</li></ul></li></ul><h5 id=a-id1032-只将virtual-sequence设置为default-sequence1032-只将virtual-sequence设置为default-sequencea><a id="10.3.2 只将virtual sequence设置为default sequence">10.3.2 只将virtual sequence设置为default sequence</a></h5><p>如果只将virtual sequence设置为default_sequence， 那么所有其他的sequence都在其中启动。
+其中带来的一个好处是向sequence传递参数更加方便。</p><h5 id=a-id1033-disable-fork对原子操作的影响1033-disable-fork对原子操作的影响a><a id="10.3.3 disable fork对原子操作的影响">10.3.3 disable fork对原子操作的影响</a></h5><p>UVM寄存器模型的write操作是原子操作，不允许中途中断，因此不应该disable 带有寄存器读写操作的fork。</p><hr><ul class=pager><li class=previous><a href=/icer/post/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8/ data-toggle=tooltip data-placement=top title=半导体存储器介绍>&larr;
 Previous Post</a></li><li class=next><a href=/icer/post/uart-%E5%8D%8F%E8%AE%AE%E4%BB%8B%E7%BB%8D/ data-toggle=tooltip data-placement=top title="UART 介绍">Next
 Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=ICJJ/icer data-repo-id=R_kgDOMWEQRg data-category=General data-category-id=DIC_kwDOMWEQRs4CgyrH data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=en crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
 visible-lg-block
