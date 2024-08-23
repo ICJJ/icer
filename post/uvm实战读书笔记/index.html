@@ -565,7 +565,57 @@ class my_env extends uvm_env;
 多次调用也不太合理。</p><p>归根结底，问题的关键在于item_done和try_next_item是在同一时刻被调用， 这导致了时间槽的竞争，
 可以在item_done被调用后， 并不是立即调用try_next_item， 而是等待下一个时钟的上升沿到来后再调用。</p><h4 id=a-id103-sequence的其他问题103-sequence的其他问题a><a id="10.3 sequence的其他问题">10.3 sequence的其他问题</a></h4><h5 id=a-id1031-心跳功能的实现1031-心跳功能的实现a><a id="10.3.1 心跳功能的实现">10.3.1 心跳功能的实现</a></h5><p>在某些协议中， 需要driver每隔一段时间向DUT发送一些类似心跳的信号。
 这些心跳信号的包与其他的普通的包并没有本质上的区别， 其使用的transaction也都是普通的transaction。</p><p>有两种方法：</p><ul><li>在driver中与get_item的进程并行另开一个进行去发送心跳包。</li><li>使用sequence的方式：<ul><li>单独为心跳包创建一个sequence，其中使用while(1)加grab-ungrab的方式独占sequencer，这里也要raise和drop。</li><li>test中将心跳sequence与正常sequence同时启动。</li></ul></li></ul><h5 id=a-id1032-只将virtual-sequence设置为default-sequence1032-只将virtual-sequence设置为default-sequencea><a id="10.3.2 只将virtual sequence设置为default sequence">10.3.2 只将virtual sequence设置为default sequence</a></h5><p>如果只将virtual sequence设置为default_sequence， 那么所有其他的sequence都在其中启动。
-其中带来的一个好处是向sequence传递参数更加方便。</p><h5 id=a-id1033-disable-fork对原子操作的影响1033-disable-fork对原子操作的影响a><a id="10.3.3 disable fork对原子操作的影响">10.3.3 disable fork对原子操作的影响</a></h5><p>UVM寄存器模型的write操作是原子操作，不允许中途中断，因此不应该disable 带有寄存器读写操作的fork。</p><hr><ul class=pager><li class=previous><a href=/icer/post/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8/ data-toggle=tooltip data-placement=top title=半导体存储器介绍>&larr;
+其中带来的一个好处是向sequence传递参数更加方便。</p><h5 id=a-id1033-disable-fork对原子操作的影响1033-disable-fork对原子操作的影响a><a id="10.3.3 disable fork对原子操作的影响">10.3.3 disable fork对原子操作的影响</a></h5><p>UVM寄存器模型的write操作是原子操作，不允许中途中断。
+因此不应该在寄存器操作未完成时disable 带有寄存器读写操作的fork。</p><p>可以使用旗语的get、put和try_get语句。</p><ul><li>先new一个旗语</li><li>使用fork json同时开两个并行线程。</li><li>在寄存器操作之前<code>try_get(1)</code>，第一次一定返回1，执行下面的寄存器操作，完成之后<code>put(1)</code>。</li><li>在正常的sequence中阻塞<code>get(1)</code>。</li><li>当<code>get(1)</code>返回时，寄存器进程<code>try_get(1)</code>返回0，由else分支去break。</li></ul><h4 id=a-id104-dut参数的随机化104-dut参数的随机化a><a id="10.4 dut参数的随机化">10.4 dut参数的随机化</a></h4><h5 id=a-id1041-使用寄存器模型随机化参数1041-使用寄存器模型随机化参数a><a id="10.4.1 使用寄存器模型随机化参数">10.4.1 使用寄存器模型随机化参数</a></h5><p>可以使用寄存器模型的随机化及update来为DUT选择一组随机化的参数。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>assert</span>(p_rm.randomize());
+</span></span><span style=display:flex><span>p_rm.updata(status, UVM_FRONTDOOR);
+</span></span></code></pre></div><p>缩小随机化的范围：</p><ul><li>只将需要随机化的寄存器调用randomize函数。<pre tabindex=0><code class=language-systmverilog data-lang=systmverilog>assert(p_rm.reg1.randomize() with { reg_data.value == 5&#39;h3;});
+assert(p_rm.reg2.randomize() with { reg_data.value &gt;= 7&#39;h9;});
+</code></pre></li><li>调用整体的randomize函数时， 为需要指定参数的寄存器指定约束:<pre tabindex=0><code class=language-systmverilog data-lang=systmverilog>assert(p_rm.randomize() with {reg1.reg_data.value == 5&#39;h3;
+reg2.reg_data.value &gt;= 7&#39;h9});
+</code></pre></li><li>借助于factory机制的重载功能， 从需要随机的寄存器中派生一个新的类。<pre tabindex=0><code class=language-systmverilog data-lang=systmverilog>class dreg1 extends my_reg1;
+  constraint{
+    reg_data.value == 5&#39;h3;
+  }
+endclass
+class dreg2 extends my_reg2;
+  constraint{
+    reg_data.value &gt;= 7&#39;h9;
+  }
+endclass
+</code></pre></li></ul><h5 id=a-id1042-使用单独的参数类1042-使用单独的参数类a><a id="10.4.2 使用单独的参数类">10.4.2 使用单独的参数类</a></h5><p>在一个验证平台中， 需要用到寄存器的地方有如下三个：</p><ul><li>一是RTL代码中。</li><li>二是SystemVerilog中。</li><li>三是C语言中。</li></ul><p>必须时刻保持这三处的寄存器完全一致。 当一处有更新时， 其他两处必须相应更新。
+寄存器成百上千个， 如果全部手工来做这些事情， 将会非常耗费时间和精力。
+因此一般的IC公司会将寄存器的描述放在一个源文件中， 如word文档、 excel文件、 xml文档中，
+然后使用脚本从中提取寄存器信息， 并分别生成相应的RTL代码、 UVM中的寄存器模型及C语言中的寄存器模型。
+当寄存器更新时， 只更新源文件即可， 其他的可以自动更新。 这种方式省时省力， 是主流的方式。</p><p>为了解决这个问题， 可以针对DUT中需要随机化的参数建立一个dut_parm类， 并在其中指定默认约束：</p><pre tabindex=0><code class=language-systmverilog data-lang=systmverilog>class dut_parm extends uvm_object;
+  reg_model p_rm;
+  …
+  rand bit[15:0] a_field0;
+  rand bit[15:0] b_field0;
+
+  constraint ab_field_cons{
+    a_field0 + b_field0 &gt;= 100;
+  }
+
+  task update_reg();
+    p_rm.rega.write(status, a_field0, UVM_FROTDOOR);
+    p_rm.regb.write(status, b_field0, UVM_FROTDOOR);
+  endtask
+endclass
+</code></pre><p>这段代码中指定了一个update_reg任务， 它用于当参数随机化完成后， 把相关的参数更新到DUT中。
+在virtual sequence中， 可以实例化这个新的类， 随机化并调用update_reg任务。</p><h4 id=a-id105-聚合参数105-聚合参数a><a id="10.5 聚合参数">10.5 聚合参数</a></h4><h5 id=a-id1051-聚合参数的定义1051-聚合参数的定义a><a id="10.5.1 聚合参数的定义">10.5.1 聚合参数的定义</a></h5><p>在验证平台中用到的参数有两大类：</p><ul><li>一类是验证环境与DUT中都要用到的参数，
+这些参数通常都对应DUT中的寄存器，可以将这些参数组织成了一个参数类。</li><li>另外一类是验证环境中独有的， 比如driver中要发送的preamble数量的上限和下限。 本节讲述如何组织这类参数。</li></ul><p>一种比较好的方法就是将这1000个变量放在一个专门的类里面来实现，使用约束去规定参数。配置时只传递配置类。</p><h5 id=a-id1052-聚合参数的优势和问题1052-聚合参数的优势和问题a><a id="10.5.2 聚合参数的优势和问题">10.5.2 聚合参数的优势和问题</a></h5><p>使用聚合参数后， 可以将此参数类的指针放在virtual sequencer中。
+sequence可以动态地改变某个验证平台中的变量值。
+某些情况下， 甚至可以将interface也放入此聚合参数类。</p><p>这种将所有参数聚合起来的做法可以大大方便验证平台的搭建。 将这个聚合类的指针赋值给任意component， 这样这些
+component再也不需要使用config_db： ： get函数来获取参数了。 当验证平台的某个组件（ 如driver） 要增加一个参数时， 只需要在
+这个聚合类中加入此参数， 在测试用例中直接为其赋值， 然后在验证平台（ 如driver） 中就可以直接使用。</p><h4 id=a-id106-config_db106-config_dba><a id="10.6 config_db">10.6 config_db</a></h4><h5 id=a-id1061-换一个phase使用config_db1061-换一个phase使用config_dba><a id="10.6.1 换一个phase使用config_db">10.6.1 换一个phase使用config_db</a></h5><p>在前面的介绍中， 使用config_db几乎都是在build_phase中。
+一个component的路径可以通过<code>get_full_name()</code>来获得。</p><p>但是在build_phase时， 整棵UVM树还没有形成， 使用env.i_agt.drv的形式进行引用会引起空指针的错误。 所以， 要想这么使
+778用， 有两种方法：</p><ul><li>一种是所有的实例化工作都在各自的new函数中完成。</li><li>第二种方式是将<code>uvm_config_db::set()</code>移到connect_phase中去。
+由于connect_phase是由下向上执行的，test的connect_phase几乎是最后执行的，
+因此应该在end_of_elaboration_phase或者start_of_simulation_phase调用<code>uvm_config_db::get()</code>。</li></ul><h5 id=a-id1062-config_db的替代者1062-config_db的替代者a><a id="10.6.2 config_db的替代者">10.6.2 config_db的替代者</a></h5><p>config_db设置的参数有两种，</p><ul><li>一种是结构性的参数， 如控制driver是否实例化的参数is_active。</li><li>另一种是非结构性的参数， 如向某个driver中传递某个参数。
+可以完全在build_phase之后的任意phase中使用绝对路径引用进行设置。</li></ul><h5 id=a-id1063-set函数的第二个参数检查1063-set函数的第二个参数检查a><a id="10.6.3 set函数的第二个参数检查">10.6.3 set函数的第二个参数检查</a></h5><p>config_db机制的
+最大问题在于不对set函数的第二个参数进行检查。 本节介绍一个函数， 可以在一定程度上（ 并不能检查所有！ ） 实现对第二个参
+数有效性的检查。 读者可以将这个函数加入到自己的验证平台中。</p><blockquote><p>Note：
+需要说明的是， 这个函数有一些局限， 其中之一就是不支持<code>config_db::set()</code>向object传递的参数。</p></blockquote><hr><ul class=pager><li class=previous><a href=/icer/post/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8/ data-toggle=tooltip data-placement=top title=半导体存储器介绍>&larr;
 Previous Post</a></li><li class=next><a href=/icer/post/uart-%E5%8D%8F%E8%AE%AE%E4%BB%8B%E7%BB%8D/ data-toggle=tooltip data-placement=top title="UART 介绍">Next
 Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=ICJJ/icer data-repo-id=R_kgDOMWEQRg data-category=General data-category-id=DIC_kwDOMWEQRs4CgyrH data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=en crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
 visible-lg-block
