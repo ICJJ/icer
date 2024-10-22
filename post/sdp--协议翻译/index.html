@@ -10,32 +10,80 @@
 on
 Tuesday, April 23, 2024</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
 col-md-10 col-md-offset-1
-post-container"><h1 id=a-idsdp-协议翻译sdp-协议翻译a><a id="sdp 协议翻译">sdp 协议翻译</a></h1><blockquote><p><a href=https://icjj.github.io/icer/document/SOC-15_Specification_Scalable_Data_port_SDP_Rev_1.5.0,_Nov_10,_2022_1.pdf>SOC-15_Specification_Scalable_Data_port_(SDP)_Rev_1.5.0,_Nov_10,_2022_1.pdf</a></p></blockquote><h1 id=a-idsdp-协议翻译sdp-协议翻译a-1><a id="sdp 协议翻译">sdp 协议翻译</a></h1><h2 id=a-id1-介绍1-介绍a><a id="1. 介绍">1. 介绍</a></h2><p>部分介绍了SDP （Scalable Data Port）架构。
-这个介绍_以下部分中呈现：</p><ul><li><em><a href="#1.1 概述">1.1 概述</a></em> 提供了架构的概述。</li><li><em><a href="#1.2 系统上下文">1.2 系统上下文</a></em> 为架构建立了系统上下文。</li></ul><h3 id=a-id11-概述11-概述a><a id="1.1 概述">1.1 概述</a></h3><p>SDP架构定义了一个逻辑信令interface和协议，设备可以通过该协议交换数据和控制信息，包括各种命令和响应消息。
-SDP还定义了链路级和分离的req/rsp事务级协议。</p><p>端口是该架构定义的信令接口，它允许独立设计的逻辑块（IP块）通过结构化的方式直接或通过通信网络（fabric）进行通信。
-端口的定义包括所需信号的枚举和信令方案在链路级别的管理。</p><p>链路级协议提供了：</p><ol><li>用于特定类型req/rsp消息和数据传输的多个物理通道。</li><li>于时钟速率匹配的简单同步接口，带有链路级握手信号。</li><li>号数量与物理通道带宽需求之间的平衡。</li><li>口req/ack握手允许IP请求将接口激活到活动状态，或快速关闭时钟并节约功率。</li></ol><p>事务级协议提供以下功能和优点：</p><ol><li>分离req/rsp消息提高了fabric带宽的利用率。</li><li>每个事务标识tags支持在设备中为每个originator提供多个挂起的req。</li><li>支持不需要originator生成探测响应的缓存一致内存读写操作。</li><li>支持一致和不一致的读写。</li><li>支持PCIe协议。</li><li>支持图形系统、x86和PCIe排序规则。</li><li>原子内存操作。</li><li>使用独立的基于credit的虚拟通道。</li><li>QOS服务质量提示。</li><li>事务安全特权级别。</li></ol><p>据通过req/rsp消息对进行传输。请求及其后续响应构成事务。</p><p>发起请求的设备称为“发起者”（originator）。
+post-container"><h1 id=a-idsdp-协议翻译sdp-协议翻译a><a id="sdp 协议翻译">sdp 协议翻译</a></h1><blockquote><p><a href=https://icjj.github.io/icer/document/SOC-15_Specification_Scalable_Data_port_SDP_Rev_1.5.0,_Nov_10,_2022_1.pdf>SOC-15_Specification_Scalable_Data_port_(SDP)_Rev_1.5.0,_Nov_10,_2022_1.pdf</a></p></blockquote><h2 id=a-idsdp-协议翻译sdp-协议翻译a-1><a id="sdp 协议翻译">sdp 协议翻译</a></h2><h3 id=a-id第1章-介绍第1章-介绍a><a id="第1章 介绍">第1章 介绍</a></h3><p>部分介绍了SDP （Scalable Data Port）架构。
+这个介绍_以下部分中呈现：</p><ul><li><em><a href="#1.1 概述">1.1 概述</a></em> 提供了架构的概述。</li><li><em><a href="#1.2 系统上下文">1.2 系统上下文</a></em> 为架构建立了系统上下文。</li></ul><h4 id=a-id11-概述11-概述a><a id="1.1 概述">1.1 概述</a></h4><p>SDP架构定义了一个逻辑信令interface和协议，设备可以通过该协议交换数据和控制信息，包括各种命令和响应消息。
+SDP还定义了链路级和分离的请求/响应事务级协议。</p><p>端口是该架构定义的信令接口，它允许独立设计的逻辑块（IP块）通过结构化的方式直接或通过通信网络（fabric）进行通信。
+端口的定义包括所需信号的枚举和信令方案在链路级别的管理。</p><p>链路级协议提供了：</p><ol><li>用于特定类型请求/响应消息和数据传输的多个物理通道。</li><li>于时钟速率匹配的简单同步接口，带有链路级握手信号。</li><li>号数量与物理通道带宽需求之间的平衡。</li><li>口请求/ack握手允许IP请求将接口激活到活动状态，或快速关闭时钟并节约功率。</li></ol><p>事务级协议提供以下功能和优点：</p><ol><li>分离请求/响应消息提高了fabric带宽的利用率。</li><li>每个事务标识tags支持在设备中为每个originator提供多个挂起的请求。</li><li>支持不需要originator生成探测响应的缓存一致内存读写操作。</li><li>支持一致和不一致的读写。</li><li>支持PCIe协议。</li><li>支持图形系统、x86和PCIe排序规则。</li><li>原子内存操作。</li><li>使用独立的基于credit的虚拟通道。</li><li>QOS服务质量提示。</li><li>事务安全特权级别。</li></ol><p>据通过请求/响应消息对进行传输。请求及其后续响应构成事务。</p><p>发起请求的设备称为“发起者”（originator）。
 能够响应请求的设备称为“完成者”（completer）。
-req也称为命令。这些术语在本规范中可以互换使用。</p><p>端口定义了提供标准化附件方法的接口。
+请求也称为命令。这些术语在本规范中可以互换使用。</p><p>端口定义了提供标准化附件方法的接口。
 链路级协议定义了用于设备信息传输的信令模式，以及链路级传输握手协议。
-由于扩展的数据端口专为芯片上应用设计，其中连接的IP块物理上靠近，因此接口相对宽泛，信令与SDP时钟同步。</p><p>当IP未直接点对点连接时，fabric req和rsp消息在代理之间传递。
+由于扩展的数据端口专为芯片上应用设计，其中连接的IP块物理上靠近，因此接口相对宽泛，信令与SDP时钟同步。</p><p>当IP未直接点对点连接时，fabric 请求和响应消息在代理之间传递。
 这样可以让IP块较少受到SOC时钟敏感性的影响，也不会受到SOC中的放置影响。
 此外，IP块也可以与SoC专用时钟隔离，并解决测试确定性问题。
-IP和SoC地面计划的物理实现选择将影响受此隔离影响的fabric的功率、面积和性能。</p><p>事务协议定义了可以由originator或通过fabric发出的req，以及由fabric或completer发出的rsp。
-所有类型的req都会返回给originator或fabric。rsp通过fabric发送给originator，fabric作为completer的代理。
+IP和SoC地面计划的物理实现选择将影响受此隔离影响的fabric的功率、面积和性能。</p><p>事务协议定义了可以由originator或通过fabric发出的请求，以及由fabric或completer发出的响应。
+所有类型的请求都会返回给originator或fabric。响应通过fabric发送给originator，fabric作为completer的代理。
 fabric内的消息流负责为所有缓存提供一致性控制。这允许包含缓存的IP块参与系统缓存一致性协议。</p><p>非一致协议是一致协议的子集，用于提高验证的便捷性。</p><p>SDP支持独立IP块设计和验证。链路级和事务级协议使得IP块能够将许多细节隔离，以处理一致和非一致数据的传输。
 该架构为IP块之间的事务传输提供了清晰的分离。端口接口被清晰定义和标准化。
 这允许端口接口逻辑由IP块自由使用。</p><h4 id=a-id12-系统上下文12-系统上下文a><a id="1.2 系统上下文">1.2 系统上下文</a></h4><p><a id="图 1.1">图 1.1</br><img src=https://icjj.github.io/icer/img/post/sdp/1.1.png alt></a></p><p>SDP架构（可扩展数据端口架构），它旨在提供一个丰富的功能集，以支持完全缓存一致性系统的实现，并通过接口将多个设备连接到共享系统内存。</p><p>为了更好地说明SDP的全部功能，该系统被描述为一个包含发起设备和响应设备的缓存一致性系统。
 <em><a href="#图 1.1">图 1.1</a></em> 中的“可扩展数据端口系统上下文”显示了各种交换信息的设备类型，
-以及它们使用该架构所定义的协议进行通信的方式。</p><p><em><a href="#图 1.1">图 1.1</a></em> 中展示的系统包含四种能够发起事务req的设备（CPU Complex、GPU Complex、多媒体Complex
-和PCI Host Bridge），以及三个可以成为req目标的设备（PCI Host Bridge和两个系统内存区域）。
-图中展示的PCI Host Bridge不仅可以发起请求，还能响应事务req。内存设备通过单一端口连接到fabric（结构），
+以及它们使用该架构所定义的协议进行通信的方式。</p><p><em><a href="#图 1.1">图 1.1</a></em> 中展示的系统包含四种能够发起Transaction Request的设备（CPU Complex、GPU Complex、多媒体Complex
+和PCI Host Bridge），以及三个可以成为请求目标的设备（PCI Host Bridge和两个系统内存区域）。
+图中展示的PCI Host Bridge不仅可以发起请求，还能响应Transaction Request。内存设备通过单一端口连接到fabric（结构），
 而第二个带地址切片的系统内存模块被包含在图中，表示内存可以通过多个端口连接到fabric，以提供更高的数据传输带宽。</p><p>该系统将发起事务的设备称为<strong>发起设备</strong>（Originator Devices），这些设备通过发起端口连接到fabric。
 发起设备可以进一步细分为<strong>一致性发起设备</strong>（Coherent Originator）和<strong>非一致性发起设备</strong>（Non-Coherent Originator）。
 一致性发起设备发布可被缓存一致性机制识别的缓存感知命令（如RdBlk或VIcBlkFull），
 而非一致性发起设备虽然可以发出请求，但不参与缓存一致性协议。</p><p>专门响应请求的设备被称为<strong>完成设备</strong>（Completer Devices），这些设备通过完成端口连接到fabric。
 系统内存模块和PCI Host Bridge的完成通道在图中以完成设备的形式出现。</p><p>架构并未明确规定fabric本身的拓扑结构，但基于假设，每个端口能够适当地满足请求，系统内存读取请求可以通过缓存中的数据副本来响应，
-而不是直接从系统内存中获取数据。</p><p>整个系统中的不同设备在连接fabric时具有不同的角色和需求，因此SDP端口被定义为可选功能，以便适应这些需求。
-如果设备需要某个功能，它将必须实施相关信号。</p><hr><ul class=pager><li class=previous><a href=/icer/post/spi-%E5%8D%8F%E8%AE%AE%E4%BB%8B%E7%BB%8D/ data-toggle=tooltip data-placement=top title="SPI 介绍">&larr;
+而不是直接从系统内存中获取数据。</p><p>连接到fabric的不同设备在系统中具有不同的角色，需要通过端口在fabric与设备之间传输不同类型的信息。
+为了满足这一需求，SDP端口被定义为具有可选特性。特性提供特定的功能或能力。
+当设备需要某个功能时，它必须实现为该特性定义的所有信号。例如，一些Originator不实现虚拟通道，
+这些Originator不需要实现构成该特性的任何Field（如请求VC）。</p><p>SDP定义的所有特性都在 <em><a href=#TODO>TODO</a></em> 中进行了描述。</p><p>在 <em><a href="#图 1.1">图 1.1</a></em> 中，PCI主机桥的独特之处在于它既可以发起请求，又可以响应请求。
+这样的设备通过一对端口连接到fabric，即一个Originator端口和一个Completer端口。</p><p>Originator通过发出读取或写入系统内存中目标位置的请求来启动一个事务。该请求通过Originator端口提交给fabric。
+然后，fabric负责满足该请求，方法是访问内部缓存中的数据副本、在一致性域的某个缓存中找到请求的数据，
+或读取或写入系统内存。作为该过程的一部分，fabric可能修改请求并生成自己的请求，以探测一致性域内的其他缓存。
+fabric合并探测响应，并回复给Originator以完成事务。</p><p>该协议支持虚拟通道（VC），并允许Originator施加特定的VC内和VC间的顺序约束。</p><p>一个Originator可能包含多个功能单元。该协议通过为Originator内的每个请求者分配唯一的UnitID，支持每个功能单元的多个未完成请求。</p><p>允许事务乱序完成。事务tag使Originator能够将请求与后续的响应配对。读取和写入请求都需要响应。</p><p>每个设备都连接到fabric中的一个代理。
+在 <em><a href="#图 1.1">图 1.1</a></em> 中，CM表示为一致性客户端（那些包含硬件一致性缓存的设备）代理的代理，
+nCM表示为非一致性客户端（那些不包含缓存或仅包含软件一致性缓存的设备）代理的代理，CS表示为需要保持硬件一致性的内存代理，
+而nCS代理不需要一致性的内存请求。nCM+nCS的一个特殊用途是作为一个组合的I/O代理，如 <em><a href="#图 1.1">图 1.1</a></em> 所示。
+fabric合并来自一致性域中系统缓存的探测响应，并通过一致性Originator端口向连接的Originator呈现单一结果。</p><p>本规范未定义请求和响应消息在fabric上各端口之间路由的机制。
+为在设备之间可靠且安全地传递这些消息而需要的任何请求和响应消息的翻译、编码和封装，都由fabric的更低层处理，并在其他文档中进行了说明。</p><p>SDP架构识别并支持为缓存一致性内存访问指定一致性域。
+每个Transaction Request都包括必须探测的缓存域的规范，作为缓存一致性内存读取或写入请求的副作用。并非所有域都适用于每个请求。</p><p>本规范的其余部分按以下主题组织：</p><ul><li><em><a href="#第2章 端口定义">第2章 端口定义</a></em> ：描述端口接口的物理方面。</li><li><em><a href="#第3章 事务层">第3章 事务层</a></em> ：描述事务级别的协议。</li></ul><h3 id=a-id第2章-端口定义第2章-端口定义a><a id="第2章 端口定义">第2章 端口定义</a></h3><p>端口定义指定了通道内每个Field的名称和用途、链路级协议对信号状态变化时序施加的约束，以及在特定Field宽度方面给予实现的自由度。</p><p>以下章节描述了SDP物理接口：</p><ul><li><em><a href="#2.1 端口特性">2.1 端口特性</a></em> ：定义了端口定义的一些可选特性。</li><li><em><a href="#2.2 接口信号">2.2 接口信号</a></em> ：定义了构成SDP物理接口的Field。</li><li><em><a href="#2.3 端口参数化">2.3 端口参数化</a></em> ：定义了具有可变宽度的Field之间的依赖关系。</li><li><em><a href="#2.4 信号需求">2.4 信号需求</a></em> ：描述了对信号以及这些信号状态转换时序的约束。</li><li><em><a href="#2.5 端口控制">2.5 端口控制</a></em> ：描述了用于激活和断开接口的信令协议。</li></ul><p>SDP由八个物理通道组成，每个通道可以有多个实例。每个通道实例在特定方向上传输特定类型的信息。
+例如，请求通道从Originator通过接口向系统传递Transaction Request。</p><p>Transaction Request、Originator数据，以及读和写响应通道支持最多八个虚拟通道（VC）。
+虚拟通道构建在物理通道之上，提供请求消息传递保证（用于防止死锁）并支持所需的排序规则。
+每个实现了flow control的通道都包含一个专用的credit释放通道，在相反方向上传递flow control信息。
+对于支持多个VC的通道，flow control是按虚拟通道进行的。</p><h4 id=a-id21-端口特性21-端口特性a><a id="2.1 端口特性">2.1 端口特性</a></h4><p>SDP定义了以下特性：</p><p><strong>Asynchronous Port Control Feature（异步端口控制特性）</strong></p><p>当实现时，OrigClkReq、CompClkReq、OrigClkAck和CompClkAck与SdpClk是异步的。
+这仅推荐用于对SDP端口在低时钟频率状态下重新连接延迟敏感的实现。</p><p><strong>Byte Enable Compression Feature（字节使能压缩特性）</strong></p><p>当实现时，Originator写/Probe数据通道实现一个单一的OrigDataBytEn，并改为在OrigData上携带字节使能。
+参见 <em><a href="#3.2.1 字节使能压缩">3.2.1字节使能压缩</a></em> 。</p><p>支持Byte Enable Compression的实现可能不支持Metadata Compression。</p><p><strong>Cache Tag Tracking Feature（缓存Tag跟踪特性）</strong></p><p>当实现时，Originator在请求通道上提供缓存路和分配信息。
+这使Completer能够使用“shadow tags”跟踪缓存的行以限制探测。
+需要实现Probe Support Feature。需要ReqStWayId、ReqStUpdate和ReqStInvalidate。</p><p><strong>Credit Count Feature（credit计数特性）</strong></p><p>当实现时，允许端口一次返回多个credit。
+需要实现
+ReqCreditCnt、AckCreditCnt、RdRspCreditCnt、WrRspCreditCnt、PrbCreditCnt、PrbRspCreditCnt和OrigDataCreditCnt。
+每个通道上credit计数的宽度和可用性是独立的。</p><p><strong>Completer Fatal Error Notification Feature（Completer致命错误通知特性）</strong></p><p>当实现时，允许Completer利用写响应通道（仅当未实现写响应通道时才使用读响应通道）以非请求（且无credit）的方式传递系统致命错误。</p><p><strong>Data Compression Feature（数据压缩特性）</strong></p><p>添加了四个新命令：
+VicBlkFullZero、VicBlkFullComp、WrSizedFullZero、WrSizedFullComp，以及一种压缩数据的方法。</p><p><strong>Data Source Feature（数据源特性）</strong></p><p>当实现时，Completer利用RdRspSrcData和/或WrRspSrcData来传达数据或响应的来源。
+这两个Field可以独立实现，不要求SDP同时具有RdRspSrcData和WrRspSrcData。</p><p><strong>Enhanced Port Control Feature（增强的端口控制特性）</strong></p><p>需要实现OrigClkCtl和CompClkCtl信号。
+该特性允许代理在完全断开连接后请求重新初始化credit。该特性还允许代理为单边或全边断开连接发送提示。</p><p><strong>Enhanced RAS (V1, V2, V3) Feature（增强的RAS（版本1、2、3）特性）</strong></p><p>增强的RAS分为三个版本，允许在不同Field上独立的奇偶校验。这三个版本可以独立实现，且无先决条件。</p><ul><li><strong>增强的RAS V1特性</strong>：需要实现
+ReqParity、ReqAddrParity、RdRspParity、WrRspParity、AckParity、PrbParity、PrbRspParity和OrigDataMetaParityField。</li><li><strong>增强的RAS V2特性</strong>：需要实现
+RdRspDataStatusParityField。</li><li><strong>增强的RAS V3特性</strong>：需要实现
+ReqCreditParity、RdRspCreditParity、WrRspCreditParity和OrigDataCreditParityField。</li></ul><p><strong>External Last Layer Cache Support（外部最后一层缓存支持）</strong></p><p>需要：ReqCacheHint（以前称为ReqNoAlloc）。</p><p><strong>Floating Point Atomic Feature（浮点原子操作特性）</strong></p><p>增强了Atomic*命令，包含了用于浮点原子操作的额外ReqAttr编码。</p><p><strong>Heads-up Feature（预通知特性）</strong></p><p>需要实现RdRspDataVld。没有该特性，N<sub>lag</sub>必须为零。</p><p><strong>I/O Stream Feature（I/O流特性）</strong></p><p>需要：ReqStreamID。还必须实现ReqBlockLevel = 01b（Stream）。</p><p><strong>I/O Space Feature（I/O空间特性）</strong></p><p>需要：ReqIOField。</p><p><strong>Low-Power Signaling Feature（低功耗信令特性）</strong></p><p>需要实现*ClkEn_m1，用于使能时钟。在某些实现中，时钟使能可能通过OR逻辑组合在一起。</p><p><strong>Metadata Compression Feature（元数据压缩特性）</strong></p><p>需要实现ReqCompMode、ReqSpecDataFetch、RdRspDataCompMeta以及某些请求的额外属性编码。
+对于压缩写入，OrigDataBytEn的使用也会发生变化。
+参见 <em><a href="#3.2.2 元数据压缩">3.2.2 元数据压缩</a></em> 。</p><p>支持Metadata Compression的实现可能不支持Byte Enable Compression。</p><p><strong>Multiple Request Address Feature（多请求地址特性）</strong></p><p>添加了ReqSubAddrField，指定了一些（但不是全部）地址位，
+以便Originator可以将两个不同的地址组合成一个请求。</p><p><strong>Multiple Cache Line Feature（多缓存行特性）</strong></p><p>当实现时，Originator可以为多个缓存行（或单个缓存行）发出缓存读取命令，如ReqLen中指定。
+实现可能会限制地址对齐和请求的缓存行数量。此特性不适用于缓存更新和缓存驱逐命令。</p><p>当未实现此特性时，所有缓存读取命令必须针对单个缓存行发出。</p><p><strong>Ordered Cacheable Command（有序可缓存命令）</strong></p><p>当实现时，Originator将所有块读取命令限制为仅RdBlkS，
+并要求Completer对该可缓存命令和先前的WrSized*命令实现读后写排序。</p><p><strong>Physical Channel Multiplexing Feature（物理通道复用特性）</strong></p><p>需要实现ReqChanAB、ReqCreditChanAB、OrigDataChanAB和OrigDataCreditChanAB信号。</p><p><strong>Posted Write Ordering Feature（已发布写入排序特性）</strong></p><p>需要实现ReqPassPW、ReqRspPassPW、RdRspPassPW、WrRspPassPW。</p><p><strong>Probe Chain Feature（探测链特性）</strong></p><p>需要实现rbChainField和Probe Support Feature的实现。</p><p><strong>Probe Compression Feature（探测压缩特性）</strong></p><p>需要实现rbCompType和PrbCompIndex，以及Probe Support Feature的实现。</p><p><strong>Probe Interrupt Delivery Feature（探测中断传递特性）</strong></p><p>该特性有两个版本。版本1添加了探测地址，可用于将向量中断传递给处理器线程。
+版本2移除了第一组探测地址，添加了新地址，可用于将任何类型的向量和非向量中断传递给处理器线程。
+版本2还增强了中断区域，允许处理器传递LVT，并添加了一个服务中区域，允许处理器确认先前传递的中断向量。
+需要实现Probe Support Feature。</p><p><strong>Probe Support Feature（探测支持特性）</strong></p><p>需要实现探测请求和探测响应通道。
+需要在Originator（写入/探测）数据通道上实现OrigDataChan和OrigDataPrbCreditRel。</p><p><strong>Read Response Feature（读响应特性）</strong></p><p>用于发出在读响应通道中响应的命令的Originator。需要实现读响应通道。仅当“只写”端口时才省略此特性。</p><p><strong>Response Acknowledge Feature（响应确认特性）</strong></p><p>需要实现响应确认通道的所有Field和ReqAckField。</p><p><strong>Secure Transaction Feature（安全事务特性）</strong></p><p>需要实现ReqSecLevel。</p><p><strong>Trusted Memory Feature（可信内存特性）</strong></p><p>需要实现ReqTMZ以及安全事务特性。</p><p><strong>Variable Heads-up Feature（可变预通知特性）</strong></p><p>需要RdRspDelayField。需要预通知特性作为先决条件。</p><p><strong>Virtual Address Feature（虚拟地址特性）</strong></p><p>需要实现ReqVirtAddr、ReqVfidValid、ReqVfid。</p><p><strong>Virtual Channel Support Feature（虚拟通道支持特性）</strong></p><p>需要实现
+ReqVC、ReqCreditVC、ReqCreditType、RdRspVC、RdRspCreditType、RdRspCreditVC、
+WrRspVC、WrRspCreditVC、WrRspCreditType、OrigDataVC、OrigDataCreditType、OrigDataCreditVC。</p><p><strong>Write Response Feature（写响应特性）</strong></p><p>用于发出在写响应通道中响应的命令的Originator。需要实现写响应通道。仅当“只读”端口时才省略此特性。</p><h4 id=a-id22-接口信号22-接口信号a><a id="2.2 接口信号">2.2 接口信号</a></h4><p><a id="图 2.1">图 2.1</br><img src=https://icjj.github.io/icer/img/post/sdp/2.1.png alt></a></p><p>本节描述了构成SDP接口的信号。</p><p><strong>信号组</strong></p><p>SDP接口被组织为以下组：</p><ul><li>Port Control信号</li><li>Command / Request通道</li><li>Data通道</li></ul><p>在 <em><a href="#图 2.1">图 2.1</a></em> 中，标有“Originator”的模块代表发出命令（请求）的代理，
+“Completer”代表满足这些请求的代理。在典型的应用中，Originator并不直接连接到Completer，而是通过fabric间接连接。
+在Originator端口，fabric作为Completer的代理；在Completer端口，fabric作为Originator的代理。</p><p>如 <em><a href="#图 2.1">图 2.1</a></em> 所示，物理通道可以组织为三组：
+端口控制信号、命令/响应通道和数据通道。
+共享名称并编码特定信息的一组信号称为Field。Field的大小属性表示构成该Field的信号数量。
+Field内的信号根据二进制重要性编号。一个n位的Field由n-1到0的信号组成。</p><p><em><a href="#图 2.1">图 2.1</a></em> 为每个模块显示了一个独立的时钟。
+这些时钟信号由SOC逻辑提供。如果这些时钟在频率上不匹配且没有静态相位关系，则必须提供重新同步逻辑。同步逻辑已被考虑，但未具体规定。</p><p>注意，读响应和读响应数据通道共享相同的链路级握手信号，并在 <em><a href="#Read Response Channel">Read Response Channel</a></em> 中一起描述。</p><p><strong>端口控制</strong></p><p>每个端口包括两对端口控制信号。
+这些信号允许连接的设备请求将端口提升到活动状态，或置于静止状态，以便设备过渡到时钟停止或电源门控状态。
+端口控制状态转换也可以由端口发起。这些信号在 <em><a href="#2.2.4 Read Response Channel">2.2.4 端口控制信号</a></em> 中进行了描述。</p><p><strong>命令/响应通道</strong></p><p>命令和响应通道包含用于请求或确认数据和/或控制信息传输的Field。这些通道包括：</p><ul><li><em><a href="#Originator Request Channel">Originator Request Channel</a></em></li><li><em><a href="#Read Response Channel">Read Response Channel</a></em></li><li><em><a href="#Write Response Channel">Write Response Channel</a></em></li><li><em><a href="#Response Acknowledge Channel">Response Acknowledge Channel</a></em></li><li><em><a href="#Probe Request Channel">Probe Request Channel</a></em></li><li><em><a href="#Probe Response Channel">Probe Response Channel</a></em></li></ul><p><a id="Data Channels">Data Channels</a></p><p>数据通道用于在系统中从Originator到Completer或从Completer到Originator传输数据。这些通道包括：</p><ul><li><em><a href="#Originator (Write/Probe) Data Channel">Originator (Write/Probe) Data Channel</a></em></li><li><em><a href="#Read Response Channel">Read Response Channel</a></em></li></ul><h3 id=a-id第3章-事务层第3章-事务层a><a id="第3章 事务层">第3章 事务层</a></h3><hr><ul class=pager><li class=previous><a href=/icer/post/spi-%E5%8D%8F%E8%AE%AE%E4%BB%8B%E7%BB%8D/ data-toggle=tooltip data-placement=top title="SPI 介绍">&larr;
 Previous Post</a></li><li class=next><a href=/icer/post/pcie6.2-%E5%8D%8F%E8%AE%AE%E7%BF%BB%E8%AF%91/ data-toggle=tooltip data-placement=top title=PCIE6.2-协议翻译>Next
 Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=ICJJ/icer data-repo-id=R_kgDOMWEQRg data-category=General data-category-id=DIC_kwDOMWEQRs4CgyrH data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=en crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
 visible-lg-block
