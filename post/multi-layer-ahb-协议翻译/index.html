@@ -1,0 +1,80 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="ICJJ Blog"><meta property="og:type" content="article"><meta property="og:image" content="img/site/小米汽车/原型车壁纸/2880x1280/2880x1280-05.png"><meta property="twitter:image" content="img/site/小米汽车/原型车壁纸/2880x1280/2880x1280-05.png"><meta name=title content="Multi-layer-AHB-协议翻译"><meta property="og:title" content="Multi-layer-AHB-协议翻译"><meta property="twitter:title" content="Multi-layer-AHB-协议翻译"><meta name=description content="AHB多层互联的协议翻译"><meta property="og:description" content="AHB多层互联的协议翻译"><meta property="twitter:description" content="AHB多层互联的协议翻译"><meta property="twitter:card" content="summary"><meta name=keyword content="程建军, chengjianjun, ChengJianjun, , 程建军的网络日志, 程建军的博客, ChengJianjun Blog, 博客, 个人网站, AMBA, FPGA, SPINALHDL, PCIE"><link rel="shortcut icon" href=/icer/img/site/favicon.ico><title>Multi-layer-AHB-协议翻译 | 程建军的博客 | ChengJianjun Blog</title>
+<link rel=canonical href=/icer/post/multi-layer-ahb-%E5%8D%8F%E8%AE%AE%E7%BF%BB%E8%AF%91/><link rel=stylesheet href=/icer/css/bootstrap.min.css><link rel=stylesheet href=/icer/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/icer/css/zanshang.css><link rel=stylesheet href=/icer/css/font-awesome.all.min.css><script src=/icer/js/jquery.min.js></script><script src=/icer/js/bootstrap.min.js></script><script src=/icer/js/hux-blog.min.js></script><script src=/icer/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-FWR2FVFK68"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-FWR2FVFK68")}</script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/icer>ICJJ Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/icer>Posts</a></li><li><a href=/icer/categories/bus/>bus</a></li><li><a href=/icer/categories/tech/>tech</a></li><li><a href=/icer/categories/tips/>tips</a></li><li><a href=/icer/archive/>ARCHIVE</a></li><li><a href=/icer/about/>ABOUT</a></li><li><a href=/icer/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/icer/img/site/%e5%b0%8f%e7%b1%b3%e6%b1%bd%e8%bd%a6/%e5%8e%9f%e5%9e%8b%e8%bd%a6%e5%a3%81%e7%ba%b8/2880x1280/2880x1280-05.png)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/amba title=AMBA>AMBA
+</a><a class=tag href=/tags/multi-layer-ahb title=Multi-layer-AHB>Multi-layer-AHB
+</a><a class=tag href=/tags/%E5%8D%8F%E8%AE%AE%E7%BF%BB%E8%AF%91 title=协议翻译>协议翻译</a></div><h1>Multi-layer-AHB-协议翻译</h1><h2 class=subheading></h2><span class=meta>Posted by
+程建军
+on
+Tuesday, April 23, 2024</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=a-idahb-的多层互联ahb-的多层互联a><a id="ahb 的多层互联">AHB 的多层互联</a></h1><blockquote><p><a href=https://icjj.github.io/icer/document/DVI0045.pdf>Multi-layer AHB Technical Overview (ARM DVI 0045)</a></p></blockquote><h2 id=a-idv20-的ahb多层互联v20-的ahb多层互联a><a id="v2.0 的ahb多层互联">v2.0 的AHB多层互联</a></h2><p>发布信息</p><p><a id="表0 变化历史">表0 变化历史</a></p><table><thead><tr><th>时间</th><th>版本</th><th>保密性</th><th>变化</th></tr></thead><tbody><tr><td>2001.03.16</td><td>A</td><td>非保密</td><td>第一次发布</td></tr><tr><td>2004.05.10</td><td>B</td><td>非保密</td><td>第二次发布</td></tr></tbody></table><h3 id=a-id第1章-ahb多层互联技术第1章-ahb多层互联技术a><a id="第1章 ahb多层互联技术">第1章 AHB多层互联技术</a></h3><p>此文档在以下章节中描述了多层AHB的功能:</p><ul><li><em><a href="#1.1 介绍">1.1 介绍</a></em></li><li><em><a href="#1.2 实现">1.2 实现</a></em></li><li><em><a href="#1.3 高级选项">1.3 高级选项</a></em></li><li><em><a href="#1.4 实例实现">1.4 实例实现</a></em></li></ul><h4 id=a-id11-介绍11-介绍a><a id="1.1 介绍">1.1 介绍</a></h4><p>多层AHB是一种基于AHB协议的互连方案，能够在系统中实现多个主机和从机之间的并行访问路径。
+这是通过使用更复杂的互连矩阵实现的。主要优点有：</p><ul><li>可以开发具有更大可用总线带宽的多主机系统。</li><li>可以构建具有灵活架构的复杂多主机系统。
+这消除了在硬件设计阶段关于系统资源分配给特定主机的设计决策的需求。</li><li>可以使用标准的AHB主机和从机模块，无需修改。</li><li>每个AHB层可以非常简单，因为它只有一个主设备，所以不需要仲裁或主机到从机的多路复用。
+这些层可以使用AHB-Lite协议，这意味着它们不必支持请求和批准，或重试和拆分事务。</li><li>仅在当多个主机想要同时访问同一个从机时，仲裁有效地变成了在每个外设上的点仲裁。</li><li>需要添加到标准AHB传输基础结构的唯一硬件是多路复用块，以连接多个主机到外设。</li><li>由于多层架构是基于现有的AHB协议，因此可以在不进行修改的情况下重用之前设计的主机和从机。</li></ul><p><em><a href="#图 1-1">图 1-1</a></em> 显示了基本多层概念的框图：</p><p><a id="图 1-1">图 1-1
+<img src=https://icjj.github.io/icer/img/post/mult_layer_ahb_v2_0/Figure_1-1_Basic_multi-layer_concept.png alt></a></p><h4 id=a-id12-实现12-实现a><a id="1.2 实现">1.2 实现</a></h4><p>在多层系统的最简单实现中，每个主机都有自己的AHB层，
+并通过互连矩阵与从机连接，如 <em><a href="#图 1-2">图 1-2</a></em> 所示。</p><p><a id="图 1-2">图 1-2
+<img src=https://icjj.github.io/icer/img/post/mult_layer_ahb_v2_0/Figure_1-2_Multi-layer_interconnect_topology.png alt></a></p><p>在互连矩阵中：</p><ol><li>每个层都有一个Decode Stage，以确定在传输中需要哪个从机。</li><li>一个多路选择器将传输数据从适当的层路由到所需的从机。</li></ol><p>如果两个层同时需要访问同一个从机，互连矩阵中的仲裁必须确定哪个层具有最高优先级。
+未获得访问权限的层使用<strong>HREADY</strong>信号为传输插入等待，直到获得对所需从机的访问权限。<br>当一个层被等待时，Input Stage将存储流水线地址和控制信息的副本，直到获得对共享从机的访问。</p><p>每个从机端口都有自己的仲裁，可以使用多种不同的方案。</p><p>例如：</p><ul><li>输入层可以以轮询方式服务，每次传输或每次突发都改变；</li><li>仲裁可以使用固定优先级方案，某些高优先级层始终优先于低优先级层获得访问。</li></ul><p>互连矩阵上的输入/输出端口数量完全灵活，可以根据系统要求进行调整。</p><h4 id=a-id13-高级选项13-高级选项a><a id="1.3 高级选项">1.3 高级选项</a></h4><p>本节将描述：</p><ul><li><em><a href="#1.3.1 总线配置">1.3.1 总线配置</a></em></li><li><em><a href="#1.3.2 多端口从机">1.3.2 多端口从机</a></em></li></ul><h5 id=a-id131-总线配置131-总线配置a><a id="1.3.1 总线配置">1.3.1 总线配置</a></h5><p>随着系统中主机和从机数量的增加，互连矩阵的复杂性可能变得显著。可以使用以下技术来优化系统架构：</p><ul><li><em><a href="#1.3.1.1 局部从机">1.3.1.1 局部从机</a></em></li><li><em><a href="#1.3.1.2 多从机组合">1.3.1.2 多从机组合</a></em></li><li><em><a href="#1.3.1.3 多主机同层">1.3.1.3 多主机同层</a></em></li><li><em><a href="#1.3.1.4 每层为一个完整的ahb子系统">1.3.1.4 每层为一个完整的AHB子系统</a></em></li></ul><h6 id=a-id1311-局部从机1311-局部从机a><a id="1.3.1.1 局部从机">1.3.1.1 局部从机</a></h6><p><em><a href="#图 1-3">图 1-3</a></em> 显示了如何将从机设为某一特定层的局部或私有。
+这减少了互连矩阵的复杂性。
+当可以接受从机只能被同层的主机访问时，可以使用此方法。</p><p><a id="图 1-3">图 1-3
+<img src=https://icjj.github.io/icer/img/post/mult_layer_ahb_v2_0/Figure_1-3_Local_slaves.png alt></a></p><h6 id=a-id1312-多从机组合1312-多从机组合a><a id="1.3.1.2 多从机组合">1.3.1.2 多从机组合</a></h6><p><em><a href="#图 1-4">图 1-4</a></em> 展示了如何使多个从机在互连矩阵中显示为一个从机。
+这对于将多个低带宽从机组合在一起非常有用。还可以在一组通常仅由一个主设备访问的从机情况下使用它，
+例如 DMA 控制器，并且互连矩阵仅在特别情况下，例如调试系统时，才用于提供其他主设备的访问权限。</p><p><a id="图 1-4">图 1-4
+<img src=https://icjj.github.io/icer/img/post/mult_layer_ahb_v2_0/Figure_1-4_Multiple_slaves_on_one_slave_port.png alt></a></p><h6 id=a-id1313-多主机同层1313-多主机同层a><a id="1.3.1.3 多主机同层">1.3.1.3 多主机同层</a></h6><p>在多层系统的最简单实现中，每个主机都有自己的层。
+<em><a href="#图 1-5">图 1-5</a></em> 显示了如何构建一种多主机共享一个层的系统。
+这非常适合结合那些带宽需求低的主机或具有特定特性的主机，例如测试接口控制器（TIC）。</p><p><a id="图 1-5">图 1-5
+<img src=https://icjj.github.io/icer/img/post/mult_layer_ahb_v2_0/Figure_1-5_Multiple_masters_on_one_layer.png alt></a></p><h6 id=a-id1314-每层为一个完整的ahb子系统1314-每层为一个完整的ahb子系统a><a id="1.3.1.4 每层为一个完整的ahb子系统">1.3.1.4 每层为一个完整的AHB子系统</a></h6><p>每个层可以是一个完整的AHB子系统，互连矩阵用于使两个子系统之间进行通信。
+<em><a href="#图 1-6">图 1-6</a></em> 中的示例只显示了一个共享的从机。
+通常这是一个片上存储器从机，用作两个子系统之间的缓冲区。</p><p><a id="图 1-6">图 1-6
+<img src=https://icjj.github.io/icer/img/post/mult_layer_ahb_v2_0/Figure_1-6_Separate_AHB_subsystems.png alt></a></p><h5 id=a-id132-多端口从机132-多端口从机a><a id="1.3.2 多端口从机">1.3.2 多端口从机</a></h5><p>在多层AHB系统中，某些从机，如SD-RAM控制器，通过并行处理来自不同层的传输能够更高效地操作。
+<em><a href="#图 1-7">图 1-7</a></em> 展示了如何通过设计具有多个AHB从机端口的从机来实现这一点。</p><p><a id="图 1-7">图 1-7
+<img src=https://icjj.github.io/icer/img/post/mult_layer_ahb_v2_0/Figure_1-7_Multi-port_slaves.png alt></a></p><h4 id=a-id14-实例实现14-实例实现a><a id="1.4 实例实现">1.4 实例实现</a></h4><p>在 <em><a href="#1.3 高级选项">1.3 高级选项</a></em> 中描述的技术可以组合成一个单一的系统。
+<em><a href="#图 1-8">图 1-8</a></em> 中的示例显示：</p><ul><li>CPU1有一个专用的AHB层，层1。</li><li>CPU2和DMA引擎共享AHB层2。</li><li>连接到层1的专用SRAM块，只能从CPU1访问。</li><li>LCD控制器仅连接到层2，因为这是DMA引擎操作的层。</li><li>互连矩阵有两个从端口，每个从端口可从任一层访问。
+这些从端口上的其中一个设备可以是AHB到APB的桥，允许连接许多低带宽外设。</li><li>外部SD-RAM接口有自己连接到两个层的双端口连接。</li></ul><p><a id="图 1-8">图 1-8
+<img src=https://icjj.github.io/icer/img/post/mult_layer_ahb_v2_0/Figure_1-8_Example_multi-layer_AHB_system.png alt></a></p><hr><ul class=pager><li class=previous><a href=/icer/post/nxp-i2c-%E5%8D%8F%E8%AE%AE%E7%BF%BB%E8%AF%91/ data-toggle=tooltip data-placement=top title="NXP I2C 协议翻译">&larr;
+Previous Post</a></li><li class=next><a href=/icer/post/html%E5%B0%8F%E7%9F%A5%E8%AF%86/ data-toggle=tooltip data-placement=top title="HTML 小知识">Next
+Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=ICJJ/icer data-repo-id=R_kgDOMWEQRg data-category=General data-category-id=DIC_kwDOMWEQRs4CgyrH data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=en crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/icer/tags/ahb title=ahb>ahb
+</a><a href=/icer/tags/amba title=amba>amba
+</a><a href=/icer/tags/amba5 title=amba5>amba5
+</a><a href=/icer/tags/apb title=apb>apb
+</a><a href=/icer/tags/axi title=axi>axi
+</a><a href=/icer/tags/blog title=blog>blog
+</a><a href=/icer/tags/bus title=bus>bus
+</a><a href=/icer/tags/cache title=cache>cache
+</a><a href=/icer/tags/ddr title=ddr>ddr
+</a><a href=/icer/tags/flash title=flash>flash
+</a><a href=/icer/tags/git title=git>git
+</a><a href=/icer/tags/html title=html>html
+</a><a href=/icer/tags/i2c title=i2c>i2c
+</a><a href=/icer/tags/ic%E9%AA%8C%E8%AF%81 title=ic验证>ic验证
+</a><a href=/icer/tags/multi-layer-ahb title=multi-layer-ahb>multi-layer-ahb
+</a><a href=/icer/tags/nxp title=nxp>nxp
+</a><a href=/icer/tags/pcie title=pcie>pcie
+</a><a href=/icer/tags/ram title=ram>ram
+</a><a href=/icer/tags/sdp title=sdp>sdp
+</a><a href=/icer/tags/spi title=spi>spi
+</a><a href=/icer/tags/uart title=uart>uart
+</a><a href=/icer/tags/uvm title=uvm>uvm
+</a><a href=/icer/tags/uvm%E5%AE%9E%E6%88%98 title=uvm实战>uvm实战
+</a><a href=/icer/tags/%E4%B8%B2%E5%8F%A3 title=串口>串口
+</a><a href=/icer/tags/%E5%8D%8F%E8%AE%AE%E7%BF%BB%E8%AF%91 title=协议翻译>协议翻译
+</a><a href=/icer/tags/%E5%A4%A7%E5%B0%8F%E7%AB%AF title=大小端>大小端
+</a><a href=/icer/tags/%E5%AD%97%E8%8A%82%E5%BA%8F title=字节序>字节序
+</a><a href=/icer/tags/%E7%9F%A5%E8%AF%86%E6%8F%90%E7%BA%B2 title=知识提纲>知识提纲
+</a><a href=/icer/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0 title=读书笔记>读书笔记</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://zhaozhihan.com>Linda的博客</a></li></ul></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:chengjj9527@gmail.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/icjj><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/ICJJ><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-gitlab fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://stackoverflow.com/users/26381389><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="ICJJ Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; ICJJ Blog 2024<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/icer/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script><script src=https://cdn.jsdelivr.net/gh/jmnote/plantuml-encoder@1.2.4/dist/plantuml-encoder.min.js integrity="sha256-Qsk2KRBCN5qVZX7B+8+2IvQl1Aqc723qV1tBCQaVoqo=" crossorigin=anonymous></script><script>(function(){let e="language-plantuml";Array.prototype.forEach.call(document.querySelectorAll("[class^="+e+"]"),function(e){let t=document.createElement("IMG");t.loading="lazy",t.src="http://www.plantuml.com/plantuml/svg/~1"+plantumlEncoder.encode(e.innerText),e.parentNode.parentNode.insertBefore(t,e.parentNode),e.parentNode.style.display="none"})})()</script></body></html>

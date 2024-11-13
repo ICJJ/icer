@@ -1,0 +1,660 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="ICJJ Blog"><meta property="og:type" content="article"><meta property="og:image" content="img/site/小米汽车/原型车壁纸/2880x1280/2880x1280-08.png"><meta property="twitter:image" content="img/site/小米汽车/原型车壁纸/2880x1280/2880x1280-08.png"><meta name=title content="UVM实战读书笔记"><meta property="og:title" content="UVM实战读书笔记"><meta property="twitter:title" content="UVM实战读书笔记"><meta name=description content="程建军，数字IC设计验证工程师, 开源爱好者，生活探险家 | 这里是 程建军 的博客，与你一起发现更大的世界。"><meta property="og:description" content="程建军，数字IC设计验证工程师, 开源爱好者，生活探险家 | 这里是 程建军 的博客，与你一起发现更大的世界。"><meta property="twitter:description" content="程建军，数字IC设计验证工程师, 开源爱好者，生活探险家 | 这里是 程建军 的博客，与你一起发现更大的世界。"><meta property="twitter:card" content="summary"><meta name=keyword content="程建军, chengjianjun, ChengJianjun, , 程建军的网络日志, 程建军的博客, ChengJianjun Blog, 博客, 个人网站, AMBA, FPGA, SPINALHDL, PCIE"><link rel="shortcut icon" href=/icer/img/site/favicon.ico><title>UVM实战读书笔记 | 程建军的博客 | ChengJianjun Blog</title>
+<link rel=canonical href=/icer/post/uvm%E5%AE%9E%E6%88%98%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/><link rel=stylesheet href=/icer/css/bootstrap.min.css><link rel=stylesheet href=/icer/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/icer/css/zanshang.css><link rel=stylesheet href=/icer/css/font-awesome.all.min.css><script src=/icer/js/jquery.min.js></script><script src=/icer/js/bootstrap.min.js></script><script src=/icer/js/hux-blog.min.js></script><script src=/icer/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-FWR2FVFK68"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-FWR2FVFK68")}</script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/icer>ICJJ Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/icer>Posts</a></li><li><a href=/icer/categories/bus/>bus</a></li><li><a href=/icer/categories/tech/>tech</a></li><li><a href=/icer/categories/tips/>tips</a></li><li><a href=/icer/archive/>ARCHIVE</a></li><li><a href=/icer/about/>ABOUT</a></li><li><a href=/icer/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/icer/img/site/%e5%b0%8f%e7%b1%b3%e6%b1%bd%e8%bd%a6/%e5%8e%9f%e5%9e%8b%e8%bd%a6%e5%a3%81%e7%ba%b8/2880x1280/2880x1280-08.png)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/uvm%E5%AE%9E%E6%88%98 title=UVM实战>UVM实战
+</a><a class=tag href=/tags/uvm title=UVM>UVM
+</a><a class=tag href=/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0 title=读书笔记>读书笔记</a></div><h1>UVM实战读书笔记</h1><h2 class=subheading></h2><span class=meta>Posted by
+程建军
+on
+Tuesday, April 23, 2024</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=a-iduvm实战读书笔记uvm实战读书笔记a><a id=uvm实战读书笔记>uvm实战读书笔记</a></h1><h2 id=a-iduvm实战读书笔记uvm实战读书笔记a-1><a id=uvm实战读书笔记>uvm实战读书笔记</a></h2><p><a href=https://icjj.github.io/icer/document/UVM%E5%AE%9E%E6%88%98%E5%8D%B7%E2%85%A0.pdf>UVM实战</a>
+<a href=https://github.com/ICJJ/uvm_zhangqiang.git>配套代码</a></p><h3 id=a-id第1章-与uvm的第一次接触第1章-与uvm的第一次接触a><a id="第1章 与uvm的第一次接触">第1章 与uvm的第一次接触</a></h3><ul><li>验证主要保证：<ul><li>dut的行为是否与设计规格中一致。</li><li>dut是否实现了设计规格的所有功能。</li><li>dut对异常情况的反应是否满足如设计规格中所述。</li><li>dut是否能够从宜昌状态恢复到正常的工作模式。</li></ul></li></ul><h3 id=a-id第2章-一个简单的uvm验证平台第2章-一个简单的uvm验证平台a><a id="第2章 一个简单的uvm验证平台">第2章 一个简单的uvm验证平台</a></h3><h4 id=a-id21-driver21-drivera><a id="2.1 driver">2.1 driver</a></h4><p>driver承担着事务驱动dut的角色。</p><p>根据类名创建一个类的实例， 这是uvm_component_utils宏所带来的效果， 同时也是factory机制给读者的最初印象。 只有在类
+定义时声明了这个宏， 才能使用这个功能。</p><p>run_phase中所有耗时的语句都要加入objection raise和drop语句才能执行，否则跳过。</p><blockquote><p>Note：</br>raise_objection语句必须在main_phase中第一个消耗仿真时间的语句之前。</p></blockquote><p>set和get的设置见 <em><a href="#3.5.2 set和get的参数">3.5.2 set和get的参数</a></em> 。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>uvm_config_db#(<span style=color:#ff79c6>int</span>)<span style=color:#ff79c6>::</span>set(<span style=color:#ff79c6>null</span>, <span style=color:#f1fa8c>&#34;uvm_test_top&#34;</span>, <span style=color:#f1fa8c>&#34;var&#34;</span>, <span style=color:#bd93f9>100</span>);
+</span></span><span style=display:flex><span>uvm_config_db#(<span style=color:#ff79c6>int</span>)<span style=color:#ff79c6>::</span>get(<span style=color:#ff79c6>this</span>, <span style=color:#f1fa8c>&#34;&#34;</span>, <span style=color:#f1fa8c>&#34;var&#34;</span>,VAR);
+</span></span></code></pre></div><blockquote><p>Note：
+使用双冒号的原因是，set和get函数是静态函数。</p></blockquote><h4 id=a-id22-transaction22-transactiona><a id="2.2 transaction">2.2 transaction</a></h4><p>transaction承担着事务建模的角色。</p><p>所有的transaction都必须派生自uvm_sequence_item。这样才可以使用sequence的一些机制。</p><h4 id=a-id23-env23-enva><a id="2.3 env">2.3 env</a></h4><ul><li>env是test_top下的第一个容器类，实例化了<ul><li>driver（一个完整的环境，这个组件会实例化在agent中）</li><li>monitor（一个完整的环境，这个组件会实例化在agent中）</li><li>reference module</li><li>scoreboard</li></ul></li></ul><p>build phase的建立是自上而下，也就是从test_top根，一直到各个组件的末端。</p><h4 id=a-id24-monitor24-monitora><a id="2.4 monitor">2.4 monitor</a></h4><p>monitor承担着监控dut行为的任务。</p><p>由于monitor一直处于收集数据的状态，所以使用while(1)或forever来实现。</p><h4 id=a-id25-agent25-agenta><a id="2.5 agent">2.5 agent</a></h4><p>agent承担着直接面对dut的角色。</p><p>driver和monitor的行为斗鱼dut端口信号有直接关系，在同一种协议下处理不同的事情。通常将二者封装为agent。</p><p>这里存在着一个active、passive的枚举变量，来决定是否只实例化monitor。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>typedef</span> <span style=color:#ff79c6>enum</span> <span style=color:#ff79c6>bit</span> { UVM_PASSIVE<span style=color:#ff79c6>=</span><span style=color:#bd93f9>0</span>, UVM_ACTIVE<span style=color:#ff79c6>=</span><span style=color:#bd93f9>1</span> } uvm_active_passive_enum;
+</span></span></code></pre></div><h4 id=a-id26-reference-model26-reference-modela><a id="2.6 reference model">2.6 reference model</a></h4><p>reference model用于完成了dut相同的功能。</p><p>reference model的关键是事务的传递，可以使用：</br></p><ul><li><p>在monitor中例化uvm_analysis_port，要传输的事务作为参数，调用write函数。</p></li><li><p>在env中例化一个uvm_tlm_analysis_fifo，要传输的事务作为参数。</p></li><li><p>在reference model中例化analysis_port，要传输的事务作为参数。</p></li><li><p>在env的connect中</p><ul><li>monitor的port和env.fifo中analysis_export连接。</li><li>reference model的port和env.fifo中analysis_get_port连接。</li></ul></li><li><p><strong>scoreboard</strong></br>scoreboard的任务是负责将参考模型的结果和dut的结果做对比。</p></li></ul><h4 id=a-id27-scoreboard27-scoreboarda><a id="2.7 scoreboard">2.7 scoreboard</a></h4><p>scoreboard的数据来源于两个地方</p><ul><li>一个是monitor</li><li>一个是reference model</li><li>同样使用uvm_tlm_analysis_fifo的方式连接。<ul><li>monitor到scoreboard<ul><li>在monitor中例化uvm_analysis_port，要传输的事务作为参数，调用write函数。</li><li>在env中例化一个uvm_tlm_analysis_fifo，要传输的事务作为参数。</li><li>在scoreboard中例化analysis_port，要传输的事务作为参数。</li><li>在env的connect中<ul><li>monitor的port和env.fifo中analysis_export连接。</li><li>scoreboard的port和env.fifo中analysis_get_port连接。</li></ul></li></ul></li><li>reference model到scoreboard<ul><li>在reference model中例化uvm_analysis_port，要传输的事务作为参数，调用write函数。</li><li>在env中例化一个uvm_tlm_analysis_fifo，要传输的事务作为参数。</li><li>在scoreboard中例化analysis_port，要传输的事务作为参数。</li><li>在env的connect中<ul><li>reference model的port和env.fifo中analysis_export连接。</li><li>scoreboard的port和env.fifo中analysis_get_port连接。</li></ul></li></ul></li></ul></li></ul><h4 id=a-id28-field_automation28-field_automationa><a id="2.8 field_automation">2.8 field_automation</a></h4><p>将变量注册到field中，可以使用uvm的一些通用方法。</p><h4 id=a-id29-sequence和sequencer29-sequence和sequencera><a id="2.9 sequence和sequencer">2.9 sequence和sequencer</a></h4><p>这两者将激励产生和激励驱动分割开来。</p><p>在agent中将driver的seq_item_port连接到sequencer的seq_item_export。</p><p>sequence的body中使用宏uvm_do产生事务，包含的行为有事务例化，事务随机，事务。</p><p>一个sequence在向sequencer发送transaction前，要先向sequencer发送一个请求，sequencer把这个请求放在一个仲裁队列中。作
+为sequencer，它需做两件事情：</p><ul><li>第一， 检测仲裁队列里是否有某个sequence发送transaction的请求。</li><li>第二， 检测driver是否申请transaction。</li></ul><p>如何在sequencer上启动sequence，有两种方法：</p><ul><li>配置sequence为sequencer main_phase中的default_sequence。</li><li>使用sequence的start方法，sequencer作为参数。</li></ul><p>driver使用seq_item_port的get_next_item函数获取事务。</p><blockquote><p>Note：</br>不建议使用default的方式进行设置，uvm1.2之后虽然保留了相关函数，但是sequence的starting_phase却是null，需要主动赋值。
+<code>starting_phase=get_starting_phase();</code></p></blockquote><blockquote><p>Note：</br>get_next_item是阻塞方法，try_next_item是飞则色方法，获取不到事务则返回null。</p></blockquote><h4 id=a-id210-testcase210-testcasea><a id="2.10 testcase">2.10 testcase</a></h4><p><strong>test_case</strong></br>test作为验证环境的顶层。</p><p>将env例化到test中，在test中启动sequence。</p><p>通过+UVM_TEST_NAME仿真参数指定case名字。</p><h3 id=a-id第3章-uvm基础第3章-uvm基础a><a id="第3章 uvm基础">第3章 uvm基础</a></h3><h4 id=a-id31-component和object31-component和objecta><a id="3.1 component和object">3.1 component和object</a></h4><p>uvm_component派生自uvm_object，uvm_object是UVM中最基本的类之一。</p><p>uvm_component存在两大特性是uvm_object没有的：</p><ul><li>使用parent参数构建组件结构。</li><li>存在phase的自动执行特点。</li></ul><h5 id=a-id311-派生自uvm_object的类311-派生自uvm_object的类a><a id="3.1.1 派生自uvm_object的类">3.1.1 派生自uvm_object的类</a></h5><ul><li><p>uvm_sequence_item：</br>所有的transaction要从uvm_sequence_item派生。transaction就是封装了一定信息的一个类，
+本书中的my_transaction就是将一个mac帧中的各个字段封装在了一起， 包括目的地址、 源地址、 帧类型、 帧的数据、 FCS校验和等。
+driver从sequencer中得到transaction，并且把其转换成端口上的信号。
+虽然UVM中有一个uvm_transaction类， 但是在UVM中，不能从uvm_transaction派生一个transaction，
+而要从uvm_sequence_item派生。 事实上， uvm_sequence_item是从uvm_transaction派生而来的。
+因此，uvm_sequence_item相比uvm_transaction添加了很多实用的成员变量和函数或任务，
+从uvm_sequence_item直接派生， 就可以使用这些新增加的成员变量和函数/任务。</p></li><li><p>uvm_sequence：</br>所有的sequence要从uvm_sequence派生一个。sequence就是sequence_item的组合。
+sequence直接与sequencer打交道，当driver向sequencer索要数据时， sequencer会检查是否有sequence要发送数据。
+当发现有sequence_item待发送时， 会把此sequence_item交给driver。</p></li><li><p>config： 所有的config一般直接从uvm_object派生。config的主要功能就是规范验证平台的行为方式。
+如规定driver在读取总线时地址信号要持续几个时钟，片选信号从什么时候开始有效等。
+这里要注意config与config_db的区别。 在上一章中已经见识了使用config_db进行参数配置，
+这里的config其实指的是把所有的参数放在一个object中，然后通过config_db的方式设置给所有需要这些参数的component。</p></li><li><p>uvm_reg_item： 它派生自uvm_sequence_item， 用于register model中。</p></li><li><p>uvm_reg_map、 uvm_mem、 uvm_reg_field、 uvm_reg、 uvm_reg_file、 uvm_reg_block
+等与寄存器相关的众多的类都是派生自uvm_object， 它们都是用于register model。</p></li><li><p>uvm_phase： 它派生自uvm_object，其主要作用为控制uvm_component的行为方式，
+使得uvm_component平滑地在各个不同的 phase之间依次运转。</p></li></ul><h5 id=a-id312-派生自uvm_component的类312-派生自uvm_component的类a><a id="3.1.2 派生自uvm_component的类">3.1.2 派生自uvm_component的类</a></h5><ul><li><p>uvm_driver： 所有的driver都要派生自uvm_driver。
+driver的功能主要就是向sequencer索要sequence_item（ transaction） ，
+并且将sequence_item里的信息驱动到DUT的端口上， 这相当于完成了从transaction级别到DUT能够接受的端口级别信息的转换。
+与uvm_component相比， uvm_driver多了如下几个成员变量：</p><ul><li>uvm_seq_item_pull_port #(REQ, RSP) seq_item_port;</li><li>uvm_seq_item_pull_port #(REQ, RSP) seq_item_prod_if; // alias</li><li>uvm_analysis_port #(RSP) rsp_port;</li><li>REQ req;</li><li>RSP rsp;</li></ul></li><li><p>uvm_monitor： 所有的monitor都要派生自uvm_monitor。
+monitor做的事情与driver相反， driver向DUT的pin上发送数据， 而monitor则是从DUT的pin上接收数据，
+并且把接收到的数据转换成transaction级别的sequence_item， 再把转换后的数据发送给scoreboard， 供其比较。
+与uvm_component相比， uvm_monitor几乎没有做任何扩充。 因此，直接从uvm_component直接派生也没关系。</p></li><li><p>uvm_sequencer： 所有的sequencer都要派生自uvm_sequencer。
+sequencer的功能就是组织管理sequence， 当driver要求数据时，它就把sequence生成的sequence_item转发给driver。
+与uvm_component相比， uvm_sequencer做了相当多的扩展。</p></li><li><p>uvm_scoreboard： 一般的scoreboard都要派生自uvm_scoreboard。
+scoreboard的功能就是比较reference model和monitor分别发送来的数据， 根据比较结果判断DUT是否正确工作。
+与uvm_monitor类似， uvm_scoreboard也几乎没有在uvm_component的基础上做扩展：</p></li><li><p>reference model： UVM中并没有针对reference model定义一个类。
+所以通常来说， reference model都是直接派生自uvm_component。
+reference model的作用就是模仿DUT， 完成与DUT相同的功能。
+DUT是用Verilog写成的时序电路， 而reference model则可以直接使用SystemVerilog高级语言的特性，
+同时还可以通过DPI等接口调用其他语言来完成与DUT相同的功能。</p></li><li><p>uvm_agent： 所有的agent要派生自uvm_agent。
+与前面几个比起来， uvm_agent的作用并不是那么明显。 它只是把driver和monitor封装在一起，
+根据参数值来决定是只实例化monitor还是要同时实例化driver和monitor。
+agent的使用主要是从可重用性的角度来考虑的。如果在做验证平台时不考虑可重用性， 那么agent其实是可有可无的。
+与uvm_component相比， uvm_agent的最大改动在于引入了一个变量is_active：</p></li><li><p>uvm_env： 所有的env（ environment的缩写） 要派生自uvm_env。
+env将验证平台上用到的固定不变的component都封装在一起。 这样， 当要运行不同的测试用例时，
+只要在测试用例中实例化此env即可。 uvm_env也并没有在uvm_component的基础上做过多扩展：</p></li><li><p>uvm_test： 所有的测试用例要派生自uvm_test或其派生类， 不同的测试用例之间差异很大。
+所以从uvm_test派生出来的类各不相同。 任何一个派生出的测试用例中， 都要实例化env，
+只有这样， 当测试用例在运行的时候， 才能把数据正常地发给DUT， 并正常地接收DUT的数据。 uvm_test也几乎没有做任何扩展：</p></li></ul><h5 id=a-id313-uvm_object相关的宏313-uvm_object相关的宏a><a id="3.1.3 uvm_object相关的宏">3.1.3 uvm_object相关的宏</a></h5><ul><li>uvm_object_utils： 它用于把一个直接或间接派生自uvm_object的类注册到factory中。</li><li>uvm_object_param_utils： 它用于把一个直接或间接派生自uvm_object的参数化的类注册到factory中。</li><li>uvm_object_utils_begin uvm_object_utils_end</li><li>uvm_object_param_utils_begin uvm_object_param_utils_end</li></ul><h5 id=a-id314-与uvm_component相关的宏314-与uvm_component相关的宏a><a id="3.1.4 与uvm_component相关的宏">3.1.4 与uvm_component相关的宏</a></h5><ul><li>uvm_component_utils： 它用于把一个直接或间接派生自uvm_component的类注册到factory中。</li><li>uvm_component_param_utils： 它用于把一个直接或间接派生自uvm_component的参数化的类注册到factory中。</li><li>uvm_component_utils_begin uvm_component_utils_end</li><li>uvm_component_param_utils_begin uvm_component_param_utils_end</li></ul><h4 id=a-id32-uvm的树形结构32-uvm的树形结构a><a id="3.2 uvm的树形结构">3.2 uvm的树形结构</a></h4><h5 id=a-id321-uvm_component的parent参数321-uvm_component的parent参数a><a id="3.2.1 uvm_component的parent参数">3.2.1 uvm_component的parent参数</a></h5><p>parent参数出现在new的构造函数中，并且指定的是<code>this</code>，说明该组件实例化的parent是实例化位置的组件。</p><p>还存在一个m_children数组，里面存放着所有例化在该组件中的子组件。</p><h5 id=a-id322-uvm树的根322-uvm树的根a><a id="3.2.2 uvm树的根">3.2.2 uvm树的根</a></h5><p>uvm树的叶子是各个实例化的组件，而根是top。uvm_root实例化为top。</p><h5 id=a-id323-层次结构相关的函数323-层次结构相关的函数a><a id="3.2.3 层次结构相关的函数">3.2.3 层次结构相关的函数</a></h5><ul><li><code>get_parent()</code>函数， 用于得到当前实例的parent。</li><li><code>get_child(string name)</code>函数，需要一个string类型的参数name， 表示此child实例在实例化时指定的名字。</li><li><code>get_children(ref uvm_component children[$])</code>函数，获取所有child的函数。</li><li><code>get_first_child(string name)</code>函数，获取第一个child。</li><li><code>get_next_child(string name)</code>函数，获取下一个child。</li><li><code>get_num_children()</code>函数，获取所有child的数量。</li></ul><h4 id=a-id33-field-automation机制33-field-automation机制a><a id="3.3 field automation机制">3.3 field automation机制</a></h4><p>相关的宏：</p><ul><li>非数组</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>uvm_field_int(ARG,FLAG);
+</span></span><span style=display:flex><span>uvm_field_real(ARG,FLAG);
+</span></span><span style=display:flex><span>uvm_field_enum(T,ARG,FLAG);
+</span></span><span style=display:flex><span>uvm_field_object(ARG,FLAG);
+</span></span><span style=display:flex><span>uvm_field_event(ARG,FLAG);
+</span></span><span style=display:flex><span>uvm_field_string(ARG,FLAG);
+</span></span></code></pre></div><ul><li>动态数组</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>uvm_field_array_enum(ARG,FLAG);
+</span></span><span style=display:flex><span>uvm_field_array_int(ARG,FLAG);
+</span></span><span style=display:flex><span>uvm_field_array_object(ARG,FLAG);
+</span></span><span style=display:flex><span>uvm_field_array_string(ARG,FLAG);
+</span></span></code></pre></div><ul><li>静态数组</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>uvm_field_sarray_int(ARG,FLAG);
+</span></span><span style=display:flex><span>uvm_field_sarray_enum(ARG,FLAG);
+</span></span><span style=display:flex><span>uvm_field_sarray_object(ARG,FLAG);
+</span></span><span style=display:flex><span>uvm_field_sarray_string(ARG,FLAG);
+</span></span></code></pre></div><ul><li>队列</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>uvm_field_queue_enum(ARG,FLAG);
+</span></span><span style=display:flex><span>uvm_field_queue_int(ARG,FLAG);
+</span></span><span style=display:flex><span>uvm_field_queue_object(ARG,FLAG);
+</span></span><span style=display:flex><span>uvm_field_queue_string(ARG,FLAG);
+</span></span></code></pre></div><ul><li>联合数组（第一个类型为索引的类型，第二个参数为存储数据的类型）</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>uvm_field_aa_int_string(ARG, FLAG);
+</span></span><span style=display:flex><span>uvm_field_aa_string_string(ARG, FLAG);
+</span></span><span style=display:flex><span>uvm_field_aa_object_string(ARG, FLAG);
+</span></span><span style=display:flex><span>uvm_field_aa_int_int(ARG, FLAG);
+</span></span><span style=display:flex><span>uvm_field_aa_int_int_unsigned(ARG, FLAG);
+</span></span><span style=display:flex><span>uvm_field_aa_int_integer(ARG, FLAG);
+</span></span><span style=display:flex><span>uvm_field_aa_int_integer_unsigned(ARG, FLAG);
+</span></span><span style=display:flex><span>uvm_field_aa_int_byte(ARG, FLAG);
+</span></span><span style=display:flex><span>uvm_field_aa_int_byte_unsigned(ARG, FLAG);
+</span></span><span style=display:flex><span>uvm_field_aa_int_shortint(ARG, FLAG);
+</span></span><span style=display:flex><span>uvm_field_aa_int_shortint_unsigned(ARG, FLAG);
+</span></span><span style=display:flex><span>uvm_field_aa_int_longint(ARG, FLAG);
+</span></span><span style=display:flex><span>uvm_field_aa_int_longint_unsigned(ARG, FLAG);
+</span></span><span style=display:flex><span>uvm_field_aa_string_int(ARG, FLAG);
+</span></span><span style=display:flex><span>uvm_field_aa_object_int(ARG, FLAG);
+</span></span></code></pre></div><h5 id=a-id332-field-automation机制常用函数332-field-automation机制常用函数a><a id="3.3.2 field automation机制常用函数">3.3.2 field automation机制常用函数</a></h5><ul><li><code>extern function void copy (uvm_object rhs);</code></br><code>b.copy(a)</code>：a复制到b，a必须先new。</li><li><code>extern function bit compare (uvm_object rhs, uvm_comparer comparer=null);</code></br><code>b.compare(b)</code>：比较a和b。</li><li><code>extern function int pack_bytes (ref byte unsigned bytestream[],input uvm_packer packer=null);</code></br><code>a.pack_bytes(b)</code>：将a实例中的所有注册变量打包为byte类型的b。</li><li><code>extern function int unpack_bytes (ref byte unsigned bytestream[],input uvm_packer packer=null);</code></br><code>a.unpack_bytes(b)</code>：将byte类型的b解包为a实例中注册的变量。</li><li><code>extern function int pack (ref bit bitstream[],input uvm_packer packer=null);</code></br><code>a.pack(b)</code>：将a实例中的所有注册变量打包为bit类型的b。</li><li><code>extern function int unpack (ref bit bitstream[],input uvm_packer packer=null);</code></br><code>a.unpack(b)</code>：将bit类型的b解包为a实例中注册的变量。</li><li><code>extern function int pack_ints (ref int unsigned intstream[],input uvm_packer packer=null);</code></br><code>a.pack_ints(b)</code>：将a实例中的所有注册变量打包为int类型的b。</li><li><code>extern function int unpack_ints (ref int unsigned intstream[],input uvm_packer packer=null);</code></br><code>a.unpack_ints(b)</code>：将int类型的b解包为a实例中注册的变量。</li></ul><h5 id=a-id333-field-automation机制中标志位的使用333-field-automation机制中标志位的使用a><a id="3.3.3 field automation机制中标志位的使用">3.3.3 field automation机制中标志位的使用</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#6272a4>//A=ABSTRACT Y=PHYSICAL
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//F=REFERENCE, S=SHALLOW, D=DEEP
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//K=PACK, R=RECORD, P=PRINT, M=COMPARE, C=COPY
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//--------------------------- AYFSD K R P M C
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>parameter</span> UVM_ALL_ON <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>&#39;b000000101010101</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>parameter</span> UVM_COPY <span style=color:#ff79c6>=</span> (<span style=color:#bd93f9>1</span><span style=color:#ff79c6>&lt;&lt;</span><span style=color:#bd93f9>0</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>parameter</span> UVM_NOCOPY <span style=color:#ff79c6>=</span> (<span style=color:#bd93f9>1</span><span style=color:#ff79c6>&lt;&lt;</span><span style=color:#bd93f9>1</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>parameter</span> UVM_COMPARE <span style=color:#ff79c6>=</span> (<span style=color:#bd93f9>1</span><span style=color:#ff79c6>&lt;&lt;</span><span style=color:#bd93f9>2</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>parameter</span> UVM_NOCOMPARE <span style=color:#ff79c6>=</span> (<span style=color:#bd93f9>1</span><span style=color:#ff79c6>&lt;&lt;</span><span style=color:#bd93f9>3</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>parameter</span> UVM_PRINT <span style=color:#ff79c6>=</span> (<span style=color:#bd93f9>1</span><span style=color:#ff79c6>&lt;&lt;</span><span style=color:#bd93f9>4</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>parameter</span> UVM_NOPRINT <span style=color:#ff79c6>=</span> (<span style=color:#bd93f9>1</span><span style=color:#ff79c6>&lt;&lt;</span><span style=color:#bd93f9>5</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>parameter</span> UVM_RECORD <span style=color:#ff79c6>=</span> (<span style=color:#bd93f9>1</span><span style=color:#ff79c6>&lt;&lt;</span><span style=color:#bd93f9>6</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>parameter</span> UVM_NORECORD <span style=color:#ff79c6>=</span> (<span style=color:#bd93f9>1</span><span style=color:#ff79c6>&lt;&lt;</span><span style=color:#bd93f9>7</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>parameter</span> UVM_PACK <span style=color:#ff79c6>=</span> (<span style=color:#bd93f9>1</span><span style=color:#ff79c6>&lt;&lt;</span><span style=color:#bd93f9>8</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>parameter</span> UVM_NOPACK <span style=color:#ff79c6>=</span> (<span style=color:#bd93f9>1</span><span style=color:#ff79c6>&lt;&lt;</span><span style=color:#bd93f9>9</span>);
+</span></span></code></pre></div><h4 id=a-id34-uvm打印信息的控制34-uvm打印信息的控制a><a id="3.4 uvm打印信息的控制">3.4 uvm打印信息的控制</a></h4><h5 id=a-id341-设置打印信息冗余度341-设置打印信息冗余度a><a id="3.4.1 设置打印信息冗余度">3.4.1 设置打印信息冗余度</a></h5><p>UVM通过冗余度级别的设置提高了仿真日志的可读性。 在打印信息之前， UVM会比较要显示信息的冗余度级别与默认的冗
+余度阈值， 如果小于等于阈值， 就会显示， 否则不会显示。 默认的冗余度阈值是UVM_MEDIUM， 所有低于等于
+UVM_MEDIUM（ 如UVM_LOW） 的信息都会被打印出来。</p><ul><li>打印信息冗余度：</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>typedef</span> <span style=color:#ff79c6>enum</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>UVM_NONE <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>,
+</span></span><span style=display:flex><span>UVM_LOW <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>100</span>,
+</span></span><span style=display:flex><span>UVM_MEDIUM <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>200</span>,
+</span></span><span style=display:flex><span>UVM_HIGH <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>300</span>,
+</span></span><span style=display:flex><span>UVM_FULL <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>400</span>,
+</span></span><span style=display:flex><span>UVM_DEBUG <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>500</span>
+</span></span><span style=display:flex><span>} uvm_verbosity;
+</span></span></code></pre></div><p><code>set_report_verbosity_level()</code>：设置某个组件打印信息冗余度。
+<code>get_report_verbosity_level()</code>：获取某个组件打印信息冗余度。
+<code>set_report_verbosity_level_hier</code>：递归设置打印信息冗余度。</p><p>除了使用代码的方式设置，还可以在仿真命令中设置：</br><code>&lt;sim command> +UVM_VERBOSITY=HIGH</code></p><h5 id=a-id342-重载打印信息的严重性342-重载打印信息的严重性a><a id="3.4.2 重载打印信息的严重性">3.4.2 重载打印信息的严重性</a></h5><ul><li>UVM默认有四种信息严重性：<ul><li>UVM_INFO</li><li>UVM_WARNING</li><li>UVM_ERROR</li><li>UVM_FATAL。</li></ul></li></ul><p>这四种严重性可以互相重载。 如果要把driver中所有的UVM_WARNING显示为UVM_ERROR，可以使用如下的函数：</br><code>set_report_severity_id_override(UVM_WARNING, "my_driver", UVM_ERROR)</code></p><p>也可以在命令行中实现：</br><code>&lt;sim command> +uvm_set_severity=&lt;comp>,&lt;id>,&lt;current severity>,&lt;new severity></code></p><h5 id=a-id343-uvm_error达到一定数量结束仿真343-uvm_error达到一定数量结束仿真a><a id="3.4.3 uvm_error达到一定数量结束仿真">3.4.3 uvm_error达到一定数量结束仿真</a></h5><p>设置：<code>set_report_max_quit_count</code>
+查询：<code>get_report_max_quit_count函数</code></p><p>命令行设置：<code>&lt;sim command> +UVM_MAX_QUIT_COUNT=6,NO</code>,no表示不可以被重载，yes表示可以。</p><h5 id=a-id344-设置计数的目标344-设置计数的目标a><a id="3.4.4 设置计数的目标">3.4.4 设置计数的目标</a></h5><p>将UVM_WARNING加入到计数目标中的组件设置：<code>set_report_severity_action(UVM_WARNING, UVM_DISPLAY|UVM_COUNT)</code>
+将UVM_WARNING加入到计数目标中的递归设置：<code>set_report_severity_action_hier(UVM_WARNING, UVM_DISPLAY|UVM_COUNT)</code></p><p>将"my_drv"加入到计数目标中的组件设置：<code>set_report_id_action("my_drv", UVM_DISPLAY|UVM_COUNT)</code>
+将"my_drv"加入到计数目标中的递归设置：<code>set_report_id_action_hier("my_drv"", UVM_DISPLAY|UVM_COUNT)</code></p><p>将"my_drv"和UVM_WARNING加入到计数目标中的组件设置：<code>set_report_severity_id_action(UVM_WARNING, "my_drv", UVM_DISPLAY|UVM_COUNT)</code>
+将"my_drv"和UVM_WARNING加入到计数目标中的递归设置：<code>set_report_severity_id_action_hier(UVM_WARNING, "my_drv", UVM_DISPLAY|UVM_COUNT)</code></p><p>命令行设置：</br><code>&lt;sim command> +uvm_set_action=&lt;comp>,&lt;id>,&lt;severity>,&lt;action></code></p><h5 id=a-id345-uvm的断点功能345-uvm的断点功能a><a id="3.4.5 uvm的断点功能">3.4.5 uvm的断点功能</a></h5><p>将 <em><a href="#3.4.4 设置计数的目标">3.4.4 设置计数的目标</a></em> 中的函数UVM_COUNT替换为UVM_STOP即可。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>env.i_agt.drv.set_report_severity_action(UVM_WARNING, UVM_DISPLAY<span style=color:#ff79c6>|</span> UVM_STOP);
+</span></span><span style=display:flex><span>env.i_agt.set_report_severity_action_hier(UVM_WARNING, UVM_DISPLAY<span style=color:#ff79c6>|</span> UVM_STOP);
+</span></span><span style=display:flex><span>env.i_agt.drv.set_report_id_action(<span style=color:#f1fa8c>&#34;my_drv&#34;</span>, UVM_DISPLAY<span style=color:#ff79c6>|</span> UVM_STOP);
+</span></span><span style=display:flex><span>env.i_agt.set_report_id_action_hier(<span style=color:#f1fa8c>&#34;my_drv&#34;</span>, UVM_DISPLAY<span style=color:#ff79c6>|</span> UVM_STOP);
+</span></span><span style=display:flex><span>env.i_agt.drv.set_report_severity_id_action(UVM_WARNING, <span style=color:#f1fa8c>&#34;my_driver&#34;</span>, UVM_DISPLAY<span style=color:#ff79c6>|</span> UVM_STOP);
+</span></span><span style=display:flex><span>env.i_agt.set_report_severity_id_action_hier(UVM_WARNING, <span style=color:#f1fa8c>&#34;my_driver&#34;</span>, UVM_DISPLAY<span style=color:#ff79c6>|</span> UVM_STOP);
+</span></span></code></pre></div><p>命令行也是适用的。</p><h5 id=a-id346-将输出信息导入到文件中346-将输出信息导入到文件中a><a id="3.4.6 将输出信息导入到文件中">3.4.6 将输出信息导入到文件中</a></h5><p>定义文件</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>UVM_FILE info_log;
+</span></span><span style=display:flex><span>UVM_FILE warning_log;
+</span></span><span style=display:flex><span>UVM_FILE error_log;
+</span></span><span style=display:flex><span>UVM_FILE fatal_log;
+</span></span></code></pre></div><p>写模式打开文件</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>info_log <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>$fopen</span>(<span style=color:#f1fa8c>&#34;info.log&#34;</span>, <span style=color:#f1fa8c>&#34;w&#34;</span>);
+</span></span><span style=display:flex><span>warning_log <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>$fopen</span>(<span style=color:#f1fa8c>&#34;warning.log&#34;</span>, <span style=color:#f1fa8c>&#34;w&#34;</span>);
+</span></span><span style=display:flex><span>error_log <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>$fopen</span>(<span style=color:#f1fa8c>&#34;error.log&#34;</span>, <span style=color:#f1fa8c>&#34;w&#34;</span>);
+</span></span><span style=display:flex><span>fatal_log <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>$fopen</span>(<span style=color:#f1fa8c>&#34;fatal.log&#34;</span>, <span style=color:#f1fa8c>&#34;w&#34;</span>);
+</span></span></code></pre></div><p>设置文件，可通过严重性也可通过id或者两者的组合。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#6272a4>//非递归
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>env.i_agt.drv.set_report_severity_file(UVM_INFO, info_log);
+</span></span><span style=display:flex><span>env.i_agt.drv.set_report_severity_file(UVM_WARNING, warning_log);
+</span></span><span style=display:flex><span>env.i_agt.drv.set_report_severity_file(UVM_ERROR, error_log);
+</span></span><span style=display:flex><span>env.i_agt.drv.set_report_severity_file(UVM_FATAL, fatal_log);
+</span></span><span style=display:flex><span><span style=color:#6272a4>//递归
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>env.i_agt.set_report_severity_file_hier(UVM_INFO, info_log);
+</span></span><span style=display:flex><span>env.i_agt.set_report_severity_file_hier(UVM_WARNING, warning_log);
+</span></span><span style=display:flex><span>env.i_agt.set_report_severity_file_hier(UVM_ERROR, error_log);
+</span></span><span style=display:flex><span>env.i_agt.set_report_severity_file_hier(UVM_FATAL, fatal_log);
+</span></span></code></pre></div><p>输出到log文件中，可通过严重性也可通过id或者两者的组合。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#6272a4>//非递归
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>env.i_agt.drv.set_report_severity_action(UVM_INFO, UVM_DISPLAY<span style=color:#ff79c6>|</span> UVM_LOG);
+</span></span><span style=display:flex><span>env.i_agt.drv.set_report_severity_action(UVM_WARNING, UVM_DISPLAY<span style=color:#ff79c6>|</span>UVM_LOG);
+</span></span><span style=display:flex><span>env.i_agt.drv.set_report_severity_action(UVM_ERROR, UVM_DISPLAY<span style=color:#ff79c6>|</span> UVM_COUNT <span style=color:#ff79c6>|</span> UVM_LOG);
+</span></span><span style=display:flex><span>env.i_agt.drv.set_report_severity_action(UVM_FATAL, UVM_DISPLAY<span style=color:#ff79c6>|</span>UVM_EXIT <span style=color:#ff79c6>|</span> UVM_LOG);
+</span></span><span style=display:flex><span><span style=color:#6272a4>//递归
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>env.i_agt.set_report_severity_action_hier(UVM_INFO, UVM_DISPLAY<span style=color:#ff79c6>|</span> UVM_LOG);
+</span></span><span style=display:flex><span>env.i_agt.set_report_severity_action_hier(UVM_WARNING, UVM_DISPLAY<span style=color:#ff79c6>|</span> UVM_LOG);
+</span></span><span style=display:flex><span>env.i_agt.set_report_severity_action_hier(UVM_ERROR, UVM_DISPLAY<span style=color:#ff79c6>|</span> UVM_COUNT <span style=color:#ff79c6>|</span>UVM_LOG);
+</span></span><span style=display:flex><span>env.i_agt.set_report_severity_action_hier(UVM_FATAL, UVM_DISPLAY<span style=color:#ff79c6>|</span> UVM_EXIT <span style=color:#ff79c6>|</span> UVM_LOG);
+</span></span></code></pre></div><h5 id=a-id347-控制打印信息的行为347-控制打印信息的行为a><a id="3.4.7 控制打印信息的行为">3.4.7 控制打印信息的行为</a></h5><p>行为定义：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>typedef</span> <span style=color:#ff79c6>enum</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>UVM_NO_ACTION <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>&#39;b000000</span>,
+</span></span><span style=display:flex><span>UVM_DISPLAY <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>&#39;b000001</span>,
+</span></span><span style=display:flex><span>UVM_LOG <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>&#39;b000010</span>,
+</span></span><span style=display:flex><span>UVM_COUNT <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>&#39;b000100</span>,
+</span></span><span style=display:flex><span>UVM_EXIT <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>&#39;b001000</span>,
+</span></span><span style=display:flex><span>UVM_CALL_HOOK <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>&#39;b010000</span>,
+</span></span><span style=display:flex><span>UVM_STOP <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>&#39;b100000</span>   
+</span></span><span style=display:flex><span>} uvm_action_type;
+</span></span></code></pre></div><h4 id=a-id35-config_db机制35-config_db机制a><a id="3.5 config_db机制">3.5 config_db机制</a></h4><h5 id=a-id351-uvm中的路径351-uvm中的路径a><a id="3.5.1 uvm中的路径">3.5.1 uvm中的路径</a></h5><p>可以使用<code>get_full_name()</code>方法获取路径。</p><p>为了方便，例化名和create以及new创建时指定的名字应该一致。</p><h5 id=a-id352-set与get函数的参数352-set与get函数的参数a><a id="3.5.2 set与get函数的参数">3.5.2 set与get函数的参数</a></h5><ul><li>config_db的set和get函数都有四个参数<ul><li>第一个参数必须是一个uvm_component实例的指针。</li><li>第二个参数是相对此实例的路径。</li><li>第三个参数表示一个记号， 用以说明这个值是传给目标中的哪个成员的。</li><li>第四个参数是要设置的值。</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>uvm_config_db#(<span style=color:#ff79c6>int</span>)<span style=color:#ff79c6>::</span>set(<span style=color:#ff79c6>this</span>, <span style=color:#f1fa8c>&#34;env.i_agt.drv&#34;</span>, <span style=color:#f1fa8c>&#34;pre_num&#34;</span>, <span style=color:#bd93f9>100</span>);
+</span></span><span style=display:flex><span>uvm_config_db#(<span style=color:#ff79c6>int</span>)<span style=color:#ff79c6>::</span>get(<span style=color:#ff79c6>this</span>, <span style=color:#f1fa8c>&#34;&#34;</span>, <span style=color:#f1fa8c>&#34;pre_num&#34;</span>, pre_num);
+</span></span></code></pre></div><h5 id=a-id353-省略get语句353-省略get语句a><a id="3.5.3 省略get语句">3.5.3 省略get语句</a></h5><p>set与get函数一般都是成对出现， 但是在某些情况下， 是可以只有set而没有get语句， 即省略get语句。</p><p>相关的变量注册在field中，可以省略get语句。 这样使用有些前提：</p><ul><li>第一， 目标组件必须使用uvm_component_utils宏注册。</li><li>第二， 变量必须使用相同类型的宏注册。</li><li>第三， 在调用set函数的时候， set函数的第三个参数必须与要get函数中变量的名字相一致。</li></ul><h5 id=a-id354-跨层次的多重设置354-跨层次的多重设置a><a id="3.5.4 跨层次的多重设置">3.5.4 跨层次的多重设置</a></h5><p>uvm遵循：</p><ul><li>近根层次优先。</li></ul><h5 id=a-id355-同层次的多重设置355-同层次的多重设置a><a id="3.5.5 同层次的多重设置">3.5.5 同层次的多重设置</a></h5><p>uvm遵循：</p><ul><li>后设置优先。</li></ul><h5 id=a-id356-非直线的设置和获取356-非直线的设置和获取a><a id="3.5.6 非直线的设置和获取">3.5.6 非直线的设置和获取</a></h5><p>获取set到或get其他组件的值，应该避免。</p><h5 id=a-id657-config_db对通配符的支持627-config_db对通配符的支持a><a id="6.5.7 config_db对通配符的支持">6.2.7 config_db对通配符的支持</a></h5><p>路径可以使用通配符<code>*</code>指定，但应该避免使用，或者尽量不要太过省略。</p><h5 id=a-id658-check_config_usage628-check_config_usagea><a id="6.5.8 check_config_usage">6.2.8 check_config_usage</a></h5><p><code>check_config_usage()</code>显示出截止到此函数调用时有哪些参数是被设置过但是却没有被获取过。</p><h5 id=a-id659-set_config和get_config659-set_config和get_configa><a id="6.5.9 set_config和get_config">6.5.9 set_config和get_config</a></h5><blockquote><p>Note:</br>uvm1.2不支持这种操作。</p></blockquote><p><code>set_config_int</code>与<code>uvm_config_db#(int)::set</code>是完全等价的。
+<code>get_config_int</code>与<code>uvm_config_db#(int)::get</code>是完全等价的。</p><p><code>set_config_string</code>与<code>uvm_config_db#(string)::set</code>是完全等价的。
+<code>get_config_string</code>与<code>uvm_config_db#(string)::get</code>是完全等价的。</p><p><code>set_config_object</code>与<code>uvm_config_db#(object)::set</code>是完全等价的。
+<code>get_config_object</code>与<code>uvm_config_db#(object)::get</code>是完全等价的。</p><h5 id=a-id3510-config_db的调试3510-config_db的调试a><a id="3.5.10 config_db的调试">3.5.10 config_db的调试</a></h5><p><code>print_config()</code></br>参数为1，表示递归查询，
+参数为0，只查询当前组件爱你的config情况。</p><p>递归查询打印信息比较冗余，会遍历所有组件。</p><h3 id=a-id第4章-uvm中的tlm10通信第4章-uvm中的tlm10通信a><a id="第4章 uvm中的tlm1.0通信">第4章 uvm中的tlm1.0通信</a></h3><h4 id=a-id41-tlm1041-tlm10a><a id="4.1 tlm1.0">4.1 tlm1.0</a></h4><h5 id=a-id411-验证平台内部的通信411-验证平台内部的通信a><a id="4.1.1 验证平台内部的通信">4.1.1 验证平台内部的通信</a></h5><p>两个组件如何通信：</p><ul><li>全局变量。</li><li>config机制去传递变量的值。</li><li>信箱</li><li>旗语</li><li>tlm</li></ul><h5 id=a-id412-tlm的定义412-tlm的定义a><a id="4.1.2 tlm的定义">4.1.2 tlm的定义</a></h5><p>TLM是Transaction Level Modeling（ 事务级建模） 的缩写， 它起源于SystemC的一种通信标准。</p><p>常见的术语：</p><ul><li>put操作：A的port将事务put到B的export。</li><li>get操作：A的port从B的export get一个事务。</li><li>transport操作：事务在A的port和B的export之间传递，相当于一次get和put操作。</li></ul><h5 id=a-id413-uvm中的port和export413-uvm中的port和exporta><a id="4.1.3 uvm中的port和export">4.1.3 uvm中的port和export</a></h5><p>由{blocking, nonblocking, }，{put, get, peek, get_peek,transport}组合，可能存在的port：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>uvm_blocking_put_port#(T);
+</span></span><span style=display:flex><span>uvm_nonblocking_put_port#(T);
+</span></span><span style=display:flex><span>uvm_put_port#(T);
+</span></span><span style=display:flex><span>uvm_blocking_get_port#(T);
+</span></span><span style=display:flex><span>uvm_nonblocking_get_port#(T);
+</span></span><span style=display:flex><span>uvm_get_port#(T);
+</span></span><span style=display:flex><span>uvm_blocking_peek_port#(T);
+</span></span><span style=display:flex><span>uvm_nonblocking_peek_port#(T);
+</span></span><span style=display:flex><span>uvm_peek_port#(T);
+</span></span><span style=display:flex><span>uvm_blocking_get_peek_port#(T);
+</span></span><span style=display:flex><span>uvm_nonblocking_get_peek_port#(T);
+</span></span><span style=display:flex><span>uvm_get_peek_port#(T);
+</span></span><span style=display:flex><span>uvm_blocking_transport_port#(REQ, RSP);
+</span></span><span style=display:flex><span>uvm_nonblocking_transport_port#(REQ, RSP);
+</span></span><span style=display:flex><span>uvm_transport_port#(REQ, RSP);
+</span></span></code></pre></div><p>get对应blocking，nonblocking，无。
+put对应blocking，nonblocking，无。
+get_peek对应blocking，nonblocking，无。
+transport对应blocking，nonblocking，无。</p><p>15个port和15个export对应。</p><h4 id=a-id42-uvm各端口的互联-42-uvm各端口的互联-a><a id="4.2 uvm各端口的互联 ">4.2 uvm各端口的互联</a></h4><h5 id=a-id421-blocking_put系列的port和export的连接421-blocking_put系列的port和export的连接a><a id="4.2.1 blocking_put系列的port和export的连接">4.2.1 blocking_put系列的port和export的连接</a></h5><p>只有发起者才能调用connect与另一个端口连接，而承担着作为connect函数的参数。</p><p>在组件中例化，在new构造函数中使用new构造。</p><p>new构造函数中包含最大和最小连接数，默认都为1：</br></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>function</span> <span style=color:#ff79c6>new</span>(<span style=color:#ff79c6>string</span> name, uvm_component parent, <span style=color:#ff79c6>int</span> min_size <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>1</span>;<span style=color:#ff79c6>int</span> max_size <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>1</span>);
+</span></span></code></pre></div><h5 id=a-id422-uvm中的imp422-uvm中的impa><a id="4.2.2 uvm中的imp">4.2.2 uvm中的imp</a></h5><p>除了TLM中定义的PORT与EXPORT外， UVM中加入了第三种端口： IMP。 IMP才是UVM中的精髓， 承担了UVM中TLM的绝
+大部分实现代码。 UVM中的IMP如下所示：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>uvm_blocking_put_imp#(T, IMP);
+</span></span><span style=display:flex><span>uvm_nonblocking_put_imp#(T, IMP);
+</span></span><span style=display:flex><span>uvm_put_imp#(T, IMP);
+</span></span><span style=display:flex><span>uvm_blocking_get_imp#(T, IMP);
+</span></span><span style=display:flex><span>uvm_nonblocking_get_imp#(T, IMP);
+</span></span><span style=display:flex><span>uvm_get_imp#(T, IMP);
+</span></span><span style=display:flex><span>uvm_blocking_peek_imp#(T, IMP);
+</span></span><span style=display:flex><span>uvm_nonblocking_peek_imp#(T, IMP);
+</span></span><span style=display:flex><span>uvm_peek_imp#(T, IMP);
+</span></span><span style=display:flex><span>uvm_blocking_get_peek_imp#(T, IMP);
+</span></span><span style=display:flex><span>uvm_nonblocking_get_peek_imp#(T, IMP);
+</span></span><span style=display:flex><span>uvm_get_peek_imp#(T, IMP);
+</span></span><span style=display:flex><span>uvm_blocking_transport_imp#(REQ, RSP, IMP);
+</span></span><span style=display:flex><span>uvm_nonblocking_transport_imp#(REQ, RSP, IMP);
+</span></span><span style=display:flex><span>uvm_transport_imp#(REQ, RSP, IMP);
+</span></span></code></pre></div><p>这15种imp和port和export是一一对应的。</p><p>前6个imp定义中</p><ul><li>第一个参数T代表传输的数据类型。</li><li>第二个参数IMP实现此接口的组件。</li></ul><blockquote><p>Note：</br>在UVM中， 只有IMP才能作为连接关系的终点。 如果是PORT或者EXPORT作为终点， 则会报错。</p></blockquote><h5 id=a-id423-port和imp的连接423-port和imp的连接a><a id="4.2.3 port和imp的连接">4.2.3 port和imp的连接</a></h5><p>当类型是：</p><table><thead><tr><th>类型</th><th>需要定义的函数</th></tr></thead><tbody><tr><td>blocking_put</td><td>put()</td></tr><tr><td>nonblocking_put</td><td>try_put()<br>can_put</td></tr><tr><td>put</td><td>put()<br>try_put()<br>can_put()</td></tr><tr><td>blocking_get</td><td>get()</td></tr><tr><td>nonblocking_get</td><td>try_get()<br>can_get</td></tr><tr><td>get</td><td>get()<br>try_get()<br>can_get()</td></tr><tr><td>blocking_peek</td><td>peek()</td></tr><tr><td>nonblocking_peek</td><td>try_peek()<br>can_peek</td></tr><tr><td>peek</td><td>peek()<br>try_peek()<br>can_peek()</td></tr><tr><td>blocking_get_peek</td><td>get_peek()</td></tr><tr><td>nonblocking_get_peek</td><td>try_get_peek()<br>can_get_peek</td></tr><tr><td>get_peek</td><td>get_peek()<br>try_get_peek()<br>can_get_peek()</td></tr><tr><td>blocking_transport</td><td>transport</td></tr><tr><td>nonblocking_transport</td><td>try_transport()<br>can_transport</td></tr><tr><td>transport</td><td>transport()<br>try_transport()<br>can_transport()</td></tr></tbody></table><ul><li><code>nonblocking_put</code>，需要在imp中定义函数<code>try_put()</code>和<code>can_put</code></li><li><code>put</code></li></ul><p><code>A_inst.A_port.connect(B_inst.B_imp)</code></p><p>connect函数一定要在connect_phase中调用。</p><h5 id=a-id424-export和imp的连接424-export和imp的连接a><a id="4.2.4 export和imp的连接">4.2.4 export和imp的连接</a></h5><p>与 <a id="4.2.3 port和imp的连接">4.2.3 port和imp的连接</a> 类似。
+<code>A_inst.A_export.connect(B_inst.B_imp);</code></p><h5 id=a-id425-port和port的连接425-port和port的连接a><a id="4.2.5 port和port的连接">4.2.5 port和port的连接</a></h5><p>与 <a id="4.2.3 port和imp的连接">4.2.3 port和imp的连接</a> 类似。
+<code>C_inst.C_port.connect(this.A_port);</code></p><h5 id=a-id426-export的export的连接426-export的export的连接a><a id="4.2.6 export的export的连接">4.2.6 export的export的连接</a></h5><p>与 <a id="4.2.3 port和imp的连接">4.2.3 port和imp的连接</a> 类似。
+<code>C_inst.C_export.connect(this.A_export);</code></p><h5 id=a-id427-blocking_get端口的使用427-blocking_get端口的使用a><a id="4.2.7 blocking_get端口的使用">4.2.7 blocking_get端口的使用</a></h5><p>函数在动作发起者实现，哟普动作接受者调用。</p><blockquote><p>Note：
+在这些连接关系中， 需要谨记的是连接的终点必须是一个IMP。</p></blockquote><h5 id=a-id428-blocking_transaport的使用428-blocking_transport的使用a><a id="4.2.8 blocking_transaport的使用">4.2.8 blocking_transport的使用</a></h5><p>在imp端实现一个transport的函数：</br><code>transport(my_transaction req, output my_transaction rsp);</code></p><h5 id=a-id429-nonblocking端口的使用429-nonblocking端口的使用a><a id="4.2.9 nonblocking端口的使用">4.2.9 nonblocking端口的使用</a></h5><p>nonblocking端口的所有操作都是非阻塞的， 换言之， 必须用函数实现， 而不能用任务实现。
+有两个函数：</p><ul><li>try</li><li>can</li></ul><h4 id=a-id43-uvm中的通信方式43-uvm中的通信方式a><a id="4.3 uvm中的通信方式">4.3 uvm中的通信方式</a></h4><h5 id=a-id431-uvm中的analysis端口431-uvm中的analysis端口a><a id="4.3.1 uvm中的analysis端口">4.3.1 uvm中的analysis端口</a></h5><p>UVM中还有两种特殊的端口： analysis_port和analysis_export。
+相比于put、get、peek系列的端口：</p><ul><li>默认情况下，一个analysis_port可以连接多个analysis_imp，属于一对多的通信。</li><li>属于广播端口，因此没有阻塞和非阻塞的概念。</li><li>只有一种操作write，在imp定义。</li></ul><h5 id=a-id432-一个component中有多个imp432-一个component中有多个impa><a id="4.3.2 一个component中有多个imp">4.3.2 一个component中有多个imp</a></h5><p>使用<code>uvm_analysis_imp_decl</code>生成多个imp，以应对多个port或者export对多个imp的连接。
+相应的，write函数也需要实现多个。</p><h5 id=a-id433-使用fifo通信433-使用fifo通信a><a id="4.3.3 使用fifo通信">4.3.3 使用fifo通信</a></h5><p>fifo的本质是一块缓存加两个imp。</p><p>FIFO中有两个IMP， 但是在实际的连接关系中， FIFO中却是EXPORT，这是因为</p><ul><li>FIFO中的export虽然名字中有关键字export， 但是其类型却是IMP。</li><li>UVM为了掩饰IMP的存在， 在它们的命名中加入了export关键字。</li></ul><p>使用fifo的好处是不必在scoreboard中再写一个名字为write的函数，fifo中自己实现了事务传递的函数。</p><h5 id=a-id434-fifo上的端口及调试434-fifo上的端口及调试a><a id="4.3.4 fifo上的端口及调试">4.3.4 fifo上的端口及调试</a></h5><p>fifo有两种：</p><ul><li>uvm_tlm_analysis_fifo</li><li>uvm_tlm_fifo（无analysis_export端口和write函数）</li></ul><p>uvm_tlm_analysis_fifo上存在着众多的端口 <em><a href="#图 4.1">图 4.1</a></em> 。</p><p><a id="图 4.1">图 4.1</br><img src=https://icjj.github.io/icer/img/post/uvm%e5%ae%9e%e6%88%98%e8%af%bb%e4%b9%a6%e7%ac%94%e8%ae%b0/uvm_tlm_analysis_fifo%e4%b8%8a%e7%9a%84%e7%ab%af%e5%8f%a3.png alt></a></p><p>在图 <em><a href="#图 4.1">图 4.1</a></em> 中：</p><ul><li>export的本质都是imp。</li><li>包含除transport之外的12种imp和两个analysis_port{put_ap和get_ap}。<ul><li>12种imp用于和port和export连接。</li><li>当analysis_port/export调用put时，把事务放在fifo的缓存中，会调用fifo中put_ap.write()函数把事务发送出去。</li><li>当analysis_port/export调用get时，请求把事务放在fifo的缓存中，会调用fifo中get_ap.write()函数把事务发送出去。</li></ul></li><li>get的每次调用都会使fifo的事务少一份，peek则不会。</li></ul><p>uvm提供了几个用于fifo调试的函数：</p><ul><li>used：缓存中有多少事务。</li><li>is_empty：缓存是否为空。</li><li>is_full：缓存是否为满。</li><li>flush：清空fifo缓存中的事务。</li></ul><p>默认情况fifo缓存大小为1，可在new函数中指定。</p><h5 id=a-id435-用fifo还是imp435-用fifo还是impa><a id="4.3.5 用fifo还是imp">4.3.5 用fifo还是imp</a></h5><p>在用FIFO通信的方法中，完全隐藏了IMP这个UVM中特有、 而TLM中根本就没有的东西。
+但却增加了env中代码的复杂度。</p><p>在需要端口数组的时候，fifo比imp要好用，imp需要多次指定后缀，fifo使用数组的方法一次生成多个fifo。</p><h3 id=a-id第5章-uvm验证平台的使用第5章-uvm验证平台的使用a><a id="第5章 uvm验证平台的使用">第5章 uvm验证平台的使用</a></h3><h4 id=a-id51-phase机制51-phase机制a><a id="5.1 phase机制">5.1 phase机制</a></h4><h5 id=a-id511-task-phase和function-phase511-task-phase和function-phasea><a id="5.1.1 task phase和function phase">5.1.1 task phase和function phase</a></h5><p>function phase：不消耗时间。</br></p><ul><li>build</li><li>connect</li><li>end_of_elaboration</li><li>start_of_simulation</li><li>extract_phase</li><li>check_phase</li><li>report_phase</li><li>final_phase</li></ul><p>task phase：消耗时间。</p><ul><li>run_phase<ul><li>pre_reset_phase</li><li>reset_phase</li><li>post_reset_phase</li><li>pre_configure_phase</li><li>configure_phase</li><li>post_configure_phase</li><li>pre_main_phase</li><li>main_phase</li><li>post_main_phase</li><li>pre_shutdown_phase</li><li>shutdown_phase</li><li>post_shutdown_phase</li></ul></li></ul><p>run_phase和对应的12个task phase是并行的，这12个task phase是串行的。</p><h5 id=a-id512-run-phase512-run-phasea><a id="5.1.2 run phase">5.1.2 run phase</a></h5><ul><li>reset_phase对DUT进行复位、 初始化等操作。</li><li>configure_phase则进行DUT的配置。</li><li>DUT的运行主要在main_phase完成。</li><li>shutdown_phase则是做一些与DUT断电相关的操作。</li></ul><h5 id=a-id513-phase的执行顺序513-phase的执行顺序a><a id="5.1.3 phase的执行顺序">5.1.3 phase的执行顺序</a></h5><p>不同组件的phase是按照自下而上，也就是叶到根的方式执行。
+同层次的phase是严格按照字典序，也就是new时指定的名字执行的。</p><ul><li>多个层次的task phase，他们是同时开始的，先执行完的phase需要等待后执行完的phase才能进入下一个phase。</li></ul><h5 id=a-id514-uvm树的遍历514-uvm树的遍历a><a id="5.1.4 uvm树的遍历">5.1.4 uvm树的遍历</a></h5><p>可能存在两种执行方式：</p><ul><li>广度优先：先执行同层次的所有组件的phase，再执行子组件的phase</li><li>深度优先：按照深度执行组件的以及子组件的phase，再执行同层次的phase。</li></ul><p>uvm使用的是深度优先方式，也就是先执行agent以及driver、monitor等的phase再执行scb的phase。</p><blockquote><p>Note：</br>agent和scb的先后是按照字典序的先后执行的。</p></blockquote><h5 id=a-id515-superphase的内容515-superphase的内容a><a id="5.1.5 super.phase的内容">5.1.5 super.phase的内容</a></h5><p>除了build之外，其他phase几乎没做任何相关的事情。
+build_phase使用<code>apply_config_settings</code>方法完成了 <em><a href="#3.5.3 省略get语句">3.5.3 省略get语句</a></em> 的自动get。
+在uvm_factory创建组建时，检查uvm_resources中是否存有与该组件相关的配置信息，
+如果有的话，那么该组件中的相关变量的默认值会被覆盖为高层的配置值。</p><h5 id=a-id516-build阶段出现uvm_error停止仿真516-build阶段出现uvm_error停止仿真a><a id="5.1.6 build阶段出现uvm_error停止仿真">5.1.6 build阶段出现uvm_error停止仿真</a></h5><p>build阶段中出现uvm_error也会停止仿真，只是在log中以uvm_fatal的形式出现，这是uvm内部定义的。</p><p>build阶段的这种error变fatal的机制，对于大型仿真非常有用。
+毕竟build关系整个平台的运行，可以在运行之前就发现问题。</p><h5 id=a-id517-phase的跳转517-phase的跳转a><a id="5.1.7 phase的跳转">5.1.7 phase的跳转</a></h5><p>可以使用下面的方式执行当前phase到reset_phase的跳转：</br><code>phase.jump(uvm_reset_phase::get());</code></p><blockquote><p>Note：</br>只有具有先后关系的phase才可以跳转，例如main_phase和run_phase就不可以跳转。</p></blockquote><h5 id=a-id518-phase机制的必要性518-phase机制的必要性a><a id="5.1.8 phase机制的必要性">5.1.8 phase机制的必要性</a></h5><p>phase的机制：</p><ol><li>避开了部分代码的书写顺序要求，强制将不同块的代码按顺序组织起来。</li><li>主动承担起了组件之间顺序自动执行的角色，减少了验证平台开发者的工作量。</li></ol><h5 id=a-id519-phase的调试519-phase的调试a><a id="5.1.9 phase的调试">5.1.9 phase的调试</a></h5><p>可以使用命令行的方式打开phase的调试<code>&lt;sim command> +UVM_PHASE_TRACE</code>。</p><h5 id=a-id5110-超时退出5110-超时退出a><a id="5.1.10 超时退出">5.1.10 超时退出</a></h5><p>可以使用top的超时设置函数进行设置<code>21 uvm_top.set_timeout(500ns, 0);</code>。</p><ul><li>第一个参数是设置的时间。</li><li>第二个参数表示是否可以被其后的set_timeout覆盖。</li><li>默认是9200s</li></ul><p>也可以通过命令行设置：
+<code>&lt;sim command> +UVM_TIMEOUT=&lt;timeout>,&lt;overridable></code></p><h4 id=a-id52-objection机制52-objection机制a><a id="5.2 objection机制">5.2 objection机制</a></h4><h5 id=a-id521-objection与task-phase521-objection与task-phasea><a id="5.2.1 objection与task phase">5.2.1 objection与task phase</a></h5><p>objection字面的意思就是反对、 异议。</p><p>为了良好的沟通， 在drop_objection之前， 一定要先raise_objection。</p><p>objection是针对phase的一种机制，同一phase的组件可以都raise、drop，也可以只有一个组件raise、drop。</p><h5 id=a-id522-参数phase的重要性522-参数phase的重要性a><a id="5.2.2 参数phase的重要性">5.2.2 参数phase的重要性</a></h5><p>在UVM中所有phase的函数/任务参数中， 都有一个phase参数。</p><p>这个参数的主要目的是raise_objection。
+为了确保所有组件的phase同步，必须通过phase.raise_objection来完成。</p><h5 id=a-id523-控制objection的最佳选择523-控制objection的最佳选择a><a id="5.2.3 控制objection的最佳选择">5.2.3 控制objection的最佳选择</a></h5><p>driver、 monitor、reference_model、scoreboard一般都是无限循环<code>while(1)</code>实现的。</p><p>推荐在sequence中raise、drop，这也符合uvm对sequence控制激励生成的要求。</p><h5 id=a-id524-set_drain_time的使用524-set_drain_time的使用a><a id="5.2.4 set_drain_time的使用">5.2.4 set_drain_time的使用</a></h5><p>在sequence中，发送完激励立刻停止是不推荐的。
+一般情况下，dut处理激励需要时间，因此在发送完激励之后，需要延迟一段时间，确保数据都处理完毕。</p><p><code>phase.phase_done.set_drain_time(this,100);</code>可以确保drop之后经历100个时间单位之后结束phase。</p><h5 id=a-id525-objection的调试525-objection的调试a><a id="5.2.5 objection的调试">5.2.5 objection的调试</a></h5><p>与phase的调试一样， UVM同样提供了命令行参数来进行objection的调试：
+<code>&lt;sim command> +UVM_OBJECTION_TRACE</code></p><h4 id=a-id53-domain的使用53-domain的使用a><a id="5.3 domain的使用">5.3 domain的使用</a></h4><h5 id=a-id531-多domain的简介531-多domain的简介a><a id="5.3.1 多domain的简介">5.3.1 多domain的简介</a></h5><p>domain是UVM中一个用于组织不同组件的概念。</p><p>在默认情况下， 验证平台中所有component都位于一个名字为common_domain的domain中。
+若要体现出独立性， 那么两个部分 的reset_phase、 configure_phase、 main_phase等就不应该同步。
+此时就应该让其中的一部分从common_domain中独立出来， 使其位于不同的domain中。</p><p>domain把两块时钟域隔开， 之后两个时钟域内的各个动态运行（ run_time） 的phase就可以不必同步。 注意， 这里domain只能
+隔离run-time的phase， 对于其他phase， 其实还是同步的， 即两个domain的run_phase依然是同步的， 其他的function phase也是同步
+的。</p><h5 id=a-id532-多domain的例子532-多domain的例子a><a id="5.3.2 多domain的例子">5.3.2 多domain的例子</a></h5><p>新建一个domain， 并将其实例化。 在connect_phase中通过set_domain将B加入到此domain中。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>class</span> B <span style=color:#ff79c6>extends</span> uvm_component;
+</span></span><span style=display:flex><span>  uvm_domain new_domain;
+</span></span><span style=display:flex><span>  `uvm_component_utils(B)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>function</span> <span style=color:#ff79c6>new</span>(<span style=color:#ff79c6>string</span> name, uvm_component parent);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>super</span>.<span style=color:#ff79c6>new</span>(name, parent);
+</span></span><span style=display:flex><span>    new_domain <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span>(<span style=color:#f1fa8c>&#34;new_domain&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>endfunction</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>virtual</span> <span style=color:#ff79c6>function</span> <span style=color:#ff79c6>void</span> connect_phase(uvm_phase phase);
+</span></span><span style=display:flex><span>    set_domain(new_domain);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>endfunction</span>  
+</span></span><span style=display:flex><span>  …
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endclass</span>
+</span></span></code></pre></div><p>set_domain的第二个参数表示是否递归。</p><h5 id=a-id533-多domain的phase跳转533-多domain的phase跳转a><a id="5.3.3 多domain的phase跳转">5.3.3 多domain的phase跳转</a></h5><p>phase跳转只能在自己的domain中。</p><h3 id=a-id第6章-uvm中的sequence第6章-uvm中的sequencea><a id="第6章 uvm中的sequence">第6章 uvm中的sequence</a></h3><h4 id=a-id61-sequence基础61-sequence基础a><a id="6.1 sequence基础">6.1 sequence基础</a></h4><h5 id=a-id611-从driver中剥离激励产生功能611-从driver中剥离激励产生功能a><a id="6.1.1 从driver中剥离激励产生功能">6.1.1 从driver中剥离激励产生功能</a></h5><p>单独使用sequence对DUT施加不同的激励。</p><h5 id=a-id612-sequence的启动和执行612-sequence的启动和执行a><a id="6.1.2 sequence的启动和执行">6.1.2 sequence的启动和执行</a></h5><p>启动：</p><ul><li>start任务</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>my_sequence my_seq;
+</span></span><span style=display:flex><span>my_seq <span style=color:#ff79c6>=</span> my_sequence<span style=color:#ff79c6>::</span>type_id<span style=color:#ff79c6>::</span>create(<span style=color:#f1fa8c>&#34;my_seq&#34;</span>);
+</span></span><span style=display:flex><span>my_seq.start(sequencer);
+</span></span></code></pre></div><ul><li>default_sequence</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>uvm_config_db#(uvm_object_wrapper)<span style=color:#ff79c6>::</span>set(<span style=color:#ff79c6>this</span>,
+</span></span><span style=display:flex><span><span style=color:#f1fa8c>&#34;env.i_agt.sqr.main_phase&#34;</span>,
+</span></span><span style=display:flex><span><span style=color:#f1fa8c>&#34;default_sequence&#34;</span>,
+</span></span><span style=display:flex><span>case0_sequence<span style=color:#ff79c6>::</span>type_id<span style=color:#ff79c6>::</span>get());
+</span></span></code></pre></div><ul><li>实例化，再设置default_sequence</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>case0_sequence caseq;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>uvm_config_db#(uvm_object_wrapper)<span style=color:#ff79c6>::</span>set(<span style=color:#ff79c6>this</span>,
+</span></span><span style=display:flex><span><span style=color:#f1fa8c>&#34;env.i_agt.sqr.main_phase&#34;</span>,
+</span></span><span style=display:flex><span><span style=color:#f1fa8c>&#34;default_sequence&#34;</span>,
+</span></span><span style=display:flex><span>caseq);
+</span></span></code></pre></div><p>启动：
+设置好了之后，会自动调用pre_body、body、post_body</p><h4 id=a-id62-sequence的仲裁机制62-sequence的仲裁机制a><a id="6.2 sequence的仲裁机制">6.2 sequence的仲裁机制</a></h4><h5 id=a-id621-在同一个sequence上启动多个sequence621-在同一个sequence上启动多个sequencea><a id="6.2.1 在同一个sequence上启动多个sequence">6.2.1 在同一个sequence上启动多个sequence</a></h5><p>在my_sequencer上同时启动了两个sequence： sequence1和sequence2：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>fork</span>
+</span></span><span style=display:flex><span>seq0.start(env.i_agt.sqr);
+</span></span><span style=display:flex><span>seq1.start(env.i_agt.sqr);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>join</span>
+</span></span></code></pre></div><p>sequencer根据什么选择使用哪个sequence的transaction呢？ 这是UVM的sequence机制中的仲裁问题。
+可以通过uvm_do_pri及uvm_do_pri_with改变所产生的transaction的优先级。</p><p>为sequencer设置仲裁算法：<code>env.i_agt.sqr.set_arbitration(UVM_SEQ_ARB_STRICT_FIFO);</code>，
+sequencer的仲裁算法：</p><ul><li><code>UVM_SEQ_ARB_FIFO</code>：默认，遵循先入先出的顺序， 而不会考虑优先级。</li><li><code>UVM_SEQ_ARB_WEIGHTED</code>：加权的仲裁。</li><li><code>UVM_SEQ_ARB_RANDOM</code>：完全随机。</li><li><code>UVM_SEQ_ARB_STRICT_FIFO</code>：严格按照优先级，存在同一优先级，按照fifo先进先出。</li><li><code>UVM_SEQ_ARB_STRICT_RANDOM</code>：严格按照优先级，存在同一优先级，随机。</li><li><code>UVM_SEQ_ARB_USER</code>：用户自定义算法，需要重载<code>user_priority_arbitration()</code></li></ul><h5 id=a-id322-sequence的lock操作322-sequence的lock操作a><a id="3.2.2 sequence的lock操作">3.2.2 sequence的lock操作</a></h5><p>当多个sequence在一个sequencer上同时启动时， 每个sequence产生出的transaction都需要参与sequencer的仲裁。
+那么考虑这样一种情况， 某个sequence比较奇特， 一旦它要执行， 那么它所有的transaction必须连续地交给driver，
+如果中间夹杂着其他sequence的transaction， 就会发生错误。 可以使用lock操作锁定sequence。</p><p>直接在sequence的body中使用<code>lock()</code>锁定当前sequencer，直到<code>unlock()</code>。</p><h5 id=a-id623-sequencer的grab操作623-sequencer的grab操作a><a id="6.2.3 sequencer的grab操作">6.2.3 sequencer的grab操作</a></h5><p>grab操作和lock类似，也是仲裁的独占。</p><ul><li>lock操作是先仲裁，再锁定。</li><li>grab操作是先锁定。</li></ul><h5 id=a-id624-sequence的有效性624-sequence的有效性a><a id="6.2.4 sequence的有效性">6.2.4 sequence的有效性</a></h5><p>通过lock任务和grab任务， sequence可以独占sequencer， 强行使sequencer发送自己产生的transaction。 同样的， UVM也提供措
+施使sequence可以在一定时间内不参与仲裁， 即令此sequence失效。</p><p>每次仲裁之前，都会查看被仲裁sequence的<code>is_relevant()</code>是否有效。
+如果有效，则参与仲裁；如果无效，则放弃仲裁，并且调用<code>wait_for_relevant()</code>等待有效。</p><p>需要重载的函数：</p><ul><li>重载<code>is_relevant()</code>。</li><li>重载<code>wait_for_relevant()</code>，否则会报错。</li></ul><h4 id=a-id63-sequence相关宏及其实现63-sequence相关宏及其实现a><a id="6.3 sequence相关宏及其实现">6.3 sequence相关宏及其实现</a></h4><h5 id=a-id631-uvm_do系列宏631-uvm_do系列宏a><a id="6.3.1 uvm_do系列宏">6.3.1 uvm_do系列宏</a></h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>uvm_do(SEQ_OR_ITEM)
+</span></span><span style=display:flex><span>uvm_do_pri(SEQ_OR_ITEM, PRIORITY)
+</span></span><span style=display:flex><span>uvm_do_with(SEQ_OR_ITEM, CONSTRAINTS)
+</span></span><span style=display:flex><span>uvm_do_pri_with(SEQ_OR_ITEM, PRIORITY, CONSTRAINTS)
+</span></span><span style=display:flex><span>uvm_do_on(SEQ_OR_ITEM, SEQR)
+</span></span><span style=display:flex><span>uvm_do_on_pri(SEQ_OR_ITEM, SEQR, PRIORITY)
+</span></span><span style=display:flex><span>uvm_do_on_with(SEQ_OR_ITEM, SEQR, CONSTRAINTS)
+</span></span><span style=display:flex><span>uvm_do_on_pri_with(SEQ_OR_ITEM, SEQR, PRIORITY, CONSTRAINTS)
+</span></span></code></pre></div><h5 id=a-id632-uvm_create与uvm_send632-uvm_create与uvm_senda><a id="6.3.2 uvm_create与uvm_send">6.3.2 uvm_create与uvm_send</a></h5><p><code>uvm_create</code>宏的作用是实例化事务。
+事务处理完成之后，
+<code>uvm_send</code>宏发送事务，也可以用<code>uvm_send_pri</code>宏发送事务同时设定优先级。</p><h5 id=a-id633-uvm_rand_send系列宏633-uvm_rand_send系列宏a><a id="6.3.3 uvm_rand_send系列宏">6.3.3 uvm_rand_send系列宏</a></h5><p>uvm_rand_send宏与uvm_send宏类似， 唯一的区别是它会对transaction进行随机化。</p><p>系列宏：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>uvm_rand_send(SEQ_OR_ITEM)
+</span></span><span style=display:flex><span>uvm_rand_send_pri(SEQ_OR_ITEM, PRIORITY)
+</span></span><span style=display:flex><span>uvm_rand_send_with(SEQ_OR_ITEM, CONSTRAINTS)
+</span></span><span style=display:flex><span>uvm_rand_send_pri_with(SEQ_OR_ITEM, PRIORITY, CONSTRAINTS)
+</span></span></code></pre></div><p>如果一个transaction占用的内存比较大， 那么很可能希望前后两次发送的transaction都使用同一块内存，
+只是其中的内容可以不同， 这样比较节省内存</p><h5 id=a-id634-start_item和finish_item634-start_item和finish_itema><a id="6.3.4 start_item和finish_item">6.3.4 start_item和finish_item</a></h5><p>不使用宏产生transaction的方式要依赖于两个任务： <code>start_item</code>和<code>finish_item</code>。</p><p>对事物的处理应当在事务例化之后，<code>finish_item</code>之前。<code>start_item</code>之前之后都可以。</p><p>在这里也可以使用第二个参数指定优先级，两个函数都要指定。</p><h5 id=a-id635-pre_domid_do和post_do635-pre_domid_do和post_doa><a id="6.3.5 pre_do、mid_do和post_do">6.3.5 pre_do、mid_do和post_do</a></h5><ul><li>pre_do是一个任务， 是start_item返回前执行的最后一行代码， 在它执行完毕后才对transaction进行随
+机化。</li><li>mid_do是一个函数， 位于finish_item的最开始。 在执行完此函数后， finish_item才进行其他操作。</li><li>post_do也是一个函数， 是finish_item返回前执行的最后一行代码。 它们的执行顺序大致为：</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>sequencer.wait_for_grant(prior) (<span style=color:#ff79c6>task</span>) \ 
+</span></span><span style=display:flex><span>                                           start_item \
+</span></span><span style=display:flex><span>parent_seq.pre_do(<span style=color:#bd93f9>1</span>)            (<span style=color:#ff79c6>task</span>) <span style=color:#ff79c6>/</span>               \
+</span></span><span style=display:flex><span>                                                         `uvm_do<span style=color:#ff79c6>*</span> macros
+</span></span><span style=display:flex><span>parent_seq.mid_do(item)         (func) \               <span style=color:#ff79c6>/</span>
+</span></span><span style=display:flex><span>sequencer.send_request(item)    (func)  \             <span style=color:#ff79c6>/</span>
+</span></span><span style=display:flex><span>                                         finish_item <span style=color:#ff79c6>/</span>
+</span></span><span style=display:flex><span>sequencer.wait_for_item_done()  (<span style=color:#ff79c6>task</span>)  <span style=color:#ff79c6>/</span>
+</span></span><span style=display:flex><span>parent_seq.post_do(item)        (func) <span style=color:#ff79c6>/</span>
+</span></span></code></pre></div><p>使用时，需要重载这三个函数。</p><h4 id=a-id64-sequence的进阶应用64-sequence的进阶应用a><a id="6.4 sequence的进阶应用">6.4 sequence的进阶应用</a></h4><h5 id=a-id641-嵌套的sequence641-嵌套的sequencea><a id="6.4.1 嵌套的sequence">6.4.1 嵌套的sequence</a></h5><p>一个sequence内启动另外一个sequence， 这就是嵌套的sequence。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>crc_seq cseq;
+</span></span><span style=display:flex><span>long_seq lseq;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>repeat</span> (<span style=color:#bd93f9>10</span>) <span style=color:#ff79c6>begin</span>
+</span></span><span style=display:flex><span>`uvm_do(cseq)
+</span></span><span style=display:flex><span>`uvm_do(lseq)
+</span></span></code></pre></div><h5 id=a-id642-在sequence中使用rand类型642-在sequence中使用rand类型a><a id="6.4.2 在sequence中使用rand类型">6.4.2 在sequence中使用rand类型</a></h5><p>在sequence中也可以使用rand修饰符。</p><blockquote><p>Note：变量名一定要和事务中的变量名有所区别。</p></blockquote><h5 id=a-id643-transaction类型的匹配653-transaction类型的匹配a><a id="6.4.3 transaction类型的匹配">6.5.3 transaction类型的匹配</a></h5><p>一个sequencer只能产生一种类型的transaction。
+一个sequence如果要想在此sequencer上启动，
+那么其所产生的transaction的类型必须是这种transaction或者派生自这种transaction。</p><p>如果想将两个截然不同的transaction交给同一个sequencer产生，
+只需要将sequencer和driver能够接受的数据类型设置为uvm_sequence_item，并且driver中手动执行cast转换<code>$cast(my_tr, req)</code>。</p><h5 id=a-id644-p_sequencer的使用644-p_sequencer的使用a><a id="6.4.4 p_sequencer的使用">6.4.4 p_sequencer的使用</a></h5><p>m_sequencer是case0_sequence在启动后所使用的sequencer的指针，属于uvm_sequencer_base基类。
+可以使用cast将其转换为当前sequencer，<code>$cast(x_sequencer, m_sequencer)</code>。</p><p>在实际的验证平台中，更推荐使用宏<code>uvm_declare_p_sequencer(SEQUENCER)</code>
+声明一个指向当前sequence的p_sequencer，宏内部也做了类型转换。</p><h5 id=a-id645-sequence的派生和集成645-sequence的派生和集成a><a id="6.4.5 sequence的派生和集成">6.4.5 sequence的派生和集成</a></h5><p>由于在同一个项目中各sequence都是类似的， 所以可以将很多公用的函数或者任务写在base sequence中，
+其他sequence都从此sequence派生。</p><h4 id=a-id65-virtual-sequence的使用65-virtual-sequence的使用a><a id="6.5 virtual sequence的使用">6.5 virtual sequence的使用</a></h4><h5 id=a-id651-带双路输入输出端口的dut651-带双路输入输出端口的duta><a id="6.5.1 带双路输入输出端口的dut">6.5.1 带双路输入输出端口的dut</a></h5><p>dut存在两组端口，需要使用两个interface以及构建两个env。</p><h5 id=a-id652-sequence之间的简单同步652-sequence之间的简单同步a><a id="6.5.2 sequence之间的简单同步">6.5.2 sequence之间的简单同步</a></h5><p>两个env之间的driver是等价的，处于某种原因需要再第一个env发送某个包，才能发送第二个env的事务。
+可以使用全局事件来同步。</p><h5 id=a-id653-sequence之间的复杂同步653-sequence之间的复杂同步a><a id="6.5.3 sequence之间的复杂同步">6.5.3 sequence之间的复杂同步</a></h5><p>实现sequence之间同步的最好的方式就是使用virtual sequence。
+从字面上理解， 即虚拟的sequence。 虚拟的意思就是它根本就不发送transaction， 它只是控制其他的sequence，
+起统一调度的作用。一般需要一个virtual sequencer。</p><p>virtual sequencer和virtual sequence里面包含了sequencer和sequence的指针。</p><p>virtual sequencer例化在test层，且在connect_phase中和对应env下的sequencer进行连接。</p><h5 id=a-id654-仅在virtual-sequence中控制objection654-仅在virtual-sequence中控制objectiona><a id="6.5.4 仅在virtual sequence中控制objection">6.5.4 仅在virtual sequence中控制objection</a></h5><p>建议在最顶层的virtual sequence进行raise和drop操作。</p><h5 id=a-id655-在sequence中慎用fork-join_none655-在sequence中慎用fork-join_nonea><a id="6.5.5 在sequence中慎用fork join_none">6.5.5 在sequence中慎用fork join_none</a></h5><p>当使用for加fork join_none启动多个sequence时，应使用wait fork去等待所有的sequence执行完毕再进行后续的操作。</p><h4 id=a-id66-在sequence中使用config_db66-在sequence中使用config_dba><a id="6.6 在sequence中使用config_db">6.6 在sequence中使用config_db</a></h4><h5 id=a-id661-在sequence中获取参数661-在sequence中获取参数a><a id="6.6.1 在sequence中获取参数">6.6.1 在sequence中获取参数</a></h5><p>一般config_db set的对象都是component，针对sequence也提供了支持。</p><ul><li>set：路径使用通配符，<code>uvm_config_db#(int)::set(this, "env.i_agt.sqr.*", "count", 9)</code></li><li>get：使用<code>get_full_name()</code>获取路径，<code>uvm_config_db#(int)::get(null, get_full_name(), "count", count)</code></li></ul><blockquote><p>Note：在get函数原型中， 第一个参数必须是一个component， 而sequence不是一个component，
+所以这里不能使用this指针， 只能使用null或者uvm_root： ： get（ ） 。 前文已经提过， 当使用null时， UVM会自动将其替换为
+uvm_root： ： get（ ） ， 再加上第二个参数get_full_name（ ） ， 就可以完整地得到此sequence的路径， 从而得到参数。</p></blockquote><h5 id=a-id662-在sequence中设置参数662-在sequence中设置参数a><a id="6.6.2 在sequence中设置参数">6.6.2 在sequence中设置参数</a></h5><p>在sequence中为scb设置参数：
+<code>uvm_config_db#(bit)::set(uvm_root::get(), "uvm_test_top.env0.scb","cmp_en", 0);</code></p><h5 id=a-id663-wait_modified的使用663-wait_modified的使用a><a id="6.6.3 wait_modified的使用">6.6.3 wait_modified的使用</a></h5><p>如果不做任何处理的话， <em><a href="#6.6.2 在sequence中设置参数">6.6.2 在sequence中设置参数</a></em>
+章节设置的参数在scb是get不到的，这是因为get一般在build中调用。</p><p>针对这种不固定的设置参数的方式， UVM中提供了wait_modified任务， 它的参数有三个， 与config_db： ： get的前三个参数完
+全一样。 当它检测到第三个参数的值被更新过后， 它就返回， 否则一直等待在那里。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>task</span> my_scoreboard<span style=color:#ff79c6>::</span>main_phase(uvm_phase phase);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>fork</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>while</span>(<span style=color:#bd93f9>1</span>) <span style=color:#ff79c6>begin</span>
+</span></span><span style=display:flex><span>uvm_config_db#(<span style=color:#ff79c6>bit</span>)<span style=color:#ff79c6>::</span>wait_modified(<span style=color:#ff79c6>this</span>, <span style=color:#f1fa8c>&#34;&#34;</span>, <span style=color:#f1fa8c>&#34;cmp_en&#34;</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>void</span>&#39;(uvm_config_db#(<span style=color:#ff79c6>bit</span>)<span style=color:#ff79c6>::</span>get(<span style=color:#ff79c6>this</span>, <span style=color:#f1fa8c>&#34;&#34;</span>, <span style=color:#f1fa8c>&#34;cmp_en&#34;</span>, cmp_en));
+</span></span><span style=display:flex><span>`uvm_info(<span style=color:#f1fa8c>&#34;my_scoreboard&#34;</span>, <span style=color:#8be9fd;font-style:italic>$sformatf</span>(<span style=color:#f1fa8c>&#34;cmp_en value modified, the new value is %0d&#34;</span>, cmp_en),
+</span></span><span style=display:flex><span><span style=color:#ff79c6>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>join</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endtask</span>
+</span></span></code></pre></div><h4 id=a-id67-response的使用67-response的使用a><a id="6.7 response的使用">6.7 response的使用</a></h4><h5 id=a-id671-put_response和get_response671-put_response和get_responsea><a id="6.7.1 put_response和get_response">6.7.1 put_response和get_response</a></h5><p>sequence机制提供对driver给sequence反馈的支持， 它允许driver将一个response返回给sequence。</p><p>在driver的item_done之前<code>put_response(rsp)</code>。
+在sequence的body中<code>get_response(rsp)</code>。</p><p>如果存在多个sequence，则需要对rsp事务进行<code>set_id_info(req)</code>。</p><h5 id=a-id672-response的数量问题672-response的数量问题a><a id="6.7.2 response的数量问题">6.7.2 response的数量问题</a></h5><p>通常来说， 一个transaction对应一个response， 但是事实上， UVM也支持一个transaction对应多个response的情况， 在这种情况
+下， 在sequence中需要多次调用get_response， 而在driver中， 需要多次调用put_response。</p><p>然而sequencer可接受的response队列的最大数量默认是8个，多于8个就会报错。</p><p><code>get_response(rsp)</code>是阻塞的。</p><h5 id=a-id673-response-handle与另类的response673-response-handle与另类的responsea><a id="6.7.3 response handle与另类的response">6.7.3 response handle与另类的response</a></h5><p>sequence中发送transaction与get_response是在同一个进程中执行的，。
+假如将二者分离开来， 在不同的进程中运行将会得到不同的结果。 在这种情况下需要使用response_handler。</p><ol><li>在sequence中打开response_handle的功能：<code>use_response_handler(1)</code></li><li>在sequence中重载函数response_handler，在其中实现对rsp的操作。</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>virtual</span> <span style=color:#ff79c6>function</span> <span style=color:#ff79c6>void</span> response_handler(uvm_sequence_item response)
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>if</span>(<span style=color:#ff79c6>!</span>$cast(rsp, response))
+</span></span><span style=display:flex><span>    `uvm_error(<span style=color:#f1fa8c>&#34;seq&#34;</span>, <span style=color:#f1fa8c>&#34;can&#39;t cast&#34;</span>)
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>else</span> <span style=color:#ff79c6>begin</span>
+</span></span><span style=display:flex><span>    `uvm_info(<span style=color:#f1fa8c>&#34;seq&#34;</span>, <span style=color:#f1fa8c>&#34;get one response&#34;</span>, UVM_MEDIUM)
+</span></span><span style=display:flex><span>    rsp.print();
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>end</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endfunction</span>
+</span></span></code></pre></div><h5 id=a-id674-rsp个req类型不同674-rsp个req类型不同a><a id="6.7.4 rsp个req类型不同">6.7.4 rsp个req类型不同</a></h5><p>在前面章节的例子中只向它们传递了一个参数， 因此response与req的类型是一样的。 如果要使用不同类型的rsp与req， 那么
+driver、 sequencer与sequence在定义时都要传入两个参数。这样rsp和req的类型就可以不同。</p><h4 id=a-id68-sequence-library68-sequence-librarya><a id="6.8 sequence library">6.8 sequence library</a></h4><h5 id=a-id681-随机选择sequence681-随机选择sequencea><a id="6.8.1 随机选择sequence">6.8.1 随机选择sequence</a></h5><p>所谓sequence library， 就是一系列sequence的集合。
+sequence_library本质上就是一个sequence，因此定义时也需要指定发送的事务为参数。</p><p>使用步骤：</p><ul><li>从uvm_sequence_library派生。</li><li>初始化：<code>init_sequence_library</code></li><li>在library中注册：<code>uvm_sequence_library_utils(sequence_library)</code></li><li>在sequence中添加：<code>uvm_add_to_seq_lib(seq,sequence_library)</code></li></ul><h5 id=a-id682-控制选择算法682-控制选择算法a><a id="6.8.2 控制选择算法">6.8.2 控制选择算法</a></h5><p>sequence中的selection_mode变量决定选择什么算法。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>typedef</span> <span style=color:#ff79c6>enum</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>UVM_SEQ_LIB_RAND,  <span style=color:#6272a4>//完全的随机
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>UVM_SEQ_LIB_RANDC, <span style=color:#6272a4>//序列随机
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>UVM_SEQ_LIB_ITEM,  <span style=color:#6272a4>//作为一个普通sequence，不执行内部的sequence
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>UVM_SEQ_LIB_USER   <span style=color:#6272a4>//自定义算法，需重载sekect_sequence(MAX)。
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>} uvm_sequence_lib_mode;
+</span></span></code></pre></div><h5 id=a-id683-控制执行次数683-控制执行次数a><a id="6.8.3 控制执行次数">6.8.3 控制执行次数</a></h5><p>sequence library会在min_random_count和max_random_count之间随意选择一个数来作为执行次数。
+这两个参数属于sequence。</p><h5 id=a-id684-使用sequence_library_cfg684-使用sequence_library_cfga><a id="6.8.4 使用sequence_library_cfg">6.8.4 使用sequence_library_cfg</a></h5><p>UVM提供了一个类uvm_sequence_library_cfg来对sequence library进行配置。 它一共有三个成员变量：</p><ul><li>uvm_sequence_lib_mode selection_mode;</li><li>int unsigned min_random_count;</li><li>int unsigned max_random_count</li></ul><p>在new的时候，传递对应参数。然后直接将config传递给相应的sequence_library，
+或者给sequence_library的变量直接赋值。</p><h3 id=a-id第7章-uvm中的寄存器模型第7章-uvm中的寄存器模型a><a id="第7章 uvm中的寄存器模型">第7章 uvm中的寄存器模型</a></h3><h4 id=a-id71-寄存器模型介绍71-寄存器模型介绍a><a id="7.1 寄存器模型介绍">7.1 寄存器模型介绍</a></h4><h5 id=a-id711-带寄存器配置总线的dut711-带寄存器配置总线的duta><a id="7.1.1 带寄存器配置总线的dut">7.1.1 带寄存器配置总线的dut</a></h5><p>存在这样一个dut，</p><ul><li>只有一个1bit的寄存器invert， 为其分配地址16’h9。<ul><li>如果它的值为1， 那么DUT在输出时会将输入的数据取反；</li><li>如果为0， 则将输入数据直接发送出去。</li></ul></li><li>bus_op为1时表示写操作， 为0表示读操作。</li><li>bus_addr表示地址，</li><li>bus_rd_data表示读取的数据。</li><li>bus_wr_data表示要写入的数据。</li><li>bus_cmd_valid为1时表示总线数据有效， 只持续一个时钟， DUT应该在其为1期间采样总线数据；<ul><li>如果是读操作， 应该在下一个时钟给出读数据。</li><li>如果是写操作， 应该在下一个时钟把数据写入。</li></ul></li></ul><h5 id=a-id712-需要寄存器模型才能做的事情712-需要寄存器模型才能做的事情a><a id="7.1.2 需要寄存器模型才能做的事情">7.1.2 需要寄存器模型才能做的事情</a></h5><p>有了寄存器模型后， 可以在任何耗费时间的phase中使用寄存器模型以前门访问或后门（ BACKDOOR） 访问的方式来读取寄存器的值，
+同时还能在某些不耗费时间的phase（ 如check_phase） 中使用后门访问的方式来读取寄存器的值。</p><p>前门访问与后门访问是两种寄存器的访问方式。</p><ul><li>所谓前门访问， 指的是通过模拟cpu在总线上发出读指令， 进行读写操作。 在这个过程中， 仿真时间（ $time函数得到的时间） 是一直往前走的。</li><li>而后门访问是与前门访问相对的概念。 它并不通过总线进行读写操作， 而是直接通过层次化的引用来改变寄存器的值。</li></ul><h5 id=a-id713-寄存器模型的基本概念713-寄存器模型的基本概念a><a id="7.1.3 寄存器模型的基本概念">7.1.3 寄存器模型的基本概念</a></h5><p>寄存器模型的组成单位：</p><ul><li>uvm_reg：一个寄存器，存在至少一个uvm_reg_field。<ul><li>uvm_reg_field：寄存器模型的最小单位。</li></ul></li><li>uvm_reg_block：存在多个uvm_reg或者uvm_reg_block。<ul><li>uvm_reg_map：将寄存器的偏移地址映射为硬件的物理地址。每个uvm_reg_block至少存在一个uvm_reg_map。</li></ul></li></ul><h4 id=a-id72-简单的寄存器模型72-简单的寄存器模型a><a id="7.2 简单的寄存器模型">7.2 简单的寄存器模型</a></h4><h5 id=a-id721-只有一个寄存器的寄存器模型721-只有一个寄存器的寄存器模型a><a id="7.2.1 只有一个寄存器的寄存器模型">7.2.1 只有一个寄存器的寄存器模型</a></h5><p>在reg的build函数中配置reg_field的configure参数：</p><ul><li>parent, //一般为this，表示属于该寄存器</li><li>size,</li><li>lsb_pos,</li><li>access, //访问类型，只读、只写、读写等</li><li>volatile,</li><li>reset value,</li><li>has_reset,</li><li>is_rand,</li><li>individually_accessible，是否可单独存取。</li></ul><p>在reg_block的build函数中实例化创建寄存器，配置寄存器的configure:</p><ul><li>此寄存器所在uvm_reg_block的指针， 这里填写this</li><li>第二个参数是reg_file的指针，这里暂时填写null。</li><li>第三个参数是此寄存器的后门访问路径，这里暂且为空。</li></ul><p>并调用寄存器的build函数。创建default_map并添加寄存器。</p><h5 id=a-id722-将寄存器模型集成到验证平台中722-将寄存器模型集成到验证平台中a><a id="7.2.2 将寄存器模型集成到验证平台中">7.2.2 将寄存器模型集成到验证平台中</a></h5><p><strong>派生adapter</strong></p><p>寄存器模型的前门访问操作可以分成读和写两种。
+无论是读或写， 寄存器模型都会通过sequence产生一个uvm_reg_bus_op的变量。</p><p>uvm_reg_bus_op通过adapter转换为bus的事务后，交给sequencer，通过driver驱动给dut。
+需要实现两个函数：</p><ul><li>reg2bus，寄存器事务转换为总线事务。</li><li>bus2reg，总线事务转换为寄存器事务。</li></ul><p><strong>集成到test中</strong></p><p>在test中：</p><ul><li>实例化寄存器模型：<ul><li>调用configure函数。</li><li>调用build函数。</li><li>调用lock_model函数。</li><li>调用reset函数复位所有寄存器。</li></ul></li><li>实例化转换器。</li></ul><p>在sequencer也实例化寄存器模型，并且在test的connect_phase中与创建的寄存器模型进行连接。
+还要为寄存器模型的map设置sequencer和转换器，设置自动预测。
+<code>rm.default_map.set_sequencer(env.bus_agt.sqr, reg_sqr_adapter);</code></p><h5 id=a-id723-在验证平台中使用寄存器模型723-在验证平台中使用寄存器模型a><a id="7.2.3 在验证平台中使用寄存器模型">7.2.3 在验证平台中使用寄存器模型</a></h5><p>有两个基本的函数，<code>read()</code>和<code>write()</code>。常用前三个函数：</p><ul><li>状态；</li><li>数据；</li><li>前门后门，默认是UVM_DEFAULT_PATH</li></ul><h4 id=a-id73-前门访问和后门访问73-前门访问和后门访问a><a id="7.3 前门访问和后门访问">7.3 前门访问和后门访问</a></h4><h5 id=a-id731-uvm中前门访问的实现731-uvm中前门访问的实现a><a id="7.3.1 uvm中前门访问的实现">7.3.1 uvm中前门访问的实现</a></h5><p>所谓前门访问操作就是通过寄存器配置总线（ 如APB协议、 OCP协议、 I2C协议等）来对DUT进行操作，只有读操作和写操作。</p><p>转换器的bus2reg和reg2bus提供了一种uvm_reg_item和总线transaction的转换，以读操作为例：</p><ul><li>参考模型调用寄存器模型的读任务。</li><li>寄存器模型产生sequence， 并产生uvm_reg_item： rw。</li><li>产生driver能够接受的transaction： bus_req=adapter.reg2bus（rw） 。</li><li>把bus_req交给bus_sequencer。</li><li>driver得到bus_req后驱动它， 得到读取的值， 并将读取值放入bus_req中， 调用item_done。</li><li>寄存器模型调用adapter.bus2reg（bus_req， rw） 将bus_req中的读取值传递给rw。</li><li>将rw中的读数据返回参考模型</li></ul><p>对于 <em><a href="#6.7 response的使用">6.7 response的使用</a></em> ，转换器也提供了相应的机制。
+在adapter中设置provide_responses选项。</p><ul><li>参考模型调用寄存器模型的读任务。</li><li>寄存器模型产生sequence， 并产生uvm_reg_item： rw。</li><li>产生driver能够接受的transaction： bus_req=adapter.reg2bus（rw） 。</li><li>将bus_req交给bus_sequencer。</li><li>driver得到bus_req， 驱动它， 得到读取的值， 并将读取值放入rsp中， 调用item_done。</li><li>寄存器模型调用adapter.bus2reg（rsp， rw） 将rsp中的读取值传递给rw。</li><li>将rw中的读数据返回参考模型。</li></ul><h5 id=a-id732-uvm中后门访问的实现732-uvm中后门访问的实现a><a id="7.3.2 uvm中后门访问的实现">7.3.2 uvm中后门访问的实现</a></h5><p>在通信系统中， 有大量计数器用于统计各种包裹的数量， 如超长包、 长包、 中包、 短包、 超短包等。
+这些计数器的一个共同的特点是它们是只读的， DUT的总线接口无法通过前门访问操作对其进行写操作。</p><p>从广义上来说， 所有不通过DUT的总线而对DUT内部的寄存器或者存储器进行存取的操作都是后门访问操作。</p><p>后门访问的好处：</p><ul><li>后门访问操作能够更好地完成前门访问操作所做的事情，且不消耗仿真时间。</li><li>后门访问操作能够完成前门访问操作不能完成的事情。对只读寄存器的写。</li></ul><p>后门访问的坏处：</p><ul><li>无法在波形上看到操作哼唧，很大程度上依赖验证平台的打印信息。</li></ul><h5 id=a-id733-使用interface进行后门访问733-使用interface进行后门访问a><a id="7.3.3 使用interface进行后门访问">7.3.3 使用interface进行后门访问</a></h5><p>直接对接口中的端口进行访问。</p><h5 id=a-id734-uvm中后门访问的视线dpivpi734-uvm中后门访问的视线dpivpia><a id="7.3.4 uvm中后门访问的视线：dpi+vpi">7.3.4 uvm中后门访问的视线：dpi+vpi</a></h5><p>这种方式适用于有对dut进行后门访问的需求，但是不向使用寄存器模型。</p><p>除了寄存器和接口的后门访问操作，还有使用c代码对寄存进行访问的需求。</p><p>verilog提供了两个vpi接口函数：</p><ul><li><code>vpi_get_value(obj, p_value);</code></li><li><code>vpi_put_value(obj, p_value, p_time, flags);</code></li></ul><p>system_verilog提供了更好的dpi接口。</p><ul><li>在c中定义：<code>int uvm_hdl_read(char *path, p_vpi_vecval value);</code></li><li>在sv中import：<code>import "DPI-C" context function int uvm_hdl_read(string path, output uvm_hdl_d ata_t value);</code></li></ul><h5 id=a-id735-uvm后门访问操作接口735-uvm后门访问操作接口a><a id="7.3.5 uvm后门访问操作接口">7.3.5 uvm后门访问操作接口</a></h5><p>在uvm_reg_block调用uvm_reg的configure函数时，设置好第三个路径参数。</p><p>在test集成时，设置好根路径参数。</p><p>uvm提供两类后门访问：</p><ul><li>UVM_BACKDOOR形式的write和read，模仿dut的行为，受寄存器读写类型的影响。</li><li>peek和poke：纯粹的后门访问，不受dut行为的影响。
+无论是peek还是poke， 其常用的参数都是前两个。 各自的第一个参数表示操作是否成功， 第二个参数表示读写的数据。</li></ul><h4 id=a-id74-复杂的寄存器模型74-复杂的寄存器模型a><a id="7.4 复杂的寄存器模型">7.4 复杂的寄存器模型</a></h4><h5 id=a-id741-层次化寄存器模型741-层次化寄存器模型a><a id="7.4.1 层次化寄存器模型">7.4.1 层次化寄存器模型</a></h5><p>在现实中通常会出现将uvm_reg_block再加入一个uvm_reg_block中的情况， 然后在base_test中实例化后者。</p><p>集成过程和reg集成在reg_block中的相似：</p><ul><li>第一步是先实例化子reg_block。</li><li>第二步是调用子reg_block的configure函数。 如果需要使用后门访问， 则在这个函数中要说明子reg_block的路径， 这个路径不是绝对路径，
+而是相对于父reg_block来说的路径（ 简单起见， 上述代码中的路径参数设置为空字符串， 不能发起后门访问操作） 。</li><li>第三步是调用子reg_block的build函数。</li><li>第四步是调用子reg_block的lock_model函数。</li><li>第五步则是将子reg_block的default_map以子map的形式加入父reg_block的default_map中。</li></ul><h5 id=a-id742-reg_file的作用742-reg_file的作用a><a id="7.4.2 reg_file的作用">7.4.2 reg_file的作用</a></h5><p>UVM的寄存器模型中还有一个称为uvm_reg_file的概念。 这个类的引入主要是用于区分不同的hdl路径。
+uvm_reg_file同uvm_reg相同是一个纯虚类， 不能直接使用， 而必须使用其派生类。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>class</span> regfile <span style=color:#ff79c6>extends</span> uvm_reg_file;
+</span></span><span style=display:flex><span> <span style=color:#ff79c6>function</span> <span style=color:#ff79c6>new</span>(<span style=color:#ff79c6>string</span> name <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;regfile&#34;</span>);
+</span></span><span style=display:flex><span> <span style=color:#ff79c6>super</span>.<span style=color:#ff79c6>new</span>(name);
+</span></span><span style=display:flex><span> <span style=color:#ff79c6>endfunction</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span> `uvm_object_utils(regfile)
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endclass</span>
+</span></span></code></pre></div><p>然后在reg_block中创建，configure：</p><ul><li>第一个参数是其所在的reg_block的指针。</li><li>第二个参数是假设此reg_file是另外一个reg_file的父文件， 那么这里就填写其父reg_file的指针。
+由于这里只有这一级reg_file， 因此填写null。</li><li>第三个参数则是此reg_file的hdl相对路径。</li></ul><h5 id=a-id743-多个域的寄存器743-多个域的寄存器a><a id="7.4.3 多个域的寄存器">7.4.3 多个域的寄存器</a></h5><p>前面所有例子中的寄存器都是只有一个域的， 如果一个寄存器有多个域时， 那么在建立模型时会稍有改变。</p><p>域相当于寄存器内部的字段分属于不同的路径。</p><p>设某个寄存器有三个域， 其中最低两位为filedA， 接着三位为filedB， 接着四位为filedC， 其余位未使用。</p><p>这个寄存器从逻辑上来看是一个寄存器， 但是从物理上来看， 即它的DUT实现中是三个寄存器， 因此这一个寄存器实际上对
+应着三个不同的hdl路径： fieldA、 fieldB、 fieldC。</p><p>当寄存器存在多个域时，需要再寄存器build之后使用<code>add_hdl_path_slice()</code>进行域的分割：</p><ul><li>这个函数的第一个参数是要加入的路径。</li><li>第二个参数则是此路径对应的域在此寄存器中的起始位数， 如fieldA是从0开始的， 而fieldB是从2开始的。</li><li>第三个参数则是此路径对应的域的位宽。</li></ul><h5 id=a-id744-多个地址的寄存器744-多个地址的寄存器a><a id="7.4.4 多个地址的寄存器">7.4.4 多个地址的寄存器</a></h5><p>有些寄存器的位宽比总线的位宽要大，因此寄存器模型可能需要多个地址。</p><p>寄存器模型提供另外一种方式， 可以使一个寄存器占据多个地址：</p><ul><li>将占据多个地址的寄存器单独按实际位宽进行定义。</li><li>default_map按实际的总线定义。</li><li>总线读取时会从偏移地址开始读，分多次，直到寄存器的位宽全部读到。</li></ul><h5 id=a-id745-加入存储器745-加入存储器a><a id="7.4.5 加入存储器">7.4.5 加入存储器</a></h5><p>直接派生<code>uvm_mem</code>，new函数比较特殊：</p><ul><li>第一个是名字。</li><li>第二个是存储器的深度。</li><li>第三个是宽度。</li></ul><p>在block中创建，configure：</p><ul><li>第一个参数是所在reg_block的指针。</li><li>第二个参数是此块存储器的hdl路径。</li></ul><p>最后调用default_map.add_mem函数， 将此块存储器加入default_map中。</p><p>在对mem进行write、read、peek、poke操作时，需要指定一个offset的偏移地址，指定读取位置。</p><p>假如存储器的宽度大于系统总线位宽时，总线会访问多次。</p><h4 id=a-id75-寄存器模型对dut的模拟75-寄存器模型对dut的模拟a><a id="7.5 寄存器模型对dut的模拟">7.5 寄存器模型对dut的模拟</a></h4><h5 id=a-id751-期望值和镜像值751-期望值和镜像值a><a id="7.5.1 期望值和镜像值">7.5.1 期望值和镜像值</a></h5><p>镜像值：寄存器模型中有一个专门的变量用于最大可能地与DUT保持同步。
+期望值：寄存器模型期望dut应该表现的值。</p><p>写寄存器有两种方法：</p><ul><li>直接<code>write()</code>：期望值和镜像值都更新。</li><li>两步写：<ul><li>先<code>set()</code>，更新期望值。<code>get()</code>函数可以得到期望值。</li><li>再<code>update()</code>，如果镜像值和期望值不一致，则更新镜像值。<code>get_mirrored()</code>可以得到镜像值。</li></ul></li></ul><p>对于存储器来说，不存在这两个值。</p><h5 id=a-id752-常用操作及其对期望值和镜像值的影响752-常用操作及其对期望值和镜像值的影响a><a id="7.5.2 常用操作及其对期望值和镜像值的影响">7.5.2 常用操作及其对期望值和镜像值的影响</a></h5><ul><li>read&amp;write操作：</br>无论通过后门访问还是前门访问的方式从DUT中读取或写入寄存器的值，
+在操作完成后， 寄存器模型都会根据读写的结果更新期望值和镜像值（ 二者相等） 。</li><li>peek&amp;poke操作：</br>在操作完成后， 寄存器模型会根据操作的结果更新期望值和镜像值（ 二者相等）</li><li>get&amp;set操作：</br>set操作会更新期望值， 但是镜像值不会改变。 get操作会返回寄存器模型中当前寄存器的期望值。</li><li>update操作：</br>这个操作会检查寄存器的期望值和镜像值是否一致，
+如果不一致， 那么就会将期望值写入DUT中， 并且更新镜像值， 使其与期望值一致。
+每个由uvm_reg派生来的类都会有update操作。
+每个由uvm_reg_block派生来的类也有update操作， 它会递归地调用所有加入此reg_block的寄存器的update任务。</li><li>randomize操作：
+寄存器模型提供randomize接口。 randomize之后， 期望值将会变为随机出的数值， 镜像值不会改变。
+这需要寄存器创建时configure支持。</li></ul><h4 id=a-id76-寄存器模型中一些内建的sequence76-寄存器模型中一些内建的sequencea><a id="7.6 寄存器模型中一些内建的sequence">7.6 寄存器模型中一些内建的sequence</a></h4><p>start时，指定的sequencer为null。</p><p>如果不想检查某个寄存器，可以：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>uvm_resource_db#(<span style=color:#ff79c6>bit</span>)<span style=color:#ff79c6>::</span>set({<span style=color:#f1fa8c>&#34;REG::&#34;</span>,rm.invert.get_full_name(),<span style=color:#f1fa8c>&#34;.*&#34;</span>},<span style=color:#f1fa8c>&#34;NO_REG_TESTS&#34;</span>, <span style=color:#bd93f9>1</span>, <span style=color:#ff79c6>this</span>);
+</span></span></code></pre></div><p>如果不想检查寄存器的某项检查，可以：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>uvm_resource_db#(<span style=color:#ff79c6>bit</span>)<span style=color:#ff79c6>::</span>set({<span style=color:#f1fa8c>&#34;REG::&#34;</span>,rm.invert.get_full_name(),<span style=color:#f1fa8c>&#34;.*&#34;</span>},<span style=color:#f1fa8c>&#34;NO_REG_HW_RESET_TEST&#34;</span>, <span style=color:#bd93f9>1</span>, <span style=color:#ff79c6>this</span>);
+</span></span></code></pre></div><h5 id=a-id761-检查后门访问中hdl路径的sequence761-检查后门访问中hdl路径的sequencea><a id="7.6.1 检查后门访问中hdl路径的sequence">7.6.1 检查后门访问中hdl路径的sequence</a></h5><p><code>uvm_reg_mem_hdl_paths_seq</code></p><h5 id=a-id762-检查默认值的sequence762-检查默认值的sequencea><a id="7.6.2 检查默认值的sequence">7.6.2 检查默认值的sequence</a></h5><p><code>uvm_reg_hw_reset_seq</code></p><h5 id=a-id763-检查读写功能的sequence763-检查读写功能的sequencea><a id="7.6.3 检查读写功能的sequence">7.6.3 检查读写功能的sequence</a></h5><p><code>uvm_reg_access_seq</code>和<code>uvm_mem_access_seq</code></p><h4 id=a-id77-寄存器模型的高级用法77-寄存器模型的高级用法a><a id="7.7 寄存器模型的高级用法">7.7 寄存器模型的高级用法</a></h4><h5 id=a-id71-使用reg_predictor71-使用reg_predictora><a id="7.1 使用reg_predictor">7.1 使用reg_predictor</a></h5><p>driver返回读取值后，寄存器模型自动更新寄存器的期望值和镜像值，这个功能被称为寄存器模型的自动预测，是由下面的代码打开的<br><code>rm.default_map.set_auto_predict(1)</code></p><p>还有一种手动的方式，monitor将总线上收集到的事务交给寄存器模型，后者主动更新期望值和镜像值。
+需要实例化一个reg_predictor，并为这个预测期例化一个adapter。这个adapter和driver使用的是一个。</p><p>在connect_phase中， 需要将reg_predictor的bus_in和bus_agt的ap口连接在一起，
+并设置reg_predictor的adapter和map。只有设置了map后， 才能将predictor和寄存器模型关联在一起。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>reg_predictor.map <span style=color:#ff79c6>=</span> rm.default_map;
+</span></span><span style=display:flex><span>reg_predictor.adapter <span style=color:#ff79c6>=</span> mon_reg_adapter;
+</span></span><span style=display:flex><span>env.bus_agt.ap.connect(reg_predictor.bus_in);
+</span></span></code></pre></div><p>这样就存在两条更新寄存器模型的路径：</p><ul><li>一条是自动预测。</li><li>一条是主动预测。</li></ul><h5 id=a-id772-使用uvm_predict_direct功能与mirror操作772-使用uvm_predict_direct功能与mirror操作a><a id="7.7.2 使用uvm_predict_direct功能与mirror操作">7.7.2 使用uvm_predict_direct功能与mirror操作</a></h5><p><strong>mirror</strong></p><p>UVM提供mirror操作， 用于读取DUT中寄存器的值并将它们更新到寄存器模型的镜像值和期望值。
+第二个参数指的是如果发现DUT中寄存器的值与寄存器模型中的镜像值不一致，
+那么在更新寄存器模型之前是否给出错误提示。 其可选的值为UVM_CHECK和UVM_NO_CHECK。</p><p>它有两种应用场景：</p><ul><li>一是在仿真中不断地调用它， 使得到整个寄存器模型的值与DUT中寄存器的值保持一致， 此时check选项是关闭的。</li><li>二是在仿真即将结束时， 检查DUT中寄存器的值与寄存器模型中寄存器的镜像值是否一致， 这种情况下， check选项是打开的。</li></ul><p><strong>predict</strong></p><p>使用<code>predict()</code>人为地更新镜像值， 但是同时又不要对DUT进行任何操作。</p><ul><li>其中第一个参数表示要预测的值，</li><li>第二个参数是byte_en， 默认-1的意思是全部有效，</li><li>第三个参数是预测的类型，<ul><li><code>UVM_PREDICT_DIRECT</code></li><li><code>UVM_PREDICT_READ</code></li><li><code>UVM_PREDICT_WRITE</code></li></ul></li><li>第四个参数是后门访问或者是前门访问。 第三个参数预测类型有如下几种可以选择：</li></ul><p>read/peek和write/poke操作在对DUT完成读写后， 也会调用此函数， 只是它们给出的参数是UVM_PREDICT_READ和UVM_PREDICT_WRITE。
+要实现在参考模型中更新寄存器模型而又不影响DUT的值， 需要使用UVM_PREDICT_DIRECT， 即默认值。</p><h6 id=a-id773-寄存器模型的随机化和update773-寄存器模型的随机化和updatea><a id="7.7.3 寄存器模型的随机化和update">7.7.3 寄存器模型的随机化和update</a></h6><p>随机化可以在以下三个层次调用：</p><ul><li>uvm_reg_field</li><li>uvm_reg</li><li>uvm_reg_block</li></ul><p>随机化会更新寄存器的期望值，然后使用update更新寄存器的镜像值。</p><h5 id=a-id774-扩展位宽774-扩展位宽a><a id="7.7.4 扩展位宽">7.7.4 扩展位宽</a></h5><p>寄存器模型的最大位宽为64，通过宏<code>UVM_REG_DATA_WIDTH</code>和<code>UVM_REG_ADDR_WIDTH</code>控制。</p><h4 id=a-id78-寄存器模型的其他常用函数78-寄存器模型的其他常用函数a><a id="7.8 寄存器模型的其他常用函数">7.8 寄存器模型的其他常用函数</a></h4><h5 id=a-id781-get_root_blocks函数781-get_root_blocks函数a><a id="7.8.1 get_root_blocks函数">7.8.1 get_root_blocks函数</a></h5><p><code>get_root_blocks(blks)</code>函数得到验证平台上所有的根块（ root block） 。 根块指最顶层的reg_block。</p><p>在使用get_root_blocks函数得到reg_block的指针后， 要使用cast将其转化为目标reg_block形式（ 示例中为reg_model） 。 以后就
+可以直接使用p_rm来进行寄存器操作， 而不必使用p_sequencer.p_rm。</p><h5 id=a-id782-get_reg_by_offset函数782-get_reg_by_offset函数a><a id="7.8.2 get_reg_by_offset函数">7.8.2 get_reg_by_offset函数</a></h5><p>使用`get_reg_by_offset()函数通过寄存器的地址得到一个uvm_reg的指针，
+再调用此uvm_reg的read或者write就可以进行读写操作。</p><h3 id=a-id第8章-uvm中的factory机制第8章-uvm中的factory机制a><a id="第8章 uvm中的factory机制">第8章 uvm中的factory机制</a></h3><h4 id=a-id81-systemverilog对重载的支持81-systemverilog对重载的支持a><a id="8.1 systemverilog对重载的支持">8.1 systemverilog对重载的支持</a></h4><h5 id=a-id82-任务与函数的重载82-任务与函数的重载a><a id="8.2 任务与函数的重载">8.2 任务与函数的重载</a></h5><p>面向对象语言都有一大特征： 重载。 当在父类中定义一个函数/任务时， 如果将其设置
+为virtual类型， 那么就可以在子类中重载这个函数/任务。</p><p>重载的最大优势是使得一个子类的指针以父类的类型传递时， 其表现出的行为依然是子类的行为。</p><h5 id=a-id812-约束的重载812-约束的重载a><a id="8.1.2 约束的重载">8.1.2 约束的重载</a></h5><p>对约束的重载可以不要添加virtual关键字。</p><h4 id=a-id82-使用factory机制进行重载82-使用factory机制进行重载a><a id="8.2 使用factory机制进行重载">8.2 使用factory机制进行重载</a></h4><h5 id=a-id821-factory机制的重载821-factory机制的重载a><a id="8.2.1 factory机制的重载">8.2.1 factory机制的重载</a></h5><p>实现重载的要求：</p><ul><li>都要在定义时注册到factory机制中。</li><li>被重载的类（bird） 在实例化时， 要使用factory机制式的实例化方式。</li><li>重载的类必须派生自被重载的类。</li><li>component与object之间互相不能重载.</li></ul><h5 id=a-id822-重载的方式及种类822-重载的方式及种类a><a id="8.2.2 重载的方式及种类">8.2.2 重载的方式及种类</a></h5><p>位于uvm_component中：
+<code>set_type_override_by_type</code>、<code>set_type_override</code>：</p><ul><li>第一个参数是被重载的类型或名字。</li><li>第二个参数是重载的类型或名字。</li><li>第三个参数是replace，表示是否可以被后面的重载覆盖。</li></ul><p><code>set_inst_override_by_type</code>、<code>set_inst_override</code>：</p><ul><li>第一个参数是相对路径。</li><li>第二个参数是被重载的类型或名字。</li><li>第三个参数是要重载的类型或名字。</li></ul><p>位于uvm_factory中：</p><ul><li><code>set_type_override_by_type</code>、<code>set_type_override_by_name</code>：</li><li>第一个参数是被重载的类型或名字。</li><li>第二个参数是重载的类型或名字。</li><li>第三个参数是replace，表示是否可以被后面的重载覆盖。</li><li><code>set_inst_override_by_type</code>、<code>set_inst_override_by_name</code>：</li><li>第一个参数是被重载的类型或名字。</li><li>第二个参数是要重载的类型或名字。</li><li>第三个参数是相对路径。</li></ul><p>也可以使用命令行的方式重载：
+<code>+uvm_set_inst_override=&lt;req_type>,&lt;override_type>,&lt;full_inst_path></code></br><code>+uvm_set_type_override=&lt;req_type>,&lt;override_type>[,&lt;replace>]</code></p><h5 id=a-id823-复杂的重载823-复杂的重载a><a id="8.2.3 复杂的重载">8.2.3 复杂的重载</a></h5><p>连续重载：</br></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>set_type_override_by_type(bird<span style=color:#ff79c6>::</span>get_type(), parrot<span style=color:#ff79c6>::</span>get_type());
+</span></span><span style=display:flex><span>set_type_override_by_type(parrot<span style=color:#ff79c6>::</span>get_type(), big_parrot<span style=color:#ff79c6>::</span>get_type());
+</span></span></code></pre></div><p>替换重载：</br></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>set_type_override_by_type(bird<span style=color:#ff79c6>::</span>get_type(), parrot<span style=color:#ff79c6>::</span>get_type());
+</span></span><span style=display:flex><span>set_type_override_by_type(bird<span style=color:#ff79c6>::</span>get_type(), sparrow<span style=color:#ff79c6>::</span>get_type());
+</span></span></code></pre></div><h5 id=a-id824-factory机制的调试824-factory机制的调试a><a id="8.2.4 factory机制的调试">8.2.4 factory机制的调试</a></h5><p>component中可以打印组件的重载信息的函数：
+<code>env.o_agt.mon.print_override_info("my_monitor");</code></p><p>factory中可以打印组件重载信息的函数：
+<code>uvm_factory.print(&lt;0,1,2>)</code></p><ul><li>当为0时， 仅仅打印被重载的实例和类型。</li><li>当为1时， 打印参数为0时的信息， 以及所有用户创建的、 注册到factory的类的名称。</li><li>当为2时， 打印参数为1时的信息， 以及系统创建的、 所有注册到factory的类的名称（ 如uvm_reg_item）。</li></ul><p>top中打印拓扑结构的函数：
+<code>uvm_top.print_topology();</code></p><h4 id=a-id83-常用的重载83-常用的重载a><a id="8.3 常用的重载">8.3 常用的重载</a></h4><h5 id=a-id831-重载transaction831-重载transactiona><a id="8.3.1 重载transaction">8.3.1 重载transaction</a></h5><h5 id=a-id832-重载sequence832-重载sequencea><a id="8.3.2 重载sequence">8.3.2 重载sequence</a></h5><h5 id=a-id833-重载component833-重载componenta><a id="8.3.3 重载component">8.3.3 重载component</a></h5><h5 id=a-id834-重载driver以实现所有的测试用例834-重载driver以实现所有的测试用例a><a id="8.3.4 重载driver以实现所有的测试用例">8.3.4 重载driver以实现所有的测试用例</a></h5><h4 id=a-id84-factory机制的实现84-factory机制的实现a><a id="8.4 factory机制的实现">8.4 factory机制的实现</a></h4><h5 id=a-id841-创建一个类实例的方法841-创建一个类实例的方法a><a id="8.4.1 创建一个类实例的方法">8.4.1 创建一个类实例的方法</a></h5><p>直接创建：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>class</span> A
+</span></span><span style=display:flex><span>… e
+</span></span><span style=display:flex><span>ndclass
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> B;
+</span></span><span style=display:flex><span>A a;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>function</span> <span style=color:#ff79c6>new</span>();
+</span></span><span style=display:flex><span>a <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span>();
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endfunction</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endclass</span>
+</span></span></code></pre></div><p>参数化创建：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>class</span> parameterized_class # (<span style=color:#ff79c6>type</span> T)
+</span></span><span style=display:flex><span>T t;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>function</span> <span style=color:#ff79c6>new</span>();
+</span></span><span style=display:flex><span>t <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span>();
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endfunction</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endclass</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> A;
+</span></span><span style=display:flex><span>… e
+</span></span><span style=display:flex><span>ndclass
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> B;
+</span></span><span style=display:flex><span>parameterized_classs#(A) pa;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>function</span> <span style=color:#ff79c6>new</span>();
+</span></span><span style=display:flex><span>pa <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span>();
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endfunction</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endclass</span>
+</span></span></code></pre></div><h5 id=a-id842-根据字符串创建类842-根据字符串创建类a><a id="8.4.2 根据字符串创建类">8.4.2 根据字符串创建类</a></h5><h5 id=a-id843-用factory机制创建实例的接口843-用factory机制创建实例的接口a><a id="8.4.3 用factory机制创建实例的接口">8.4.3 用factory机制创建实例的接口</a></h5><p><code>create_object_by_name()</code>和<code>create_object_by_type()</code>:</p><ul><li>一般只使用第一个参数</li></ul><p><code>create_component_by_name()</code>和<code>create_component_by_type</code>：</p><ul><li>第一个参数是字符串类型的类名/类型。</li><li>第二个参数是父结点的全名。</li><li>第三个参数是为这个新的component起的名字。</li><li>第四个参数是父结点的指针。</li></ul><h5 id=a-id844-factory机制的本质844-factory机制的本质a><a id="8.4.4. factory机制的本质">8.4.4. factory机制的本质</a></h5><p>从本质上来看， factory机制其实是对SystemVerilog中new函数的重载。
+因为这个原始的new函数实在是太简单了， 功能太少了。
+经过factory机制的改良之后， 进行实例化的方法多了很多。</p><p>经过factory机制的改良之后， 进行实例化的方法多了很多。
+这也体现了UVM编写的一个原则， 一个好的库应该提供更多方便实用的接口，
+这种接口一方面是库自己写出来并开放给用户的，
+另外一方面就是改良语言原始的接口， 使得更加方便用户的使用。</p><h3 id=a-id第9章-uvm代码中的可重用性第9章-uvm代码中的可重用性a><a id="第9章 uvm代码中的可重用性">第9章 uvm代码中的可重用性</a></h3><h4 id=a-id91-callback机制91-callback机制a><a id="9.1 callback机制">9.1 callback机制</a></h4><p>在UVM验证平台中， callback机制的最大用处就是提高验证平台的可重用性。</p><p>很多情况下， 验证人员期望在一个项目中开发的验证平台能够用于另外一个项目。
+但是， 通常来说， 完全的重用是比较难实现的， 两个不同的项目之间或多或少会有一些差异。
+如果把两个项目不同的地方使用callback函数来做， 而把相同的地方写成一个完整的env，</p><h5 id=a-id911-广义的callback函数911-广义的callback函数a><a id="9.1.1 广义的callback函数">9.1.1 广义的callback函数</a></h5><p>post_randomize函数是SystemVerilog提供的广义的callback函数。
+UVM也为用户提供了广义的callback函数/任务： pre_body和post_body， 除此之外还有pre_do、 mid_do和post_do。</p><h5 id=a-id912-callback机制的必要性912-callback机制的必要性a><a id="9.1.2 callback机制的必要性">9.1.2 callback机制的必要性</a></h5><p>callback机制为固定的程序提供了一些灵活的接口。</p><h5 id=a-id913-uvm中callback机制的原理913-uvm中callback机制的原理a><a id="9.1.3 uvm中callback机制的原理">9.1.3 uvm中callback机制的原理</a></h5><p>在使用的时候， 只要从A派生一个类并将其实例化， 然后加入到A_pool中， 那么系统运行到上面的foreach（ A_pool[i]）
+语句时， 将会知道加入了一个实例， 于是就会调用其pre_tran函数（ 任务） 。</p><p>有了A和A_pool， 真正的callback机制就可以实现了。 UVM中的callback机制与此类似， 不过其代码实现非常复杂。</p><h5 id=a-id914-callback机制的使用914-callback机制的使用a><a id="9.1.4 callback机制的使用">9.1.4 callback机制的使用</a></h5><ul><li>从uvm_callback派生一个类，类中实现一个相关的虚函数。<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>class</span> A <span style=color:#ff79c6>extends</span> uvm_callback;
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>virtual</span> <span style=color:#ff79c6>task</span> pre_tran(my_driver drv, <span style=color:#ff79c6>ref</span> my_transaction tr);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>endtask</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>function</span>  <span style=color:#ff79c6>new</span>(<span style=color:#ff79c6>string</span> name<span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;my_callback&#34;</span>);
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>super</span>.<span style=color:#ff79c6>new</span>(name);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>endfunction</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endclass</span>
+</span></span></code></pre></div></li><li>从A派生一个类，将其中的虚函数实现。<pre tabindex=0><code>class my_callback extends A;
+
+    virtual task pre_tran(my_driver drv, ref my_transaction tr);
+        `uvm_info(&#34;my_callback&#34;, &#34;this is pre_tran task&#34;, UVM_MEDIUM)
+    endtask
+
+    `uvm_object_utils(my_callback)
+
+    function  new(string name= &#34;my_callback&#34;);
+        super.new(name);
+    endfunction 
+
+endclass
+</code></pre></li><li>在使用位置driver中将使用callback的类和声明的callback类注册:<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>`uvm_register_cb(my_driver, A)
+</span></span></code></pre></div></li><li>在connect_phase中add：<pre tabindex=0><code>uvm_callbacks#(my_driver, A)::add(env.i_agt.drv, my_cb);
+</code></pre></li><li>调用callback函数：<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span>`uvm_do_callbacks(my_driver, A, pre_tran(<span style=color:#ff79c6>this</span>, req))
+</span></span></code></pre></div><ul><li>uvm_do_callbacks宏的第一个参数是调用pre_tran的类的名字， 这里自然是my_driver，</li><li>第二个参数是哪个类具有pre_tran， 这里是A，</li><li>第三个参数是调用的是函数/任务， 这里是pre_tran， 在指明是pre_tran时， 要顺便给出pre_tran的参数</li></ul></li></ul><h5 id=a-id915-子类继承父类的callback机制915-子类继承父类的callback机制a><a id="9.1.5 子类继承父类的callback机制">9.1.5 子类继承父类的callback机制</a></h5><p>使用了uvm_set_super_type宏， 它把子类和父类关联在一起。</p><ul><li>第一个参数是子类，</li><li>第二个参数是父类。</li></ul><p>在子类调用使，与父类相同，在main_phase中调用uvm_do_callbacks宏时，</p><ul><li>第一个参数是my_driver， 而不是new_driver。</li></ul><h5 id=a-id916-使用callback函数来实现所有的测试用例916-使用callback函数来实现所有的测试用例a><a id="9.1.6 使用callback函数来实现所有的测试用例">9.1.6 使用callback函数来实现所有的测试用例</a></h5><p>将激励产生以一个callback的形式实现，就可以完全代替sequence。</p><h5 id=a-id917-callback机制sequence机制和factory机制917-callback机制sequence机制和factory机制a><a id="9.1.7 callback机制、sequence机制和factory机制">9.1.7 callback机制、sequence机制和factory机制</a></h5><p>callback机制、 sequence机制和factory机制在某种程度上来说很像： 它们都能实现搭建测试用例的目的。</p><h4 id=a-id92-功能的模块化小而美92-功能的模块化小而美a><a id="9.2 功能的模块化，小而美">9.2 功能的模块化，小而美</a></h4><h5 id=a-id921-linux的设计哲学小而美921-linux的设计哲学小而美a><a id="9.2.1 linux的设计哲学，小而美">9.2.1 linux的设计哲学，小而美</a></h5><p>小而美的本质是功能模块化、 标准化，</p><p>小而美的前提是功能模块划分要合理， 一个不合理的划分是谈不上美的</p><h5 id=a-id922-小而美与factory机制的重载922-小而美与factory机制的重载a><a id="9.2.2 小而美与factory机制的重载">9.2.2 小而美与factory机制的重载</a></h5><p>factory机制重要的一点是提供重载功能。
+一般来说， 如果要用B类重载A类， 那么B类是要派生自A类的。
+在派生时， 要保留A类的大部分代码， 只改变其中一小部分。</p><h5 id=a-id923-放弃建造强大sequence的想法923-放弃建造强大sequence的想法a><a id="9.2.3 放弃建造强大sequence的想法">9.2.3 放弃建造强大sequence的想法</a></h5><p>强烈建议不要使用强大的sequence。 可以将一个强大的sequence拆分成小的sequence。</p><h4 id=a-id93-参数化的类93-参数化的类a><a id="9.3 参数化的类">9.3 参数化的类</a></h4><p>代码的重用分为很多层次。 凡是在某个项目中开发的代码用于其他项目， 都可以称为重用， 如：</p><ul><li>A用户在项目P中的代码被A用户自己用于项目P。</li><li>A用户在项目P中的代码被A用户自己用于项目Q。</li><li>A用户在项目P中的代码被B用户用于项目Q。</li><li>A用户在项目P中开发的代码被B用户或者更多的用户用于项目P或项目Q。</li></ul><p>为了增加代码的可重用性， 参数化的类是一个很好的选择。</p><h5 id=a-id932-uvm对参数化类的支持932-uvm对参数化类的支持a><a id="9.3.2 uvm对参数化类的支持">9.3.2 uvm对参数化类的支持</a></h5><p>UVM对参数化类的支持首先体现在factory机制注册上。
+例如uvm_object_param_utils和uvm_component_param_utils这两个用于参数化的object和参数化的component注册的宏。</p><p>UVM的config_db机制可以用于传递virtual interface。 SystemVerilog支持参数化的interface：</p><pre tabindex=0><code class=language-systmverilog data-lang=systmverilog>interface bus_if#(int ADDR_WIDTH=16, int DATA_WIDTH=16)(input clk, input rst_n)
+...
+uvm_config_db#(virtual bus_if#(16, 16))::set(null, &#34;uvm_test_top.env.bus_agt.mon&#34;, &#34;vif&#34; bif);
+...
+uvm_config_db#(virtual bus_if#(ADDR_WIDTH, DATA_WIDTH))::get(this, &#34;&#34;, &#34;vif&#34;, vif)
+</code></pre><p>uvm同样支持参数化的object或者component：</p><pre tabindex=0><code class=language-systmverilog data-lang=systmverilog>class bus_sequencer#(int ADDR_WIDTH=16, int DATA_WIDTH=16) extends uvm_sequen cer #(bus_transaction#(AD
+</code></pre><pre tabindex=0><code class=language-systmverilog data-lang=systmverilog>class bus_agent#(int ADDR_WIDTH=16, int DATA_WIDTH=16) extends uvm_agent ;
+...
+bus_agent bus_agt;
+...
+bus_agt = bus_agent#(16, 16)::type_id::create(&#34;bus_agt&#34;, this);
+</code></pre><h4 id=a-id94-模块级到芯片级的代码重用94-模块级到芯片级的代码重用a><a id="9.4 模块级到芯片级的代码重用">9.4 模块级到芯片级的代码重用</a></h4><h5 id=a-id941-基于env的重用941-基于env的重用a><a id="9.4.1 基于env的重用">9.4.1 基于env的重用</a></h5><p>当在芯片级别验证时， 如果采用env级别的重用， 那么B和C中的driver分别取消， 这可以通过设置各自i_agt的is_active来控制。</p><p>在验证平台中， 每个模块验证环境需要在其env中添加一个analysis_port用于数据输出； 添加一个analysis_export用于数据输
+入； 在env中设置in_chip用于辨别不同的数据来源：</p><ul><li>如果该env是输入env，则将来自外部用于数据输入的analysis_export连接agt_mdl_fifo的export。</li><li>如果该env是输出env，则将来自内部用于数据输入的i_agt.ap连接到agt_mdl_fifo的export。</li></ul><h5 id=a-id942-寄存器模型的重用942-寄存器模型的重用a><a id="9.4.2 寄存器模型的重用">9.4.2 寄存器模型的重用</a></h5><p>为了在芯片级别使用寄存器模型， 需要建立一个新的寄存器模型。
+这个新的寄存器模型中只需要加入各个不同模块的寄存器模型并设置偏移地址和后门访问路径：</p><pre tabindex=0><code class=language-systmverilog data-lang=systmverilog>class chip_reg_model extends uvm_reg_block;
+  rand reg_model A_rm;
+  rand reg_model B_rm;
+  rand reg_model C_rm;
+
+  virtual function void build();
+    default_map = create_map(&#34;default_map&#34;, 0, 2, UVM_BIG_ENDIAN, 0);
+    default_map.add_submap(A_rm.default_map, 16&#39;h0);
+    ...
+    default_map.add_submap(B_rm.default_map, 16&#39;h4000);
+    ...
+    default_map.add_submap(C_rm.default_map, 16&#39;h8000);
+    ...
+  endfunction
+endclass
+</code></pre><p>在env层例化寄存器模型并且将各个模块的指针赋值给env的寄存器模型。</p><h5 id=a-id943-virtual-sequence和virtual-sequencer943-virtual-sequence和virtual-sequencera><a id="9.4.3 virtual sequence和virtual sequencer">9.4.3 virtual sequence和virtual sequencer</a></h5><p>无论是内部模块还是边界模块， 统一推荐其virtual sequencer在base_test中实例化。
+在芯片级别建立自己的virtual sequencer。</p><p>有两种模块级别的sequence可以直接用于芯片级别的验证。</p><ul><li>一种如A、 D和F这样的边界输入端的普通的sequence（ 不是virtual sequence）。</li><li>另外一种是寄存器配置的sequence。</li></ul><h3 id=a-id第10章-uvm高级应用第10章-uvm高级应用a><a id="第10章 uvm高级应用">第10章 uvm高级应用</a></h3><h4 id=a-id101-interface101-interfacea><a id="10.1 interface">10.1 interface</a></h4><h4 id=a-id1011-interface实现driver的部分功能1011-interface实现driver的部分功能a><a id="10.1.1 interface实现driver的部分功能">10.1.1 interface实现driver的部分功能</a></h4><p>在interface中可以定义任务与函数。
+除此之外， 还可以在interface中使用always语句和initial语句。</p><p>使用interface代替driver的第一个好处是可以让driver从底层繁杂的数据处理中解脱出来， 更加专注于处理高层数据。
+第二个好处是有更多的数据出现在interface中， 这会对调试起到很大的帮助。</p><h5 id=a-id1011-可变时钟1011-可变时钟a><a id="10.1.1 可变时钟">10.1.1 可变时钟</a></h5><p>可变时钟有三种：</p><ul><li>第一种是在不同测试用例之间时钟频率不同， 但是在同一测试用例中保持不变。</br><br>在一些应用中， 如HDMI协议中， 其图像的时钟信号就根据发送（ 接收） 图像的分辨率的变化而变化。
+当不同的测试用例测试不同分辨率的图像时， 就需要在不同测试用例中设置不同的时钟频率。</li><li>第二种是在同一个测试用例中存在时钟频率变换的情况。
+芯片上的时钟是由PLL产生的。 但是PLL并不是一开始就会产生稳定的时钟， 而是会有一段过渡期，
+在这段过渡期内， 其时钟频率是一直变化的。 有时候不关心这段过渡期时， 而只关心过渡期前和过渡期后的时钟频率。</li><li>第三种可变时钟和第二种很像， 但是它既关心过渡期前后的时钟， 也关心PLL在过渡期的行为。</li></ul><p>对于第一种可变时钟，有两种方式可以实现可变时钟：</p><ul><li>将时钟生成单独作为一个模块。<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>module</span> top_tb();
+</span></span><span style=display:flex><span>…
+</span></span><span style=display:flex><span>`include <span style=color:#f1fa8c>&#34;test_clk.sv&#34;</span>
+</span></span><span style=display:flex><span>…
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endmodule</span>
+</span></span></code></pre></div></li><li>在test层set，在top层get，参数化生成可变时钟。<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>class</span> test1 <span style=color:#ff79c6>extends</span> uvm_test;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>function</span> <span style=color:#ff79c6>void</span> my_case0<span style=color:#ff79c6>::</span>build_phase(uvm_phase phase);
+</span></span><span style=display:flex><span>  …
+</span></span><span style=display:flex><span>    uvm_config_db#(<span style=color:#ff79c6>real</span>)<span style=color:#ff79c6>::</span>set(<span style=color:#ff79c6>this</span>, <span style=color:#f1fa8c>&#34;&#34;</span>, <span style=color:#f1fa8c>&#34;clk_half_period&#34;</span>, <span style=color:#bd93f9>200.0</span>);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>endfunction</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endclass</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>module</span> top;
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>   #<span style=color:#bd93f9>1</span>;<span style=color:#6272a4>//set，get都是在0时刻开始的。
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>   <span style=color:#ff79c6>if</span>(uvm_config_db#(<span style=color:#ff79c6>real</span>)<span style=color:#ff79c6>::</span>get(uvm_root<span style=color:#ff79c6>::</span>get(), <span style=color:#f1fa8c>&#34;uvm_test_top&#34;</span>, <span style=color:#f1fa8c>&#34;clk_half_period&#34;</span>, clk_half_period)
+</span></span><span style=display:flex><span>  `uvm_info(<span style=color:#f1fa8c>&#34;top_tb&#34;</span>, <span style=color:#8be9fd;font-style:italic>$sformatf</span>(<span style=color:#f1fa8c>&#34;clk_half_period is %0f&#34;</span>, clk_half_per iod), UVM_MEDIUM)
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endmodule</span> 
+</span></span></code></pre></div></li></ul><p>对于第二种可变时钟可以使用下面的方法：</p><ul><li>在top层：</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>module</span> top;
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span><span style=color:#ff79c6>initial</span> <span style=color:#ff79c6>begin</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>static</span> <span style=color:#ff79c6>real</span> clk_half_period <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>100.0</span>;
+</span></span><span style=display:flex><span>  clk <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>fork</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>forever</span> <span style=color:#ff79c6>begin</span>
+</span></span><span style=display:flex><span>      uvm_config_db#(<span style=color:#ff79c6>real</span>)<span style=color:#ff79c6>::</span>wait_modified(uvm_root<span style=color:#ff79c6>::</span>get(), <span style=color:#f1fa8c>&#34;uvm_test_to p&#34;</span>, <span style=color:#f1fa8c>&#34;clk_half_period&#34;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>void</span>&#39;(uvm_config_db#(<span style=color:#ff79c6>real</span>)<span style=color:#ff79c6>::</span>get(uvm_root<span style=color:#ff79c6>::</span>get(), <span style=color:#f1fa8c>&#34;uvm_test_top&#34;</span>, <span style=color:#f1fa8c>&#34; clk_half_period&#34;</span>, clk_h
+</span></span><span style=display:flex><span>    `uvm_info(<span style=color:#f1fa8c>&#34;top_tb&#34;</span>, <span style=color:#8be9fd;font-style:italic>$sformatf</span>(<span style=color:#f1fa8c>&#34;clk_half_period is %0f&#34;</span>, clk_half_p eriod), UVM_MEDIUM)
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>end</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>forever</span> <span style=color:#ff79c6>begin</span>
+</span></span><span style=display:flex><span>      #(clk_half_period<span style=color:#ff79c6>*</span><span style=color:#bd93f9>1.0</span>ns) clk <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>~</span>clk;
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>end</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>join</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>end</span>
+</span></span></code></pre></div><ul><li>在testcase层：</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>task</span> my_case0<span style=color:#ff79c6>::</span>main_phase(uvm_phase phase);
+</span></span><span style=display:flex><span>  #<span style=color:#bd93f9>100000</span>;
+</span></span><span style=display:flex><span>  uvm_config_db#(<span style=color:#ff79c6>real</span>)<span style=color:#ff79c6>::</span>set(<span style=color:#ff79c6>this</span>, <span style=color:#f1fa8c>&#34;&#34;</span>, <span style=color:#f1fa8c>&#34;clk_half_period&#34;</span>, <span style=color:#bd93f9>200.0</span>);
+</span></span><span style=display:flex><span>  #<span style=color:#bd93f9>100000</span>;
+</span></span><span style=display:flex><span>  uvm_config_db#(<span style=color:#ff79c6>real</span>)<span style=color:#ff79c6>::</span>set(<span style=color:#ff79c6>this</span>, <span style=color:#f1fa8c>&#34;&#34;</span>, <span style=color:#f1fa8c>&#34;clk_half_period&#34;</span>, <span style=color:#bd93f9>150.0</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>endtask</span>
+</span></span></code></pre></div><p>对于第三种时钟生成方式：</p><ul><li>可以根据组件的并行运行特性，专门创建一个时钟接口和时钟组件，并在env例化，独自运行。</li></ul><pre tabindex=0><code>class clk_model extends uvm_component;
+  `uvm_component_utils(clk_model)
+
+  virtual clk_if vif;
+  real half_period = 100.0;
+  …
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    if(!uvm_config_db#(virtual clk_if)::get(this, &#34;&#34;, &#34;vif&#34;, vif))
+      `uvm_fatal(&#34;clk_model&#34;, &#34;must set interface for vif&#34;)
+    void&#39;(uvm_config_db#(real)::get(this, &#34;&#34;, &#34;half_period&#34;, half_perio d));
+    `uvm_info(&#34;clk_model&#34;, $sformatf(&#34;clk_half_period is %0f&#34;, half_peri od), UVM_MEDIUM)
+  endfunction
+
+  virtual task run_phase(uvm_phase phase);
+    vif.clk = 0;
+    forever begin
+    #(half_period*1.0ns) vif.clk = ~vif.clk;
+    end
+  endtask
+endclass
+
+class my_env extends uvm_env;
+  …
+  clk_model clk_sys;
+  …
+  virtual function void build_phase(uvm_phase phase);
+  …
+  clk_sys = clk_model::type_id::create(&#34;clk_sys&#34;, this);
+  …
+  endfunction
+  …
+  endclass
+</code></pre><p>在需要新的时钟模型时， 只需要从clk_model派生一个新的类，然后在新的类中实现时钟模型。
+使用factory机制的重载功能将clk_model用新的类重载掉。 通过这种方式， 可以将时钟设置为任意想要的行为。</p><h4 id=a-id102-layer-sequence102-layer-sequencea><a id="10.2 layer sequence">10.2 layer sequence</a></h4><h5 id=a-id1021-复杂sequence的简单化1021-复杂sequence的简单化a><a id="10.2.1 复杂sequence的简单化">10.2.1 复杂sequence的简单化</a></h5><p>多个sequence负责一个包的部分。</p><h5 id=a-id1022-layer-sequence的实例1022-layer-sequence的实例a><a id="10.2.2 layer sequence的实例">10.2.2 layer sequence的实例</a></h5><p>在seqr2中使用uvm_seq_item_pull_port获取其他seqr1产生的seq1：</p><ul><li>在sequencer中创建port，参数是目标事务：
+<code>uvm_seq_item_pull_port #(ip_transaction) ip_tr_port;</code></li><li>在agent中将两个sequencer进行连接：
+<code>sqr.ip_tr_port.connect(ip_sqr.seq_item_export)</code></li></ul><p>第二个seq2使用while循环不断地通过seqr2的pull_port获取seqr1产生的seq1进行加工，
+加工之后交给driver进行驱动。</p><h5 id=a-id1023-layer-sequence和try_next_item1023-layer-sequence和try_next_itema><a id="10.2.3 layer sequence和try_next_item">10.2.3 layer sequence和try_next_item</a></h5><p>try_next_item使用于下面情况：</p><ul><li>在正式传送之前，需要发送一些空闲数据。</li><li>在正式传送完成item_done的drain_time，也需要发送一些空闲数据。</li></ul><p>需要调用<code>uvm_wait_for_nba_region()</code>来避免driver的try_next_item调用过早，第1层的seq1还没准备好driver就<code>try_next_item()</code>。</p><h5 id=a-id1024-错峰技术的使用1024-错峰技术的使用a><a id="10.2.4 错峰技术的使用">10.2.4 错峰技术的使用</a></h5><p>假如上述layer sequence又多了一层， 达到3层，只增加一个<code>uvm_wait_for_nba_region()</code>是没有用处的。
+多次调用也不太合理。</p><p>归根结底，问题的关键在于item_done和try_next_item是在同一时刻被调用， 这导致了时间槽的竞争，
+可以在item_done被调用后， 并不是立即调用try_next_item， 而是等待下一个时钟的上升沿到来后再调用。</p><h4 id=a-id103-sequence的其他问题103-sequence的其他问题a><a id="10.3 sequence的其他问题">10.3 sequence的其他问题</a></h4><h5 id=a-id1031-心跳功能的实现1031-心跳功能的实现a><a id="10.3.1 心跳功能的实现">10.3.1 心跳功能的实现</a></h5><p>在某些协议中， 需要driver每隔一段时间向DUT发送一些类似心跳的信号。
+这些心跳信号的包与其他的普通的包并没有本质上的区别， 其使用的transaction也都是普通的transaction。</p><p>有两种方法：</p><ul><li>在driver中与get_item的进程并行另开一个进行去发送心跳包。</li><li>使用sequence的方式：<ul><li>单独为心跳包创建一个sequence，其中使用while(1)加grab-ungrab的方式独占sequencer，这里也要raise和drop。</li><li>test中将心跳sequence与正常sequence同时启动。</li></ul></li></ul><h5 id=a-id1032-只将virtual-sequence设置为default-sequence1032-只将virtual-sequence设置为default-sequencea><a id="10.3.2 只将virtual sequence设置为default sequence">10.3.2 只将virtual sequence设置为default sequence</a></h5><p>如果只将virtual sequence设置为default_sequence， 那么所有其他的sequence都在其中启动。
+其中带来的一个好处是向sequence传递参数更加方便。</p><h5 id=a-id1033-disable-fork对原子操作的影响1033-disable-fork对原子操作的影响a><a id="10.3.3 disable fork对原子操作的影响">10.3.3 disable fork对原子操作的影响</a></h5><p>UVM寄存器模型的write操作是原子操作，不允许中途中断。
+因此不应该在寄存器操作未完成时disable 带有寄存器读写操作的fork。</p><p>可以使用旗语的get、put和try_get语句。</p><ul><li>先new一个旗语</li><li>使用fork json同时开两个并行线程。</li><li>在寄存器操作之前<code>try_get(1)</code>，第一次一定返回1，执行下面的寄存器操作，完成之后<code>put(1)</code>。</li><li>在正常的sequence中阻塞<code>get(1)</code>。</li><li>当<code>get(1)</code>返回时，寄存器进程<code>try_get(1)</code>返回0，由else分支去break。</li></ul><h4 id=a-id104-dut参数的随机化104-dut参数的随机化a><a id="10.4 dut参数的随机化">10.4 dut参数的随机化</a></h4><h5 id=a-id1041-使用寄存器模型随机化参数1041-使用寄存器模型随机化参数a><a id="10.4.1 使用寄存器模型随机化参数">10.4.1 使用寄存器模型随机化参数</a></h5><p>可以使用寄存器模型的随机化及update来为DUT选择一组随机化的参数。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-systemverilog data-lang=systemverilog><span style=display:flex><span><span style=color:#ff79c6>assert</span>(p_rm.randomize());
+</span></span><span style=display:flex><span>p_rm.updata(status, UVM_FRONTDOOR);
+</span></span></code></pre></div><p>缩小随机化的范围：</p><ul><li>只将需要随机化的寄存器调用randomize函数。<pre tabindex=0><code class=language-systmverilog data-lang=systmverilog>assert(p_rm.reg1.randomize() with { reg_data.value == 5&#39;h3;});
+assert(p_rm.reg2.randomize() with { reg_data.value &gt;= 7&#39;h9;});
+</code></pre></li><li>调用整体的randomize函数时， 为需要指定参数的寄存器指定约束:<pre tabindex=0><code class=language-systmverilog data-lang=systmverilog>assert(p_rm.randomize() with {reg1.reg_data.value == 5&#39;h3;
+reg2.reg_data.value &gt;= 7&#39;h9});
+</code></pre></li><li>借助于factory机制的重载功能， 从需要随机的寄存器中派生一个新的类。<pre tabindex=0><code class=language-systmverilog data-lang=systmverilog>class dreg1 extends my_reg1;
+  constraint{
+    reg_data.value == 5&#39;h3;
+  }
+endclass
+class dreg2 extends my_reg2;
+  constraint{
+    reg_data.value &gt;= 7&#39;h9;
+  }
+endclass
+</code></pre></li></ul><h5 id=a-id1042-使用单独的参数类1042-使用单独的参数类a><a id="10.4.2 使用单独的参数类">10.4.2 使用单独的参数类</a></h5><p>在一个验证平台中， 需要用到寄存器的地方有如下三个：</p><ul><li>一是RTL代码中。</li><li>二是SystemVerilog中。</li><li>三是C语言中。</li></ul><p>必须时刻保持这三处的寄存器完全一致。 当一处有更新时， 其他两处必须相应更新。
+寄存器成百上千个， 如果全部手工来做这些事情， 将会非常耗费时间和精力。
+因此一般的IC公司会将寄存器的描述放在一个源文件中， 如word文档、 excel文件、 xml文档中，
+然后使用脚本从中提取寄存器信息， 并分别生成相应的RTL代码、 UVM中的寄存器模型及C语言中的寄存器模型。
+当寄存器更新时， 只更新源文件即可， 其他的可以自动更新。 这种方式省时省力， 是主流的方式。</p><p>为了解决这个问题， 可以针对DUT中需要随机化的参数建立一个dut_parm类， 并在其中指定默认约束：</p><pre tabindex=0><code class=language-systmverilog data-lang=systmverilog>class dut_parm extends uvm_object;
+  reg_model p_rm;
+  …
+  rand bit[15:0] a_field0;
+  rand bit[15:0] b_field0;
+
+  constraint ab_field_cons{
+    a_field0 + b_field0 &gt;= 100;
+  }
+
+  task update_reg();
+    p_rm.rega.write(status, a_field0, UVM_FROTDOOR);
+    p_rm.regb.write(status, b_field0, UVM_FROTDOOR);
+  endtask
+endclass
+</code></pre><p>这段代码中指定了一个update_reg任务， 它用于当参数随机化完成后， 把相关的参数更新到DUT中。
+在virtual sequence中， 可以实例化这个新的类， 随机化并调用update_reg任务。</p><h4 id=a-id105-聚合参数105-聚合参数a><a id="10.5 聚合参数">10.5 聚合参数</a></h4><h5 id=a-id1051-聚合参数的定义1051-聚合参数的定义a><a id="10.5.1 聚合参数的定义">10.5.1 聚合参数的定义</a></h5><p>在验证平台中用到的参数有两大类：</p><ul><li>一类是验证环境与DUT中都要用到的参数，
+这些参数通常都对应DUT中的寄存器，可以将这些参数组织成了一个参数类。</li><li>另外一类是验证环境中独有的， 比如driver中要发送的preamble数量的上限和下限。 本节讲述如何组织这类参数。</li></ul><p>一种比较好的方法就是将这1000个变量放在一个专门的类里面来实现，使用约束去规定参数。配置时只传递配置类。</p><h5 id=a-id1052-聚合参数的优势和问题1052-聚合参数的优势和问题a><a id="10.5.2 聚合参数的优势和问题">10.5.2 聚合参数的优势和问题</a></h5><p>使用聚合参数后， 可以将此参数类的指针放在virtual sequencer中。
+sequence可以动态地改变某个验证平台中的变量值。
+某些情况下， 甚至可以将interface也放入此聚合参数类。</p><p>这种将所有参数聚合起来的做法可以大大方便验证平台的搭建。 将这个聚合类的指针赋值给任意component， 这样这些
+component再也不需要使用config_db： ： get函数来获取参数了。 当验证平台的某个组件（ 如driver） 要增加一个参数时， 只需要在
+这个聚合类中加入此参数， 在测试用例中直接为其赋值， 然后在验证平台（ 如driver） 中就可以直接使用。</p><h4 id=a-id106-config_db106-config_dba><a id="10.6 config_db">10.6 config_db</a></h4><h5 id=a-id1061-换一个phase使用config_db1061-换一个phase使用config_dba><a id="10.6.1 换一个phase使用config_db">10.6.1 换一个phase使用config_db</a></h5><p>在前面的介绍中， 使用config_db几乎都是在build_phase中。
+一个component的路径可以通过<code>get_full_name()</code>来获得。</p><p>但是在build_phase时， 整棵UVM树还没有形成， 使用env.i_agt.drv的形式进行引用会引起空指针的错误。 所以， 要想这么使
+778用， 有两种方法：</p><ul><li>一种是所有的实例化工作都在各自的new函数中完成。</li><li>第二种方式是将<code>uvm_config_db::set()</code>移到connect_phase中去。
+由于connect_phase是由下向上执行的，test的connect_phase几乎是最后执行的，
+因此应该在end_of_elaboration_phase或者start_of_simulation_phase调用<code>uvm_config_db::get()</code>。</li></ul><h5 id=a-id1062-config_db的替代者1062-config_db的替代者a><a id="10.6.2 config_db的替代者">10.6.2 config_db的替代者</a></h5><p>config_db设置的参数有两种，</p><ul><li>一种是结构性的参数， 如控制driver是否实例化的参数is_active。</li><li>另一种是非结构性的参数， 如向某个driver中传递某个参数。
+可以完全在build_phase之后的任意phase中使用绝对路径引用进行设置。</li></ul><h5 id=a-id1063-set函数的第二个参数检查1063-set函数的第二个参数检查a><a id="10.6.3 set函数的第二个参数检查">10.6.3 set函数的第二个参数检查</a></h5><p>config_db机制的
+最大问题在于不对set函数的第二个参数进行检查。 本节介绍一个函数， 可以在一定程度上（ 并不能检查所有！ ） 实现对第二个参
+数有效性的检查。 读者可以将这个函数加入到自己的验证平台中。</p><blockquote><p>Note：
+需要说明的是， 这个函数有一些局限， 其中之一就是不支持<code>config_db::set()</code>向object传递的参数。</p></blockquote><hr><ul class=pager><li class=previous><a href=/icer/post/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8/ data-toggle=tooltip data-placement=top title=半导体存储器介绍>&larr;
+Previous Post</a></li><li class=next><a href=/icer/post/uart-%E5%8D%8F%E8%AE%AE%E4%BB%8B%E7%BB%8D/ data-toggle=tooltip data-placement=top title="UART 介绍">Next
+Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=ICJJ/icer data-repo-id=R_kgDOMWEQRg data-category=General data-category-id=DIC_kwDOMWEQRs4CgyrH data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=en crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/icer/tags/ahb title=ahb>ahb
+</a><a href=/icer/tags/amba title=amba>amba
+</a><a href=/icer/tags/amba5 title=amba5>amba5
+</a><a href=/icer/tags/apb title=apb>apb
+</a><a href=/icer/tags/axi title=axi>axi
+</a><a href=/icer/tags/blog title=blog>blog
+</a><a href=/icer/tags/bus title=bus>bus
+</a><a href=/icer/tags/cache title=cache>cache
+</a><a href=/icer/tags/ddr title=ddr>ddr
+</a><a href=/icer/tags/flash title=flash>flash
+</a><a href=/icer/tags/git title=git>git
+</a><a href=/icer/tags/html title=html>html
+</a><a href=/icer/tags/i2c title=i2c>i2c
+</a><a href=/icer/tags/ic%E9%AA%8C%E8%AF%81 title=ic验证>ic验证
+</a><a href=/icer/tags/multi-layer-ahb title=multi-layer-ahb>multi-layer-ahb
+</a><a href=/icer/tags/nxp title=nxp>nxp
+</a><a href=/icer/tags/pcie title=pcie>pcie
+</a><a href=/icer/tags/ram title=ram>ram
+</a><a href=/icer/tags/sdp title=sdp>sdp
+</a><a href=/icer/tags/spi title=spi>spi
+</a><a href=/icer/tags/uart title=uart>uart
+</a><a href=/icer/tags/uvm title=uvm>uvm
+</a><a href=/icer/tags/uvm%E5%AE%9E%E6%88%98 title=uvm实战>uvm实战
+</a><a href=/icer/tags/%E4%B8%B2%E5%8F%A3 title=串口>串口
+</a><a href=/icer/tags/%E5%8D%8F%E8%AE%AE%E7%BF%BB%E8%AF%91 title=协议翻译>协议翻译
+</a><a href=/icer/tags/%E5%A4%A7%E5%B0%8F%E7%AB%AF title=大小端>大小端
+</a><a href=/icer/tags/%E5%AD%97%E8%8A%82%E5%BA%8F title=字节序>字节序
+</a><a href=/icer/tags/%E7%9F%A5%E8%AF%86%E6%8F%90%E7%BA%B2 title=知识提纲>知识提纲
+</a><a href=/icer/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0 title=读书笔记>读书笔记</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://zhaozhihan.com>Linda的博客</a></li></ul></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:chengjj9527@gmail.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/icjj><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/ICJJ><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-gitlab fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://stackoverflow.com/users/26381389><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="ICJJ Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; ICJJ Blog 2024<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/icer/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script><script src=https://cdn.jsdelivr.net/gh/jmnote/plantuml-encoder@1.2.4/dist/plantuml-encoder.min.js integrity="sha256-Qsk2KRBCN5qVZX7B+8+2IvQl1Aqc723qV1tBCQaVoqo=" crossorigin=anonymous></script><script>(function(){let e="language-plantuml";Array.prototype.forEach.call(document.querySelectorAll("[class^="+e+"]"),function(e){let t=document.createElement("IMG");t.loading="lazy",t.src="http://www.plantuml.com/plantuml/svg/~1"+plantumlEncoder.encode(e.innerText),e.parentNode.parentNode.insertBefore(t,e.parentNode),e.parentNode.style.display="none"})})()</script></body></html>

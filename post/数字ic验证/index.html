@@ -1,0 +1,77 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="ICJJ Blog"><meta property="og:type" content="article"><meta property="og:image" content="img/site/小米汽车/原型车壁纸/2880x1280/2880x1280-06.png"><meta property="twitter:image" content="img/site/小米汽车/原型车壁纸/2880x1280/2880x1280-06.png"><meta name=title content="数字IC验证"><meta property="og:title" content="数字IC验证"><meta property="twitter:title" content="数字IC验证"><meta name=description content="关于数字IC的一些验证原则、思路、方法等"><meta property="og:description" content="关于数字IC的一些验证原则、思路、方法等"><meta property="twitter:description" content="关于数字IC的一些验证原则、思路、方法等"><meta property="twitter:card" content="summary"><meta name=keyword content="程建军, chengjianjun, ChengJianjun, , 程建军的网络日志, 程建军的博客, ChengJianjun Blog, 博客, 个人网站, AMBA, FPGA, SPINALHDL, PCIE"><link rel="shortcut icon" href=/icer/img/site/favicon.ico><title>数字IC验证 | 程建军的博客 | ChengJianjun Blog</title>
+<link rel=canonical href=/icer/post/%E6%95%B0%E5%AD%97ic%E9%AA%8C%E8%AF%81/><link rel=stylesheet href=/icer/css/bootstrap.min.css><link rel=stylesheet href=/icer/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/icer/css/zanshang.css><link rel=stylesheet href=/icer/css/font-awesome.all.min.css><script src=/icer/js/jquery.min.js></script><script src=/icer/js/bootstrap.min.js></script><script src=/icer/js/hux-blog.min.js></script><script src=/icer/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-FWR2FVFK68"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-FWR2FVFK68")}</script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/icer>ICJJ Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/icer>Posts</a></li><li><a href=/icer/categories/bus/>bus</a></li><li><a href=/icer/categories/tech/>tech</a></li><li><a href=/icer/categories/tips/>tips</a></li><li><a href=/icer/archive/>ARCHIVE</a></li><li><a href=/icer/about/>ABOUT</a></li><li><a href=/icer/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/icer/img/site/%e5%b0%8f%e7%b1%b3%e6%b1%bd%e8%bd%a6/%e5%8e%9f%e5%9e%8b%e8%bd%a6%e5%a3%81%e7%ba%b8/2880x1280/2880x1280-06.png)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/ic%E9%AA%8C%E8%AF%81 title=IC验证>IC验证
+</a><a class=tag href=/tags/blog title=blog>blog</a></div><h1>数字IC验证</h1><h2 class=subheading></h2><span class=meta>Posted by
+程建军
+on
+Tuesday, April 23, 2024</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=a-id数字ic验证数字ic验证a><a id=数字ic验证>数字IC验证</a></h1><h2 id=a-id关于数字ic的一些验证原则思路方法等关于数字ic的一些验证原则思路方法等a><a id=关于数字IC的一些验证原则、思路、方法等>关于数字IC的一些验证原则、思路、方法等</a></h2><h3 id=a-id第1章-验证的目的第1章-验证的目的a><a id="第1章 验证的目的">第1章 验证的目的</a></h3><p><strong>发现Bug，发现所有的Bug，或者证明没有Bug，是验证存在的唯一目的。</strong></p><p>不要为了追求完美、高效的环境而沉迷其中，陷阱往往就在美丽的后面。</p><p>以SV为例，SV有高层次的语法和结构，能够更大限度发挥激励的控制和Random测试的效率。
+想清楚SV能为达成最终的目的带来什么贡献才是关键。</p><p>以TC为例，对于一个验证人员，跑通全部TC，意味什么？代码覆盖率100%，意味什么？验证差不多完成？
+其实不然，这只相当于验证工作大致完成了90%，实际上剩下10%，才是最艰辛的工作。找到最终剩余的部分进行验证才是最困难的。
+也许永远也找不全剩余的10%，只能无限逼近，对于实际使用的现实条件是永远无法精准预测的。</p><h3 id=a-id第2章-验证的视角第2章-验证的视角a><a id="第2章 验证的视角">第2章 验证的视角</a></h3><p><strong>有多大的视角，就能发现多少的Bug</strong></p><p>一个验证人员跑来告诉设计人员，说某某TC Fail了，波形在XXX，请分析。这不是一个合格的验证人员，
+真正的验证和设计是不分家的，至少在问题追踪上是这样的。</p><p>作为一个出色的验证人员。要对设计代码有一定的了解，即使不能像设计人员那样了解。
+当发现一个问题时，应该有能力对设计代码进行追踪，发现问题相关的关键路径。</p><p>验证人员必须要懂得代码，懂得分析逻辑，甚至能够通过代码分析出可能的疑点。
+更好的，能够理解整个系统的运作，理解前端后端的实现，找出设计人员视角的盲区，才能更好的发现Bug，解决Bug。</p><p>验证人员，一定要放开视角，努力去看所能够看到的。而对于验证人员，验证视角的载体就是TC。
+一个TC就代表了对设计的视角，而TC对应的波形则是视角真实的体现。很多bug都是可以在波形上去追踪的。</p><h3 id=a-id第3章-bug就在那里第3章-bug就在那里a><a id="第3章 bug就在那里">第3章 bug就在那里</a></h3><p>从设计之初，就存在着bug。bug静静地躺在那里，不会伪装，不会躲藏，就静静地躺在那里等着被发现。</p><h4 id=a-id31-表层bug31-表层buga><a id="3.1 表层bug">3.1 表层bug</a></h4><p>对于表层的bug，在验证之初最容易发现。而对于深层次的bug，则需要有针对性的去看。
+下面这些区域极容易发现bug：</p><ol><li>只知道跑TC验证人员负责的区域。</li><li>对实现理解不透彻设计人员负责的区域。</li><li>负责人变换频繁的区域。</li><li>DFT相关的区域（验证人员对DFT知识缺乏）。</li><li>规格变化频繁的区域。</li><li>第一次做顶层连接的区域。</li><li>时钟域。</li><li>设计人员认为没有问题的区域（优先级排在后面，可能术语前面提到%10的部分）。</li><li>技术难度比较高的地方。</li><li>以前版本曾经发现问题的地方。（人不应该在同样的地方跌倒两次，但是也容易在同样的地方跌倒两次。）</li><li>协议和时钟转换的地方。</li></ol><h4 id=a-id32-深层次bug32-深层次buga><a id="3.2 深层次bug">3.2 深层次bug</a></h4><p>到这个时候关键部分已经都涉及到了。剩下的都是最最最难找到的bug。有两个经验可以采取：</p><ul><li>反向思考：</br>经历漫长的验证过程，思路已经固化了，可以多和局外人进行交流。
+当然大多数的观点一键都是无用的，但只要出现一条有用的信息，可能就是发现bug的突破口。</li><li>和谐感觉：</br>这个时候，看起来不靠谱的感觉开始变得靠谱了。拿着架构图，时钟结构图或者打开最复杂测例的波形去看。
+曾经看了无数遍的东西再一次被重新拿了起来，
+如果发现某个地方存在着些许不和谐的感觉，出现一个突兀的脉冲？信号达到晚了一些？偶可能是bug所在。</li></ul><h3 id=a-id第4章-代码检视第4章-代码检视a><a id="第4章 代码检视">第4章 代码检视</a></h3><p>代码检视是最容易发现问题的步骤，从写第一行代码开始，到最后一个行结束，都是如此。</p><p>设计人员对于自己的设计是极度乐观的、自信的。尤其是在代码刚刚完成的一刹那。同时也是问题最多的时候。</p><p>验证人员对代码检视的方法和设计人员不一样。需要编写几个最常用的读写测例，将主要数据通路跑通，
+这时候可以不关注设计响应的代码收集。专注于波形代码对照。</p><ol><li>将所有相关信号抓出来，</li><li>x的，z的都分析一遍。</li><li>模块间的握手信号，是脉冲握手还是电平握手。</li><li>大量elseif条件语句相关的信号是重灾区，条件冲突，条件死锁都是有可能的。</li><li>协议理解有出入的。</li></ol><h3 id=a-id第5章-追波形第5章-追波形a><a id="第5章 追波形">第5章 追波形</a></h3><ul><li><p>先看X和Z</br>任何一个波形，无论是验证的前期、中期、后期，到手之后，先刷屏，找X和Z，确认某些Z和X是可以存在的。
+例如某些IP模型，或者未初始化的寄存器和RAM，但芯片开始正常后，Z和X，都不应当存在。
+Z和X可能导致的BUG：</p><ul><li>IP（包括Memory、PLL、Serdes等等）例化时，某些信号悬空未接。
+也许某些模型允许Power信号悬空，或者某些信号是悬空给DFT处理（当下给DFT处理的信号是接零），
+但大多数IP，输入信号是不可悬空的。</li><li>信号位宽不匹配、信号多驱动、声明的信号名称写错、TB级互联错误或TB中遗漏的Force（额外小心隐藏的Force），
+不要相信nLint，特别是在芯片顶层或后仿真时序不满足时的X态传递。</li><li>功能错误，某些模拟IP未能正确操作。</li><li>功能错误，导致管脚冲突。</li><li>功能错误，未能合理使用无复位端的寄存器和未初始化的Memory。</li></ul></li><li><p>再看时钟
+在看完X和Z后，要将所有时钟拉到波形中Check：</p><ul><li>是否所有同步时钟（包括1：N倍频）的时钟沿是否严格对齐。</li><li>CLKEN时钟能够正确将倍频时钟上升沿罩住。</li><li>关键地方寄存器赋值是否有Delay（如果时钟间不存在∆Delay，寄存器赋值可以没有Delay）</li></ul></li></ul><p><strong>看波形之前的第一步是不要看波形。</strong></p><p>要先思考，对照架构图，虚拟一个芯片运转的场景。
+即在脑海中想像一下当前这个激励下，波形应当是怎样运作的，激励怎样进入系统，然后怎样完成协议解析和转换，
+怎样到达了总线，然后出现DDR的吞吐，然后CPU取指、取数，完成处理。OK，也就是说，先要在心中预留一个完美的Scenario。</p><p>心中有了虚构的波形后，再使用Verdi打开波形。抓关键信号，分组，标识不同颜色。</p><p>以AMBA总线为例：</p><ul><li>APB先看PADDR、PSEL、PENABLE。</li><li>AHB先看HADDR、HTRANS、HREADY。</li><li>AXI先看各个通道ADDR、VALID、READY。</li></ul><p>然后，将展开的波形和脑海中已有的场景进行对照，看数据流是否按照脑海中预期的构想而流动。</p><p>在对细节的进一步理解和澄清的过程中，逐步修正心中虚构的波形，使其逐渐接近真实的运作。
+当然，在修正过程中，会出现某些确实表现异常的波形，一些明显出乎设计预期的时序出现。
+OK，这是一个岔路口，先记录*.rc波形现场，然后对该出乎意料的时序进行进一步深入追溯。</p><h3 id=a-id第6章-后仿定位第6章-后仿定位a><a id="第6章 后仿定位">第6章 后仿定位</a></h3><p>后仿定位的思路，供参考。</p><ul><li>还是先关注时钟，每一个模块，clk和clken相位是否正确（PR有时会对时钟取反，需要注意）；</li><li>关注有门控功能的时钟和复位，确认是否存在毛刺；</li><li>把Top层所有管脚和oen、I、C信号抓出来。除掉红色黄色，观察有特殊变化的oen、i、c信号,尤其是和管脚值不符的,还有毛刺；</li><li>观察所有异步接口的时序，基本上都会发现毛刺。例如EBI、Efuse，确认毛刺是否影响功能；</li><li>观察顶层或Subsys独立处理的信号，特别针对还不够成熟的集成人员的特殊设计，例如testmode、rst_out、系统控制器特殊的配置和检测信号；</li><li>关注跨团队的模块，例如功能可控的Memory BIST；</li></ul><p>以上所有这些,MAX和MIN会有不同，要仿真Typical时序，并且确认以上的内容；</p><p>后仿的波形，需要结合Log中的Warning一起Check</p><h3 id=a-id第7章-出现问题的讨论第7章-出现问题的讨论a><a id="第7章 出现问题的讨论">第7章 出现问题的讨论</a></h3><p>发现了bug，或者还不能确定是bug。需要通相关人员进行讨论，讨论也是要讲究技巧的。</p><p><strong>口头讨论</strong></p><p>对于一些不理解的、模糊的设计点可以直接与设计人员进行口头讨论。这也是使用最普遍的方法。</p><p><strong>书面加口头讨论</strong></p><p>针对相关人员不在同一办公地点的问题，应先列出一个清单，说明相关情况：</p><ul><li>问题描述。</li><li>激励驱动。</li><li>相关波形（截图或者列出相关信号）。</li><li>仿真环境副本，便于相关人员直接在本地debug。</li><li>可能的问题所在（这建立在验证人员对设计有一定的熟悉）。</li></ul><p>在有了问题说明之后，可以先进行沟通，视情况组织会议共同讨论。</p><h3 id=a-id第8章-从设计规范到功能第8章-从设计规范到功能a><a id="第8章 从设计规范到功能">第8章 从设计规范到功能</a></h3><p>编写验证计划的第一步是确定要被验证的功能，这可以从设计规范文档中得出。
+对于不熟悉设计目的和特点的验证人员，新增的功能带你在设计规范中可能不是很明显，可以采用这样一种方法：</p><ol><li>观察接口。</li><li>确定功能。</li><li>选定边界。</li></ol><p><strong>列举基于接口的功能</strong></p><p>对于待验证设计的每个接口，列举出接口相关的功能：</p><ul><li>必须采取哪些事务激励？</li><li>激励值的范围是什么？</li><li>事务的次序是什么？</li><li>相关事务比例是什么？</li><li>接口与接口之间或者说宏能与功能之间有什么影响？</li><li>一个接口的是事务是否需要与其他接口同步？</li></ul><p><strong>列举基于用途的功能</strong></p><p>根据设计中的主要数据同步，列举出每个数据通路相关应用场景的功能：</p><ul><li>相关配置是什么？</li><li>可能发生的数据变化有哪些？</li><li>变化顺序是什么？</li><li>变化之前和之后的敏感信号以及敏感信号值是什么？</li><li>存在什么样的错误机制，并如何检测和报告？</li></ul><p><strong>列举出基于边界的功能</strong></p><p>在对设计边界有一定了解之后，给设计增加压力，推向极限：</p><ul><li>如何使一个缓冲器发生溢出？</li><li>对哪些信号驱动哪些值可以到达相关功能的极限？</li></ul><p>在提取功能点时，应该加上简短的标注，描述验证的条件以及期望的结果。</p><hr><ul class=pager><li class=next><a href=/icer/post/%E6%80%BB%E7%BA%BF%E9%80%9A%E8%AF%86/ data-toggle=tooltip data-placement=top title=总线通识>Next
+Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=ICJJ/icer data-repo-id=R_kgDOMWEQRg data-category=General data-category-id=DIC_kwDOMWEQRs4CgyrH data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=en crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/icer/tags/ahb title=ahb>ahb
+</a><a href=/icer/tags/amba title=amba>amba
+</a><a href=/icer/tags/amba5 title=amba5>amba5
+</a><a href=/icer/tags/apb title=apb>apb
+</a><a href=/icer/tags/axi title=axi>axi
+</a><a href=/icer/tags/blog title=blog>blog
+</a><a href=/icer/tags/bus title=bus>bus
+</a><a href=/icer/tags/cache title=cache>cache
+</a><a href=/icer/tags/ddr title=ddr>ddr
+</a><a href=/icer/tags/flash title=flash>flash
+</a><a href=/icer/tags/git title=git>git
+</a><a href=/icer/tags/html title=html>html
+</a><a href=/icer/tags/i2c title=i2c>i2c
+</a><a href=/icer/tags/ic%E9%AA%8C%E8%AF%81 title=ic验证>ic验证
+</a><a href=/icer/tags/multi-layer-ahb title=multi-layer-ahb>multi-layer-ahb
+</a><a href=/icer/tags/nxp title=nxp>nxp
+</a><a href=/icer/tags/pcie title=pcie>pcie
+</a><a href=/icer/tags/ram title=ram>ram
+</a><a href=/icer/tags/sdp title=sdp>sdp
+</a><a href=/icer/tags/spi title=spi>spi
+</a><a href=/icer/tags/uart title=uart>uart
+</a><a href=/icer/tags/uvm title=uvm>uvm
+</a><a href=/icer/tags/uvm%E5%AE%9E%E6%88%98 title=uvm实战>uvm实战
+</a><a href=/icer/tags/%E4%B8%B2%E5%8F%A3 title=串口>串口
+</a><a href=/icer/tags/%E5%8D%8F%E8%AE%AE%E7%BF%BB%E8%AF%91 title=协议翻译>协议翻译
+</a><a href=/icer/tags/%E5%A4%A7%E5%B0%8F%E7%AB%AF title=大小端>大小端
+</a><a href=/icer/tags/%E5%AD%97%E8%8A%82%E5%BA%8F title=字节序>字节序
+</a><a href=/icer/tags/%E7%9F%A5%E8%AF%86%E6%8F%90%E7%BA%B2 title=知识提纲>知识提纲
+</a><a href=/icer/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0 title=读书笔记>读书笔记</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://zhaozhihan.com>Linda的博客</a></li></ul></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:chengjj9527@gmail.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/icjj><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/ICJJ><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-gitlab fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://stackoverflow.com/users/26381389><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="ICJJ Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; ICJJ Blog 2024<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/icer/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script><script src=https://cdn.jsdelivr.net/gh/jmnote/plantuml-encoder@1.2.4/dist/plantuml-encoder.min.js integrity="sha256-Qsk2KRBCN5qVZX7B+8+2IvQl1Aqc723qV1tBCQaVoqo=" crossorigin=anonymous></script><script>(function(){let e="language-plantuml";Array.prototype.forEach.call(document.querySelectorAll("[class^="+e+"]"),function(e){let t=document.createElement("IMG");t.loading="lazy",t.src="http://www.plantuml.com/plantuml/svg/~1"+plantumlEncoder.encode(e.innerText),e.parentNode.parentNode.insertBefore(t,e.parentNode),e.parentNode.style.display="none"})})()</script></body></html>
